@@ -15,13 +15,11 @@ router.get('/test', db.getActors)
 app = express()
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
-  type Actor{
-    first_name: String
-  },
+
 
   type Query {
     hello: String
-    actors: Actor
+    actors: String
   }
 `)
 
@@ -32,7 +30,8 @@ var root = {
   },
 
   actors: () =>{
-  return db.getActors();
+    output = [{'first_name':'Angelo'}, {'first_name':'Edoardo'}];
+    return output;
   }
 }
 
