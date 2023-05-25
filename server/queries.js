@@ -16,9 +16,9 @@ const getActors = (request, response) => {
       throw error
     }
     response.status(200).json(results.rows)
+    return results.rows;
   })
 }
-
 
 module.exports = {
   getActors,
