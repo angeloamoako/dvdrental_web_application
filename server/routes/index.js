@@ -16,10 +16,9 @@ app = express()
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
 
-
   type Query {
     hello: String
-    actors: String
+    actors: [String]
   }
 `)
 
@@ -29,10 +28,21 @@ var root = {
     return "Hello world!"
   },
 
-  actors: () =>{
-    output = [{'first_name':'Angelo'}, {'first_name':'Edoardo'}];
-    return output;
+  actors: () => {
+    var conn = db.pool;
+
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT first_name FROM actor LIMIT 5', (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          let output =  results.rows.map(row => row.first_name);
+          resolve(output);
+        }
+      });
+    });
   }
+
 }
 
 var app = express()
