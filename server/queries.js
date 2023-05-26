@@ -4,7 +4,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'dvdrental',
-  password: 'admin',
+  password: 'postgres',
   port: '5432',
 })
 
@@ -16,7 +16,7 @@ const getActors = (request, response) => {
    Se invece la query da un qualsiasi tipo di problema viene invocata la funzione reject. */
 
   return new Promise((resolve, reject) => {
-    pool.query('SELECT actor_id, first_name, last_name  FROM actor LIMIT 5', (error, results) => {
+    pool.query("SELECT actor_id, first_name, last_name  FROM actor LIMIT 5", (error, results) => {
       if (error) {
         reject(error);
       } else {
@@ -46,9 +46,29 @@ const getFilms = (request, response) => {
   })
 }
 
+// TROVARE SOLUZIONE PER PASSARE DA CLIENT ID O TITLE PER LA RICERCA DEGLI ATTORI DI QUEL PRECISO FILM
+const getActorFromSpecificFilm = (request, response) =>{
+  const q = "SELECT A.actor_id, A.first_name, A.last_name" +
+    "FROM actor A JOIN film_actor FA ON A.actor_id = FA.actor_id" +
+    "JOIN film F ON FA.film_id = F.film_id" +
+    "WHERE F.film_id = 1";
+
+  return new Promise((resolve, reject)=>{
+    pool.query(q, (error, results) => {
+      if(error){
+        reject(error);
+      }else{
+        let output = results.rows;
+        resolve(output);
+      }
+    });
+  })
+}
+
 
 module.exports = {
   getActors,
   getFilms,
+  getActorFromSpecificFilm,
   pool,
 }

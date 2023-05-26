@@ -32,40 +32,34 @@ var schema = buildSchema(`
   }
 
   type Query {
-    hello: String
     actors: [Actor]
     films: [Film]
+    actorsFromFilm: [Actor]
   }
 `)
 
 // The root provides a resolver function for each API endpoint
 let root = {
-  hello: () => {
-    return "Hello world!"
-  },
-
   actors: () => {
     return db.getActors();
   },
 
   films: () => {
     return db.getFilms();
-  }
+  },
 
+  actorsFromFilm: () => {
+    return db.getActorFromSpecificFilm();
+  }
 }
 
 var app = express()
-app.use(
-  "/graphql",
-  graphqlHTTP({
+app.use("/graphql", graphqlHTTP({
     schema: schema,
     rootValue: root,
     graphiql: true,
   })
 )
 console.log("Running a GraphQL API server at http://localhost:4000/graphql")
-
-
 app.listen(4000)
-
 module.exports = router;
