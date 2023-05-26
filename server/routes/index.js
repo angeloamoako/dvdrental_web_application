@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../queries')
-var { buildSchema, GraphQLObjectType, GraphQLString, GraphQLInt } = require("graphql")
+var { buildSchema } = require("graphql")
 
 const {graphqlHTTP} = require('express-graphql')
 
@@ -16,31 +16,40 @@ app = express()
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
 
+  type Actor{
+    actor_id: Int
+    first_name: String
+    last_name: String
+  }
+
+  type Film {
+    title: String
+    release_year: String
+    rating: String
+    genre: String
+    language: String
+    cost: Float
+  }
+
   type Query {
     hello: String
-    actors: [String]
+    actors: [Actor]
+    films: [Film]
   }
 `)
 
 // The root provides a resolver function for each API endpoint
-var root = {
+let root = {
   hello: () => {
     return "Hello world!"
   },
 
   actors: () => {
-    var conn = db.pool;
+    return db.getActors();
+  },
 
-    return new Promise((resolve, reject) => {
-      conn.query('SELECT first_name FROM actor LIMIT 5', (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          let output =  results.rows.map(row => row.first_name);
-          resolve(output);
-        }
-      });
-    });
+  films: () => {
+    return db.getFilms();
   }
 
 }

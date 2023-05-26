@@ -10,18 +10,45 @@ const pool = new Pool({
 
 // test
 const getActors = (request, response) => {
-  pool.query('SELECT first_name FROM actor LIMIT 5', (error, results) => {
-    if (error) {
-      reject(error);
-    }
-    else{
-      let actors =  results.rows.map(row => row.first_name);
-      response.status(200).json(actors);
-    }
+  /* La promise gestisce la chiamata asincrona a conn.query()
+   in pratica aspetta che arrivi il risultato della query dal database e se questa va a buon fine viene
+   chiamata la funzione di call-back resolve a cui passo il risultato della query.
+   Se invece la query da un qualsiasi tipo di problema viene invocata la funzione reject. */
+
+  return new Promise((resolve, reject) => {
+    pool.query('SELECT actor_id, first_name, last_name  FROM actor LIMIT 5', (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        let output = results.rows;
+        resolve(output);
+      }
+    });
   })
 }
 
+
+const getFilms = (request, response) => {
+  const q = "SELECT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost " +
+    "FROM film F JOIN film_category FC ON F.film_id = FC.film_id " +
+    "JOIN  category C ON FC.category_id = C.category_id " +
+    "JOIN language L ON F.language_id = L.language_id";
+
+  return new Promise((resolve, reject) =>{
+    pool.query(q, (error, results) =>{
+      if (error){
+        reject(error);
+      } else{
+        let output = results.rows;
+        resolve(output);
+      }
+    });
+  })
+}
+
+
 module.exports = {
   getActors,
+  getFilms,
   pool,
 }
