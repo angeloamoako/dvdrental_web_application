@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/test', db.getActors)
+router.get('/test', db.getActors);
 
 app = express()
 // Construct a schema, using GraphQL schema language

@@ -4,7 +4,15 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'dvdrental',
-  password: 'postgres',
+  password: 'admin',
+  port: '5432',
+})
+
+const poolDbUsers = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'utenti',
+  password: 'admin',
   port: '5432',
 })
 
@@ -70,4 +78,5 @@ module.exports = {
   getFilms,
   getActorFromSpecificFilm,
   pool,
+  poolDbUsers,
 }
