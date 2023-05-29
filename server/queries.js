@@ -65,7 +65,6 @@ const getActorFromSpecificFilm = (request, response) =>{
   })
 }
 
-
 module.exports = {
   getActors,
   getFilms,
