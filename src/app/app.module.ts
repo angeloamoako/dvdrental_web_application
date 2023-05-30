@@ -4,23 +4,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
-import { TestActorComponentComponent } from './test-actor-component/test-actor-component.component';
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
+import {LoginComponent} from "./login/login.component";
+import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestActorComponentComponent
+    LoginComponent
   ],
-    imports: [
-        BrowserModule,
-        GraphQLModule,
-        HttpClientModule,
-        FormsModule,
-        AppRoutingModule,
-        ReactiveFormsModule
-
-    ],
+  imports: [
+    BrowserModule,
+    GraphQLModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

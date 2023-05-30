@@ -1,0 +1,19 @@
+<h1>RENTAL DVD APPS</h1>
+<div>
+  <h2>Login</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="password-container">
+      <label for="customer_id"> Costumer id </label>
+      <input type="customer_id" id="customer_id" name="customer_id" [(ngModel)]="customer_id" required>
+    </div>
+    <br>
+    <div class="password-container">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password" required>
+    </div>
+    <br>
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit"> Login  </button>
+    </div>
+  </form>
+</div>
