@@ -12,7 +12,11 @@ const GET_FILMS = gql`
   query{
     films{
       title,
-      release_year
+      release_year,
+      rating,
+      genre,
+      language,
+      cost
     }
   }
 

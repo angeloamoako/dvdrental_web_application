@@ -38,9 +38,6 @@ export class TestActorComponentComponent implements OnInit{
       this.error = error;
     })
   }
-
-
-
 }
 
 

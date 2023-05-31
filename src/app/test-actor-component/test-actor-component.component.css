@@ -67,3 +67,16 @@ h3{
   cursor: pointer;
   border: none;
 }
+
+.my-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.my-table th,
+.my-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+  width: 50%;
+}

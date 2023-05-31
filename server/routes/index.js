@@ -3,8 +3,6 @@ var router = express.Router();
 const db = require('../queries')
 var { buildSchema } = require("graphql")
 const cors = require('cors');
-
-
 const {graphqlHTTP} = require('express-graphql')
 
 /* GET home page. */

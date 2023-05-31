@@ -6,20 +6,24 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TestActorComponentComponent } from './test-actor-component/test-actor-component.component';
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
+import {HomeComponent} from "./home/home.component";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestActorComponentComponent
+    TestActorComponentComponent,
+    HomeComponent
   ],
-    imports: [
-        BrowserModule,
-        GraphQLModule,
-        HttpClientModule,
-        FormsModule,
-        AppRoutingModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    GraphQLModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MatTableModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

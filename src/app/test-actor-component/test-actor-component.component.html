@@ -1,10 +1,10 @@
-
 <div class="main">
-  <h3>Todo List</h3>
+  <h3>DVD DISPONIBILI</h3>
   <div *ngIf="error">
     <p>Error: {{ error }}</p>
   </div>
 
+  <!--
   <div class="todo-container" *ngIf="actors">
     <ul>
       <li *ngFor="let actor of actors">
@@ -14,17 +14,30 @@
       </li>
     </ul>
   </div>
+  -->
 
-  <div *ngIf="films">
-    <ul>
-      <li *ngFor="let film of films">
-        <div class="todo">
-          <span class="todo-name">{{ film.title }}</span>
-          <span class="todo-name">{{ film.release_year }}</span>
-        </div>
-      </li>
-    </ul>
-
+  <div>
+    <table class="my-table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Release Year</th>
+        <th>Rating</th>
+        <th>Genre</th>
+        <th>Language</th>
+        <th>Cost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let film of films">
+        <td>{{ film.title }}</td>
+        <td>{{ film.release_year }}</td>
+        <td>{{ film.rating }}</td>
+        <td>{{ film.genre }}</td>
+        <td>{{ film.language }}</td>
+        <td>{{ film.cost }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
-
 </div>
