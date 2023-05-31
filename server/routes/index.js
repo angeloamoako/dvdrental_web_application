@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const db = require('../queries')
 var { buildSchema } = require("graphql")
+const cors = require('cors');
+
 
 const {graphqlHTTP} = require('express-graphql')
 
@@ -12,7 +14,11 @@ router.get('/', function(req, res, next) {
 
 router.get('/test', db.getActors);
 
-app = express()
+app = express();
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
 
@@ -54,12 +60,21 @@ let root = {
 }
 
 var app = express()
-app.use("/graphql", graphqlHTTP({
+app.use(express.urlencoded({extended: true})); //to parse URL encoded data
+app.use(express.json()); //to parse json data
+
+app.use(cors()); //to allow cors
+
+app.use("/graphql",
+    graphqlHTTP({
     schema: schema,
     rootValue: root,
     graphiql: true,
   })
 )
+
+
+
 console.log("Running a GraphQL API server at http://localhost:4000/graphql")
 app.listen(4000)
 module.exports = router;

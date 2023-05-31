@@ -8,4 +8,14 @@ const GET_ACTORS = gql`
   }
 `
 
-export {GET_ACTORS}
+const GET_FILMS = gql`
+  query{
+    films{
+      title,
+      release_year
+    }
+  }
+
+`
+
+export {GET_ACTORS, GET_FILMS}
