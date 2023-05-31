@@ -1,0 +1,30 @@
+
+<div class="main">
+  <h3>Todo List</h3>
+  <div *ngIf="error">
+    <p>Error: {{ error }}</p>
+  </div>
+
+  <div class="todo-container" *ngIf="actors">
+    <ul>
+      <li *ngFor="let actor of actors">
+        <div class="todo">
+          <span class="todo-name">{{ actor.first_name }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="films">
+    <ul>
+      <li *ngFor="let film of films">
+        <div class="todo">
+          <span class="todo-name">{{ film.title }}</span>
+          <span class="todo-name">{{ film.release_year }}</span>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+</div>
