@@ -8,6 +8,9 @@ import { TestActorComponentComponent } from './test-actor-component/test-actor-c
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {HomeComponent} from "./home/home.component";
 import {MatTableModule} from "@angular/material/table";
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {NgIf, NgFor} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,11 @@ import {MatTableModule} from "@angular/material/table";
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    NgIf,
+    NgFor,
   ],
   providers: [],
   bootstrap: [AppComponent]
