@@ -11,13 +11,13 @@ import { GET_FILMS } from '../graphql/graphql.queries';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  private querySubscription: any;
   films: any[] = [];
   error: any;
-  private querySubscription: any;
-
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
   searchTitle: string = '';
   selectedCategory: string = '';
+  initialFilms: any[] = [];
 
   constructor(private apollo: Apollo, private dialog: MatDialog) {  }
 
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       query: GET_FILMS
     }).valueChanges.subscribe(({data, error}: any) => {
       this.films = data.films;
+      this.initialFilms = this.films
       this.error = error;
     })
   }
@@ -44,14 +45,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // FILTRO DINAMICO PER TITOLO
   searchByTitle() {
-    this.films = this.films.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()));
+    this.films = this.initialFilms.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()));
   }
 
-  // RICERCA PER CATEROGIA
+  // RICERCA PER CATEGORIA
   searchByCategory() {
-    this.films = this.films.filter(film => film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
+    this.films = this.initialFilms.filter(film => film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
   }
-
 }
 
 
