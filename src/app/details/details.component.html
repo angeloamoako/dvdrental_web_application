@@ -1,0 +1,33 @@
+<!-- in questa pagina devo mostrare i dettagli per il film richiesto -->
+<h2 mat-dialog-title>
+  {{ data.movie.title }}
+</h2>
+
+<div mat-dialog-content>
+
+  Attori:
+  <ul>
+    <li *ngFor="let actor of actors">
+      <div class="todo">
+        <span>{{ actor.first_name }} {{ actor.last_name }}</span>
+      </div>
+    </li>
+  </ul>
+
+
+  Lunghezza del film: {{ data.movie.length }} minuti<br>
+  Durata massima del noleggio: {{data.movie.duration}} giorni(?) <br>
+
+  Questo film è disponibile nei seguenti negozi: <br>
+
+  inserisci un ngIf -> se il dvd non è disponibile in nessuno store allora nascondi il bottone. <br>
+  <button mat-stroked-button> Noleggia </button>
+
+
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close> Chiudi</button>
+</div>
+
+

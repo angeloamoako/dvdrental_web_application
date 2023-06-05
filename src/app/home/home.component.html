@@ -35,7 +35,7 @@
     <table mat-table [dataSource]="films">
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef>Title</th>
-        <td mat-cell *matCellDef="let film">{{ film.title }}</td>
+        <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
       </ng-container>
 
       <ng-container matColumnDef="release_year">
@@ -61,6 +61,11 @@
       <ng-container matColumnDef="cost">
         <th mat-header-cell *matHeaderCellDef>Cost</th>
         <td mat-cell *matCellDef="let film">{{ film.cost }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let film"> <button mat-stroked-button> Noleggia </button></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

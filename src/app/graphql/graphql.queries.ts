@@ -16,10 +16,21 @@ const GET_FILMS = gql`
       rating,
       genre,
       language,
-      cost
+      cost,
+      duration,
+      length
     }
   }
 
-`
+`;
 
-export {GET_ACTORS, GET_FILMS}
+const GET_ACTORS_BY_FILM = gql`
+  query getActorsByFilm($filmName: String){
+    actorsFromFilm (filmName: $filmName){
+    first_name
+    last_name
+  }
+ }
+`;
+
+export {GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM}

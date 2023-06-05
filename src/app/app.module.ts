@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
-import { TestActorComponentComponent } from './test-actor-component/test-actor-component.component';
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {HomeComponent} from "./home/home.component";
 import {MatTableModule} from "@angular/material/table";
@@ -13,11 +12,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {LoginComponent} from "./login/login.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestActorComponentComponent,
     HomeComponent,
     LoginComponent
   ],
@@ -33,6 +34,8 @@ import {MatSelectModule} from "@angular/material/select";
     MatPaginatorModule,
     MatInputModule,
     MatSelectModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

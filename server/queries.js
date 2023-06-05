@@ -1,10 +1,10 @@
-const {response} = require("express");
+const { response} = require("express");
 const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'dvdrental',
-  password: 'postgres',
+  password: 'admin',
   port: '5432',
 })
 
@@ -12,7 +12,7 @@ const poolDbUsers = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'utenti',
-  password: 'postgres',
+  password: 'admin',
   port: '5432',
 })
 
@@ -37,6 +37,27 @@ const getActors = (request, response) => {
 
 
 const getFilms = (request, response) => {
+  const q = "SELECT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost,F.length, F.rental_duration  AS duration " +
+    "FROM film F JOIN film_category FC ON F.film_id = FC.film_id " +
+    "JOIN  category C ON FC.category_id = C.category_id " +
+    "JOIN language L ON F.language_id = L.language_id";
+
+  return new Promise((resolve, reject) =>{
+    pool.query(q, (error, results) =>{
+      if (error){
+        reject(error);
+      } else{
+        let output = results.rows;
+        resolve(output);
+      }
+    });
+  })
+}
+
+
+const getSpecificFilm = (request, response) => {
+  let film = request;
+
   const q = "SELECT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost " +
     "FROM film F JOIN film_category FC ON F.film_id = FC.film_id " +
     "JOIN  category C ON FC.category_id = C.category_id " +
@@ -54,15 +75,14 @@ const getFilms = (request, response) => {
   })
 }
 
-// TROVARE SOLUZIONE PER PASSARE DA CLIENT ID O TITLE PER LA RICERCA DEGLI ATTORI DI QUEL PRECISO FILM
 const getActorFromSpecificFilm = (request, response) =>{
-  const q = "SELECT A.actor_id, A.first_name, A.last_name" +
-    "FROM actor A JOIN film_actor FA ON A.actor_id = FA.actor_id" +
-    "JOIN film F ON FA.film_id = F.film_id" +
-    "WHERE F.film_id = 1";
+  const q = "SELECT A.actor_id, A.first_name, A.last_name " +
+    "FROM actor A JOIN film_actor FA ON A.actor_id = FA.actor_id " +
+    " JOIN film F ON FA.film_id = F.film_id " +
+    "WHERE F.title = $1";
 
   return new Promise((resolve, reject)=>{
-    pool.query(q, (error, results) => {
+    pool.query(q, [request.filmName], (error, results) => {
       if(error){
         reject(error);
       }else{
@@ -76,6 +96,7 @@ const getActorFromSpecificFilm = (request, response) =>{
 module.exports = {
   getActors,
   getFilms,
+  getSpecificFilm,
   getActorFromSpecificFilm,
   pool,
   poolDbUsers,

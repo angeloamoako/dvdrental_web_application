@@ -33,12 +33,14 @@ var schema = buildSchema(`
     genre: String
     language: String
     cost: Float
+    length: Int
+    duration: Int
   }
 
   type Query {
     actors: [Actor]
     films: [Film]
-    actorsFromFilm: [Actor]
+    actorsFromFilm(filmName: String): [Actor]
   }
 `)
 
@@ -52,8 +54,8 @@ let root = {
     return db.getFilms();
   },
 
-  actorsFromFilm: () => {
-    return db.getActorFromSpecificFilm();
+  actorsFromFilm: (filmName) => {
+    return  db.getActorFromSpecificFilm(filmName);
   }
 }
 
@@ -64,7 +66,7 @@ app.use(express.json()); //to parse json data
 app.use(cors()); //to allow cors
 
 app.use("/graphql",
-    graphqlHTTP({
+  graphqlHTTP({
     schema: schema,
     rootValue: root,
     graphiql: true,
