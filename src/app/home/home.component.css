@@ -1,0 +1,57 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table {
+  width: 100%;
+  flex: 2;
+  padding: 10px;
+  margin-right: 50px;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 80px;
+}
+
+.search-container {
+  width: 300px;
+  font-size: 14px;
+  max-width: 200px;
+  max-height: 50px;
+  border: 2px solid #1976D2;
+  padding: 6px;
+  margin-top: 70px; /* Spazio superiore */
+}
+
+.main{
+  display: flex;
+}
+
+.select-style {
+  width: 300px;
+  font-size: 14px;
+  max-width: 200px;
+  max-height: 50px;
+  border: 2px solid #1976D2;
+  padding: 6px;
+  margin-top: 20px; /* Spazio superiore */
+}

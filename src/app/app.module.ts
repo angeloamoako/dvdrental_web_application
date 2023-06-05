@@ -10,13 +10,16 @@ import {HomeComponent} from "./home/home.component";
 import {MatTableModule} from "@angular/material/table";
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {NgIf, NgFor} from '@angular/common';
+import {LoginComponent} from "./login/login.component";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
     AppComponent,
     TestActorComponentComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -28,8 +31,8 @@ import {NgIf, NgFor} from '@angular/common';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgIf,
-    NgFor,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
