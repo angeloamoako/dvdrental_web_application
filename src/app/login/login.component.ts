@@ -29,7 +29,7 @@ export class LoginComponent{
           console.log('Login successful:', response);
           // Here, you can handle the successful login response
           // For example, you can navigate to the homepage component
-          this.router.navigate(['/homepage']);
+          this.router.navigate(['/home']);
         },
         error => {
           console.log('Login failed:', error);
