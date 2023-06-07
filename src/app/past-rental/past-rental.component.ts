@@ -15,7 +15,8 @@ export class PastRentalComponent implements OnInit{
   userFirstName = history.state.firstName
   userLastName = history.state.lastName
   pastRentalsFilms: any[] = [];
-  displayedColumns: string[] = ['title'];
+  displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
+  totalAmount: any;
   constructor(private apollo: Apollo, private router: Router) {  }
 
   ngOnInit(): void {
@@ -25,6 +26,11 @@ export class PastRentalComponent implements OnInit{
     }).valueChanges.subscribe(({data, error}: any) => {
       this.pastRentalsFilms = data.pastRentals;
       this.error = error;
+
+      // dentro la funzione perché è asincrona
+      for (let i= 0; i <= this.pastRentalsFilms.length; i++) {
+        this.totalAmount += this.pastRentalsFilms[i].amount;
+      }
     })
   }
 }
