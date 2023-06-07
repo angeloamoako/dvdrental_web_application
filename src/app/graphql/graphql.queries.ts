@@ -33,4 +33,13 @@ const GET_ACTORS_BY_FILM = gql`
  }
 `;
 
-export {GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM}
+const GET_PAST_RENTALS = gql`
+  query getPastRentalsForUser($customer_id: Int){
+    pastRentals(customer_id: $customer_id){
+      title
+    }
+  }
+`;
+
+
+export {GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS}

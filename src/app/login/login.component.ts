@@ -26,15 +26,19 @@ export class LoginComponent{
     this.httpClient.post<any>('http://localhost:3000/users', loginData)
       .subscribe(
         response => {
-          console.log('Login successful:', response);
-          // Here, you can handle the successful login response
-          // For example, you can navigate to the homepage component
-          this.router.navigate(['/home']);
+          //console.log('Login successful:', response);
+          const firstName = response.firstName;
+          const lastName = response.lastName;
+          //console.log('firstName:', firstName);
+          //console.log('lastName:', lastName);
+          this.router.navigate(['/home'], {state: {
+            customer_id: this.customer_id,
+              firstName: firstName,
+              lastName: lastName }});
         },
         error => {
           console.log('Login failed:', error);
-          // Here, you can handle the failed login response
-          // For example, you can display an error message to the user
+          this.router.navigate(['/login']);
         }
       );
   }

@@ -3,6 +3,7 @@ import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog'; // per mostrare la modale
 import { DetailsComponent } from '../details/details.component';
 import { GET_FILMS } from '../graphql/graphql.queries';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,9 +19,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchTitle: string = '';
   selectedCategory: string = '';
   initialFilms: any[] = [];
-
-  constructor(private apollo: Apollo, private dialog: MatDialog) {  }
-
+  customer_id = history.state.customer_id
+  userFirstName = history.state.firstName
+  userLastName = history.state.lastName
+  constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router) {  }
 
   ngOnInit(): void {
     this.querySubscription = this.apollo.watchQuery({
@@ -43,14 +45,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  // FILTRO DINAMICO PER TITOLO
   searchByTitle() {
     this.films = this.initialFilms.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()));
   }
 
-  // RICERCA PER CATEGORIA
   searchByCategory() {
+    this.searchTitle = "" //svuotare filtro al cambio di categoria
     this.films = this.initialFilms.filter(film => film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
+  }
+
+  openPastRental(){
+    this.router.navigate(['/pastRental'], {state: {
+      customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+  }
+
+  openPersonalRental(){
+    this.router.navigate(['/personalRental'], {state: {
+        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
   }
 }
 
