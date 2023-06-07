@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
+  scalar Date
 
   type Actor{
     actor_id: Int
@@ -31,12 +32,20 @@ var schema = buildSchema(`
     duration: Int
   }
 
+
+  type Rental {
+    title: String
+    rental_date: Date
+    return_date: Date
+    amount: Float
+  }
+
   type Query {
     actors: [Actor]
     films: [Film]
     actorsFromFilm(filmName: String): [Actor]
-    pastRentals(customer_id: Int): [Film]
-    activeRentals(customer_id: Int): [Film]
+    pastRentals(customer_id: Int): [Rental]
+    activeRentals(customer_id: Int): [Rental]
   }
 `)
 

@@ -29,8 +29,9 @@ export class LoginComponent{
           //console.log('Login successful:', response);
           const firstName = response.firstName;
           const lastName = response.lastName;
-          //console.log('firstName:', firstName);
-          //console.log('lastName:', lastName);
+          console.log('firstName:', firstName);
+          console.log('lastName:', lastName);
+          console.log('Response: ', response);
           this.router.navigate(['/home'], {state: {
             customer_id: this.customer_id, firstName: firstName, lastName: lastName }});
         },

@@ -42,4 +42,13 @@ const GET_PAST_RENTALS = gql`
 `;
 
 
-export {GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS}
+const GET_ACTIVE_RENTALS = gql`
+  query getActiveRentalsForUser($customer_id: Int){
+    activeRentals(customer_id: $customer_id){
+      title
+    }
+  }
+`;
+
+
+export { GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS, GET_ACTIVE_RENTALS }
