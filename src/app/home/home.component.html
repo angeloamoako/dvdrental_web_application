@@ -1,16 +1,18 @@
 <div class="main">
-
   <div *ngIf="error">
     <p>Error: {{ error }}</p>
   </div>
 
   <div class="container">
 
+    <div class="avatar">{{ userFirstName.charAt(0) }}</div>
+    <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
+
     <!-- RICERCA DINAMICA PER TITOLO -->
     <input class="search-container" type="text" placeholder="Search by title" [(ngModel)]="searchTitle" (keyup)="searchByTitle()">
 
     <!-- RICERCA PER CATEGORIA -->
-    <select class="select-style" [(ngModel)]="selectedCategory" (change)="searchByCategory()">
+    <select class="category-style" [(ngModel)]="selectedCategory" (change)="searchByCategory()">
       <option value="">All Categories</option>
       <option value="Action">Action</option>
       <option value="Animation">Animation</option>
@@ -29,6 +31,11 @@
       <option value="Sport">Sport</option>
       <option value="Travel">Travel</option>
     </select>
+
+    <button class="rentals-past-style" (click)="openPastRental()"> Past rentals </button>
+
+    <button class="personal-rental-style" (click)="openPersonalRental()"> Personal rentals </button>
+
   </div>
 
   <div class="table">
@@ -67,6 +74,7 @@
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let film"> <button mat-stroked-button> Noleggia </button></td>
       </ng-container>
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

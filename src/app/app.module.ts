@@ -14,12 +14,16 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {PastRentalComponent} from "./past-rental/past-rental.component";
+import {PersonalRentalComponent} from "./personal-rental/personal-rental.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    PastRentalComponent,
+    PersonalRentalComponent
   ],
   imports: [
     BrowserModule,

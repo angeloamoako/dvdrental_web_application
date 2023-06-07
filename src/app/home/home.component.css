@@ -39,19 +39,61 @@
   max-height: 50px;
   border: 2px solid #1976D2;
   padding: 6px;
-  margin-top: 70px; /* Spazio superiore */
+  margin-top: 20px; /* Spazio superiore */
 }
 
 .main{
   display: flex;
 }
 
-.select-style {
+.category-style {
   width: 300px;
   font-size: 14px;
-  max-width: 200px;
+  max-width: 215px;
   max-height: 50px;
   border: 2px solid #1976D2;
   padding: 6px;
-  margin-top: 20px; /* Spazio superiore */
+  margin-top: 20px;
+  align-self: center;
+}
+
+.user{
+  font-size: 28px;
+  color: black;
+  align-self: center;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 24px;
+  align-self: center;
+  margin-top: 20px;
+}
+
+.rentals-past-style{
+  max-width: 220px;
+  max-height: 50px;
+  border: 2px solid #1976D2;
+  padding: 6px;
+  margin-top: 20px;
+  font-size: 14px;
+  background-color: transparent; /* Rimuove lo sfondo grigio */
+  cursor: pointer; /* Il muose diventa una manina */
+}
+
+.personal-rental-style{
+  max-width: 220px;
+  max-height: 50px;
+  border: 2px solid #1976D2;
+  padding: 6px;
+  margin-top: 20px;
+  font-size: 14px;
+  background-color: transparent;
+  cursor: pointer;
 }
