@@ -32,9 +32,7 @@ export class LoginComponent{
           //console.log('firstName:', firstName);
           //console.log('lastName:', lastName);
           this.router.navigate(['/home'], {state: {
-            customer_id: this.customer_id,
-              firstName: firstName,
-              lastName: lastName }});
+            customer_id: this.customer_id, firstName: firstName, lastName: lastName }});
         },
         error => {
           console.log('Login failed:', error);

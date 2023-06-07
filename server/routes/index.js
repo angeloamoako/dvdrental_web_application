@@ -77,8 +77,6 @@ app.use("/graphql",
   })
 )
 
-
-
 console.log("Running a GraphQL API server at http://localhost:4000/graphql")
 app.listen(4000)
 module.exports = router;

@@ -8,13 +8,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-  // faccio una query al database degli utenti per verificare le credenziali
-  //                      Testato facendo:
-  // curl -d "customer_id=2&userpassword=test" -X POST http://localhost:3000/users
-  // curl -d "customer_id=2&userpassword=PASSWORDSBAGLIATA" -X POST http://localhost:3000/users
-
-    console.log('Body ricevuto: ', req.body);
-  let username = req.body.username;
+  console.log('Body ricevuto: ', req.body);
   let password = req.body.userpassword;
   let customer_id = req.body.customer_id;
 
@@ -25,10 +19,14 @@ router.post('/', function(req, res, next) {
   poolDbUsers.query(q, [customer_id, password] )
     .then((outputQuery) => {
       if (outputQuery.rows.length === 1){
-        res.status(200).json({message: "Credenziali corrette."})
+        const firstName = outputQuery.rows[0].firstname;
+        const lastName = outputQuery.rows[0].lastname;
+        //console.log("Nome dell'utente: ", firstname);
+        //console.log("Cognome dell'utente: ", lastname);
+        res.status(200).json({message: "Credenziali corrette.", firstName: firstName, lastName: lastName})
       }
       else{
-        res.status(200).json({message: "Credenziali errate oppure non esiste l'utente specificato"})
+        res.status(400).json({message: "Credenziali errate oppure non esiste l'utente specificato"})
       }
     })
     .catch((error) => {
@@ -36,7 +34,5 @@ router.post('/', function(req, res, next) {
     });
 
 });
-
-
 
 module.exports = router;

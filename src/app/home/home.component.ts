@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { MatDialog } from '@angular/material/dialog'; // per mostrare la modale
+import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
 import { GET_FILMS } from '../graphql/graphql.queries';
 import { Router } from '@angular/router';

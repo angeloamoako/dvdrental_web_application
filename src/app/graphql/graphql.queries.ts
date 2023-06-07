@@ -34,7 +34,7 @@ const GET_ACTORS_BY_FILM = gql`
 `;
 
 const GET_PAST_RENTALS = gql`
-  query getPastRentalsForUser($customer_id: Int){
+  query getPastRentals($customer_id: Int){
     pastRentals(customer_id: $customer_id){
       title
     }

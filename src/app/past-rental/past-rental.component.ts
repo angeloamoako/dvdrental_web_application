@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {GET_PAST_RENTALS} from "../graphql/graphql.queries";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Apollo} from "apollo-angular";
+import {GET_PAST_RENTALS} from "../graphql/graphql.queries";
 import {Router} from "@angular/router";
 
 @Component({
@@ -11,20 +11,19 @@ import {Router} from "@angular/router";
 export class PastRentalComponent implements OnInit{
   private querySubscription: any;
   error: any;
-  customer_id = history.state.customer_id
+  customer_id = parseInt(history.state.customer_id);
   userFirstName = history.state.firstName
   userLastName = history.state.lastName
-  pastRentalsFilms: any[] =[];
-  displayedColums: string[] =  ['title', 'rental_duration', 'rental_rate', 'rental_id', 'durata', 'amount'];
+  pastRentalsFilms: any[] = [];
+  displayedColumns: string[] = ['title'];
   constructor(private apollo: Apollo, private router: Router) {  }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.querySubscription = this.apollo.watchQuery({
       query: GET_PAST_RENTALS,
-      variables: { customer_id: this.customer_id }
+      variables: {customer_id: this.customer_id}
     }).valueChanges.subscribe(({data, error}: any) => {
-      this.pastRentalsFilms = data.pastRentalsFilms;
-      console.log("NOLEGGI PASSATI RICEVUTI: ", this.pastRentalsFilms)
+      this.pastRentalsFilms = data.pastRentals;
       this.error = error;
     })
   }

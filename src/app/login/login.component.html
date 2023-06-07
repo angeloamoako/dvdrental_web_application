@@ -3,11 +3,11 @@
   <form (ngSubmit)="onSubmit()">
     <div class="field-style">
       <label for="customer_id">Customer ID</label>
-      <input type="customer_id" id="customer_id" [(ngModel)]="customer_id" name="customer_id" required>
+      <input id="customer_id" [(ngModel)]="customer_id" name="customer_id" required>
     </div>
     <div class="field-style">
       <label for="userpassword">Password</label>
-      <input type="userpassword" id="userpassword" [(ngModel)]="userpassword" name="userpassword" required>
+      <input type="password" id="userpassword" [(ngModel)]="userpassword" name="userpassword" required>
     </div>
     <button class="button-style"  type="submit">Login</button>
   </form>
