@@ -10,13 +10,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/test', db.getActors);
 
-app = express();
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
 
@@ -41,6 +35,8 @@ var schema = buildSchema(`
     actors: [Actor]
     films: [Film]
     actorsFromFilm(filmName: String): [Actor]
+    pastRentals(customer_id: Int): [Film]
+    activeRentals(customer_id: Int): [Film]
   }
 `)
 
@@ -56,6 +52,14 @@ let root = {
 
   actorsFromFilm: (filmName) => {
     return  db.getActorFromSpecificFilm(filmName);
+  },
+
+  pastRentals: (customer_id) =>{
+    return db.getPastRentals(customer_id);
+  },
+
+  activeRentals: (customer_id) =>{
+   return db.getActiveRentals(customer_id);
   }
 }
 

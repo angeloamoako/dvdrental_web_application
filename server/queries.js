@@ -93,11 +93,57 @@ const getActorFromSpecificFilm = (request, response) =>{
   })
 }
 
+const getPastRentals = (request, response) => {
+  /* Query che recuepera i film noleggiati in passato dall'utente specificato  */
+  q = `SELECT F.title
+        FROM film F JOIN inventory I ON F.film_id = I.inventory_id
+            JOIN rental R ON R.inventory_id = I.inventory_id
+            JOIN customer C ON C.customer_id = R.customer_id
+        WHERE C.customer_id = $1 AND (R.return_date IS NOT NULL)`;
+
+
+  return new Promise((resolve, reject)=>{
+    pool.query(q, [request.customer_id], (error, results) => {
+      if(error){
+        reject(error);
+      }else{
+        let output = results.rows;
+        resolve(output);
+      }
+    });
+  })
+}
+
+
+
+const getActiveRentals = (request, response) => {
+  /* Query che recuepera i film che l'utente specificato sta noleggiando attualmente  */
+  q = `SELECT F.title
+        FROM film F JOIN inventory I ON F.film_id = I.inventory_id
+            JOIN rental R ON R.inventory_id = I.inventory_id
+            JOIN customer C ON C.customer_id = R.customer_id
+        WHERE C.customer_id = $1 AND (R.return_date IS NULL)`;
+
+
+  return new Promise((resolve, reject)=>{
+    pool.query(q, [request.customer_id], (error, results) => {
+      if(error){
+        reject(error);
+      }else{
+        let output = results.rows;
+        resolve(output);
+      }
+    });
+  })
+}
+
+
 module.exports = {
   getActors,
   getFilms,
   getSpecificFilm,
   getActorFromSpecificFilm,
-  pool,
+  getPastRentals,
+  getActiveRentals,
   poolDbUsers,
 }
