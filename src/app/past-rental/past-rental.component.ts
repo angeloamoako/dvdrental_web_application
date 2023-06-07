@@ -16,7 +16,7 @@ export class PastRentalComponent implements OnInit{
   userLastName = history.state.lastName
   pastRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
-  totalAmount: any;
+  totalAmount: number = 0;
   constructor(private apollo: Apollo, private router: Router) {  }
 
   ngOnInit(): void {
@@ -27,10 +27,14 @@ export class PastRentalComponent implements OnInit{
       this.pastRentalsFilms = data.pastRentals;
       this.error = error;
 
+
       // dentro la funzione perché è asincrona
-      for (let i= 0; i <= this.pastRentalsFilms.length; i++) {
+      for (let i= 0; i < this.pastRentalsFilms.length; i++) {
         this.totalAmount += this.pastRentalsFilms[i].amount;
       }
+      /* Arrotondo il risultato a due cifre decimali e converto tutto in un float
+         perché toFixed restituisce una stringa. */
+      this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
     })
   }
 }
