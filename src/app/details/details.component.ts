@@ -5,7 +5,6 @@ import { GET_ACTORS_BY_FILM } from "../graphql/graphql.queries";
 import {Apollo} from "apollo-angular";
 import {MatButtonModule} from "@angular/material/button";
 
-
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -17,7 +16,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private querySubscription: any;
   actors: any[] = [];
   error: any;
-
 
   /*
   * L’@Inject decorator è usato per specificare una dipendenza che deve essere

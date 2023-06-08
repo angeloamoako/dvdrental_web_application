@@ -23,7 +23,8 @@ import {PersonalRentalComponent} from "./personal-rental/personal-rental.compone
     HomeComponent,
     LoginComponent,
     PastRentalComponent,
-    PersonalRentalComponent
+    PersonalRentalComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -40,12 +40,17 @@ var schema = buildSchema(`
     amount: Float
   }
 
+  type ActiveRentals {
+  title: String
+  rental_rate: Float
+  }
+
   type Query {
     actors: [Actor]
     films: [Film]
     actorsFromFilm(filmName: String): [Actor]
     pastRentals(customer_id: Int): [Rental]
-    activeRentals(customer_id: Int): [Rental]
+    activeRentals(customer_id: Int): [ActiveRentals]
   }
 `)
 

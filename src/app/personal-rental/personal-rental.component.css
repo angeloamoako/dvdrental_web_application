@@ -10,3 +10,51 @@
   align-self: center;
   margin-top: 20px;
 }
+
+.table {
+  width: 100%;
+  flex: 2;
+  padding: 10px;
+  margin-right: 50px;
+}
+
+.table td {
+  width: 30%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 80px;
+}
+
+.main{
+  display: flex;
+}
+
+.user{
+  font-size: 28px;
+  color: black;
+  align-self: center;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}

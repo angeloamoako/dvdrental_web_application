@@ -46,12 +46,10 @@ const GET_PAST_RENTALS = gql`
 
 
 const GET_ACTIVE_RENTALS = gql`
-  query getActiveRentalsForUser($customer_id: Int){
+  query getActiveRentals($customer_id: Int){
     activeRentals(customer_id: $customer_id){
       title
-      rental_date
-      return_date
-      amount
+      rental_rate
     }
   }
 `;
