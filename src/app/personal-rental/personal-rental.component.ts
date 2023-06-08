@@ -27,7 +27,6 @@ export class PersonalRentalComponent implements OnInit, OnDestroy{
       variables: {customer_id: this.customer_id}
     }).valueChanges.subscribe(({data, error}: any) => {
       this.activeRentalsFilms = data.activeRentals;
-      console.log("ACTIVE RENTALS", this.activeRentalsFilms)
       this.error = error;
     })
   }
@@ -41,5 +40,10 @@ export class PersonalRentalComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void{
     this.querySubscription.unsubscribe();
+  }
+
+  backToHome(){
+    this.router.navigate(['/home'], {state: {
+        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
   }
 }

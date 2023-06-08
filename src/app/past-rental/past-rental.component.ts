@@ -48,4 +48,9 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void{
     this.querySubscription.unsubscribe();
   }
+
+  backToHome(){
+    this.router.navigate(['/home'], {state: {
+        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+  }
 }

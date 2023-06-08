@@ -4,11 +4,11 @@
     <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
 
     <!-- RICERCA DINAMICA PER TITOLO -->
-    <input class="search-container" type="text" placeholder="Search by title" [(ngModel)]="searchTitle" (keyup)="searchByTitle()">
+    <input class="search-container" type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchTitle" (keyup)="searchByTitle()">
 
     <!-- RICERCA PER CATEGORIA -->
     <select class="category-style" [(ngModel)]="selectedCategory" (change)="searchByCategory()">
-      <option value="">All Categories</option>
+      <option value="">Tutte le categorie</option>
       <option value="Action">Action</option>
       <option value="Animation">Animation</option>
       <option value="Children">Children</option>
@@ -27,21 +27,21 @@
       <option value="Travel">Travel</option>
     </select>
 
-    <button class="rentals-past-style" (click)="openPastRental()"> Past rentals </button>
+    <button class="rentals-past-style" (click)="openPastRental()"> NOLEGGI PASSATI </button>
 
-    <button class="personal-rental-style" (click)="openPersonalRental()"> Personal rentals </button>
+    <button class="personal-rental-style" (click)="openPersonalRental()"> NOLEGGI ATTIVI </button>
 
   </div>
 
   <div class="table">
     <table mat-table [dataSource]="films">
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <th mat-header-cell *matHeaderCellDef>Titolo</th>
         <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
       </ng-container>
 
       <ng-container matColumnDef="release_year">
-        <th mat-header-cell *matHeaderCellDef>Release Year</th>
+        <th mat-header-cell *matHeaderCellDef>Anno di uscita</th>
         <td mat-cell *matCellDef="let film">{{ film.release_year }}</td>
       </ng-container>
 
@@ -51,22 +51,22 @@
       </ng-container>
 
       <ng-container matColumnDef="genre">
-        <th mat-header-cell *matHeaderCellDef>Genre</th>
+        <th mat-header-cell *matHeaderCellDef>Genere</th>
         <td mat-cell *matCellDef="let film">{{ film.genre }}</td>
       </ng-container>
 
       <ng-container matColumnDef="language">
-        <th mat-header-cell *matHeaderCellDef>Language</th>
+        <th mat-header-cell *matHeaderCellDef>Lingua</th>
         <td mat-cell *matCellDef="let film">{{ film.language }}</td>
       </ng-container>
 
       <ng-container matColumnDef="cost">
-        <th mat-header-cell *matHeaderCellDef>Cost</th>
+        <th mat-header-cell *matHeaderCellDef>Costo</th>
         <td mat-cell *matCellDef="let film">{{ film.cost }}</td>
       </ng-container>
 
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <th mat-header-cell *matHeaderCellDef>Noleggio</th>
         <td mat-cell *matCellDef="let film"> <button mat-stroked-button> Noleggia </button></td>
       </ng-container>
 

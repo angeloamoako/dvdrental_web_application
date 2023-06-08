@@ -3,28 +3,31 @@
     <div class="avatar">{{ userFirstName.charAt(0) }}</div>
     <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
     <h2> Spesa totale noleggi passati: {{ totalAmount }} €</h2>
+
+    <button class="rentals-past-style" (click)="backToHome()"> RITORNA ALL'HOME PAGE </button>
+
   </div>
 
   <div class="table">
     <table mat-table [dataSource]="pastRentalsFilms">
 
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <th mat-header-cell *matHeaderCellDef>Titolo</th>
         <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
       </ng-container>
 
       <ng-container matColumnDef="rental_date">
-        <th mat-header-cell *matHeaderCellDef>Rental Date</th>
+        <th mat-header-cell *matHeaderCellDef>Data di noleggio</th>
         <td mat-cell *matCellDef="let film">{{ film.rental_date.split("T")[0] }}</td>
       </ng-container>
 
       <ng-container matColumnDef="return_date">
-        <th mat-header-cell *matHeaderCellDef>Return Date</th>
+        <th mat-header-cell *matHeaderCellDef>Data di consegna</th>
         <td mat-cell *matCellDef="let film">{{ film.return_date.split("T")[0] }}</td>
       </ng-container>
 
       <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <th mat-header-cell *matHeaderCellDef>Costo</th>
         <td mat-cell *matCellDef="let film">{{ film.amount }}</td>
       </ng-container>
 
