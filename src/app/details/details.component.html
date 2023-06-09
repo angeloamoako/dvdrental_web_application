@@ -1,3 +1,4 @@
+<!-- in questa pagina devo mostrare i dettagli per il film richiesto -->
 <h2 mat-dialog-title>
   {{ data.movie.title }}
 </h2>
@@ -17,16 +18,27 @@
   Lunghezza del film: {{ data.movie.length }} minuti<br>
   Durata massima del noleggio: {{data.movie.duration}} giorni(?) <br>
 
-  Questo film è disponibile nei seguenti negozi: <br>
+  Questo film è disponibile nei seguenti negozi:
+  <div class="table">
 
-  inserisci un ngIf -> se il dvd non è disponibile in nessuno store allora nascondi il bottone. <br>
-  <button mat-stroked-button> Noleggia </button>
+    <table>
+      <tr>
+        <th> Indirizzo </th>
+        <th> Copie disponibili </th>
+      </tr>
 
+      <!-- La pipe keyvalue di Angular trasforma una mappa in un array di coppie chiave-valore.  -->
+      <tr *ngFor="let store of copiesForStore | keyvalue" >
+        <td style="text-align: center"> {{ store.key }}</td>
+        <td style="text-align: center"> {{ store.value }}</td>
+      </tr>
+    </table>
 
+  </div>
 </div>
+
+<button mat-stroked-button> Noleggia </button>
 
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close> Chiudi</button>
 </div>
-
-
