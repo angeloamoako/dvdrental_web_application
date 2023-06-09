@@ -18,7 +18,10 @@ const GET_FILMS = gql`
       language,
       cost,
       duration,
-      length
+      length,
+      address,
+      store_id,
+      inventory_id
     }
   }
 
@@ -46,13 +49,26 @@ const GET_PAST_RENTALS = gql`
 
 
 const GET_ACTIVE_RENTALS = gql`
-  query getActiveRentals($customer_id: Int){
+  query getActiveRentalsForUser($customer_id: Int){
     activeRentals(customer_id: $customer_id){
       title
-      rental_rate
+      rental_date
+      return_date
+      amount
     }
   }
 `;
 
 
-export { GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS, GET_ACTIVE_RENTALS }
+const GET_STORES_WITH_SPECIFIED_FILM = gql`
+  query getStoresWithSpecifiedFilm($film_title: String){
+    storesWithSelectedFilm(film_title: $film_title) {
+      address
+      store_id
+      inventory_id
+    }
+  }
+`;
+
+
+export { GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS, GET_ACTIVE_RENTALS, GET_STORES_WITH_SPECIFIED_FILM }

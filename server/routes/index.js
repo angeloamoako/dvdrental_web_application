@@ -30,6 +30,9 @@ var schema = buildSchema(`
     cost: Float
     length: Int
     duration: Int
+    store_id: Int
+    inventory_id: Int
+    address: String
   }
 
 
@@ -40,9 +43,10 @@ var schema = buildSchema(`
     amount: Float
   }
 
-  type ActiveRentals {
-  title: String
-  rental_rate: Float
+  type Store {
+    store_id: Int
+    address: String
+    inventory_id: Int
   }
 
   type Query {
@@ -50,7 +54,8 @@ var schema = buildSchema(`
     films: [Film]
     actorsFromFilm(filmName: String): [Actor]
     pastRentals(customer_id: Int): [Rental]
-    activeRentals(customer_id: Int): [ActiveRentals]
+    activeRentals(customer_id: Int): [Rental]
+    storesWithSelectedFilm(film_title: String): [Store]
   }
 `)
 
@@ -73,7 +78,11 @@ let root = {
   },
 
   activeRentals: (customer_id) =>{
-   return db.getActiveRentals(customer_id);
+    return db.getActiveRentals(customer_id);
+  },
+
+  storesWithSelectedFilm: (film_title) =>{
+    return db.storesWithSelectedFilm(film_title);
   }
 }
 
