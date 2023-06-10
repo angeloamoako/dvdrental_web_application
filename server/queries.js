@@ -1,19 +1,25 @@
+const path = require('path');
+
+// prende le variabili d'ambiente definite nel file  ".env"
+require('dotenv').config();
+
+
 const { response} = require("express");
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'dvdrental',
-  password: 'admin',
-  port: '5432',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT
 })
 
 const poolDbUsers = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'utenti',
-  password: 'admin',
-  port: '5432',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_UTENTI,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT
 })
 
 // test
