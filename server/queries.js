@@ -1,5 +1,3 @@
-const path = require('path');
-
 // prende le variabili d'ambiente definite nel file  ".env"
 require('dotenv').config();
 
@@ -22,31 +20,8 @@ const poolDbUsers = new Pool({
   port: process.env.DB_PORT
 })
 
-// test
-const getActors = (request, response) => {
-  /* La promise gestisce la chiamata asincrona a conn.query()
-   in pratica aspetta che arrivi il risultato della query dal database e se questa va a buon fine viene
-   chiamata la funzione di call-back resolve a cui passo il risultato della query.
-   Se invece la query da un qualsiasi tipo di problema viene invocata la funzione reject. */
 
-  return new Promise((resolve, reject) => {
-    pool.query("SELECT actor_id, first_name, last_name  FROM actor LIMIT 5", (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        let output = results.rows;
-        resolve(output);
-      }
-    });
-  })
-}
-
-
-const getFilms = (request, response) => {
-  const q = "SELECT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost,F.length, F.rental_duration  AS duration " +
-    "FROM film F JOIN film_category FC ON F.film_id = FC.film_id " +
-    "JOIN  category C ON FC.category_id = C.category_id " +
-    "JOIN language L ON F.language_id = L.language_id";
+const getFilms = () => {
 
   const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost, F.length, F.rental_duration  AS duration
                      FROM film F JOIN inventory I ON F.film_id = I.film_id
@@ -74,9 +49,7 @@ const getFilms = (request, response) => {
 }
 
 
-const getSpecificFilm = (request, response) => {
-  let film = request;
-
+const getSpecificFilm = (request) => {
   const q = "SELECT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost " +
     "FROM film F JOIN film_category FC ON F.film_id = FC.film_id " +
     "JOIN  category C ON FC.category_id = C.category_id " +
@@ -94,7 +67,7 @@ const getSpecificFilm = (request, response) => {
   })
 }
 
-const getActorFromSpecificFilm = (request, response) =>{
+const getActorFromSpecificFilm = (request) =>{
   const q = "SELECT A.actor_id, A.first_name, A.last_name " +
     "FROM actor A JOIN film_actor FA ON A.actor_id = FA.actor_id " +
     " JOIN film F ON FA.film_id = F.film_id " +
@@ -112,7 +85,7 @@ const getActorFromSpecificFilm = (request, response) =>{
   })
 }
 
-const getPastRentals = (request, response) => {
+const getPastRentals = (request) => {
   /* Query che recuepera i film noleggiati in passato dall'utente specificato  */
   q = `SELECT F.title, R.rental_date, R.return_date, P.amount
         FROM film F JOIN inventory I ON F.film_id = I.film_id
@@ -136,7 +109,7 @@ const getPastRentals = (request, response) => {
 
 
 
-const getActiveRentals = (request, response) => {
+const getActiveRentals = (request) => {
   /* Query che recuepera i film che l'utente specificato sta noleggiando attualmente  */
   q = `SELECT F.title
         FROM film F JOIN inventory I ON F.film_id = I.film_id
@@ -157,7 +130,7 @@ const getActiveRentals = (request, response) => {
   })
 }
 
-const storesWithSelectedFilm = (request, response) => {
+const storesWithSelectedFilm = (request) => {
 
   /* Restituisce gli store in cui il film richiesto è disponibile */
 
