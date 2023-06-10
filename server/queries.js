@@ -170,7 +170,6 @@ const storesWithSelectedFilm = (request) => {
 
 
 module.exports = {
-  getActors,
   getFilms,
   getSpecificFilm,
   getActorFromSpecificFilm,
