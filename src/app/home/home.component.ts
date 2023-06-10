@@ -44,14 +44,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         data: { movie }
       });
   }
-
-  searchByTitle() {
-    this.films = this.initialFilms.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()));
-  }
-
-  searchByCategory() {
-    this.searchTitle = "" //svuotare filtro al cambio di categoria
-    this.films = this.initialFilms.filter(film => film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
+  searchBy(){
+    this.films = this.initialFilms.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()) &&
+      film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
   }
 
   openPastRental(){

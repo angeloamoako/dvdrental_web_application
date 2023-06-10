@@ -12,14 +12,10 @@
 }
 
 .table {
-  width: 100%;
+  width: 900px;
   flex: 2;
   padding: 10px;
   margin-right: 50px;
-}
-
-.table td {
-  width: 30%;
 }
 
 .form {
@@ -57,4 +53,9 @@
 .mat-mdc-form-field {
   font-size: 14px;
   width: 100%;
+}
+
+.button-home{
+  font-size: 14px;
+  height: 40px;
 }
