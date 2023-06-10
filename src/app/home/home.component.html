@@ -2,7 +2,6 @@
   <div class="container">
     <div class="avatar">{{ userFirstName.charAt(0) }}</div>
     <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
-    <h2> TEST AGGIUNTA </h2>
 
     <!-- RICERCA DINAMICA PER TITOLO -->
     <input class="search-container" type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchTitle" (keyup)="searchBy()">
