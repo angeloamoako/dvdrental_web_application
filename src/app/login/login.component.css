@@ -1,15 +1,21 @@
-.login-container{
-  width: 300px;
-  border: 2px solid #1976D2;
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
   padding: 20px;
-}
-
-.field-style{
-  padding: 12px 24px;
-  font-size: 16px;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: #f7f7f7;
 }
 
-.button-style{
-  font-size: 16px
+.field-style {
+  margin-bottom: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  display: block;
+  width: 100%;
 }

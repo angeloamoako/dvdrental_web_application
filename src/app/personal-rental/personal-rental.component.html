@@ -2,7 +2,7 @@
   <div class="container">
     <div class="avatar">{{ userFirstName.charAt(0) }}</div>
     <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
-    <button class="button-home" (click)="backToHome()"> RITORNA ALL'HOME PAGE </button>
+    <button  mat-raised-button class="button-home" (click)="backToHome()"> Ritorna all'HomePage </button>
 
   </div>
 
@@ -25,6 +25,6 @@
   </div>
 
   <ng-template #noRentals>
-    <p> NON CI SONO NOLEGGI ATTIVI </p>
+    <p> Non sono presenti noleggi attivi </p>
   </ng-template>
 </div>

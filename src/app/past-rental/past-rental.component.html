@@ -4,7 +4,7 @@
     <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
     <h2> Spesa totale noleggi passati: {{ totalAmount }} €</h2>
 
-    <button class="button-home" (click)="backToHome()"> RITORNA ALL'HOME PAGE </button>
+    <button mat-raised-button class="button-home" (click)="backToHome()"> Ritorna all'HomePage </button>
 
   </div>
 
@@ -37,6 +37,6 @@
   </div>
 
   <ng-template #noRentals>
-    <p> NON CI SONO NOLEGGI PASSATI </p>
+    <p> Non sono presenti noleggi passati </p>
   </ng-template>
 </div>

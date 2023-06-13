@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
   searchBy(){
+    console.log('Categoria selezionata:', this.selectedCategory);
     this.films = this.initialFilms.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()) &&
       film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
   }

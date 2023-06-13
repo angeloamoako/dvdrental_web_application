@@ -3,33 +3,38 @@
     <div class="avatar">{{ userFirstName.charAt(0) }}</div>
     <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
 
+    <button mat-raised-button class="rentals-past-style" (click)="openPastRental()">Noleggi passati</button>
+    <button mat-raised-button class="personal-rental-style" (click)="openPersonalRental()">Noleggi attivi</button>
+
     <!-- RICERCA DINAMICA PER TITOLO -->
-    <input class="search-container" type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchTitle" (keyup)="searchBy()">
+    <mat-form-field class="search-container">
+      <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchTitle" (keyup)="searchBy()">
+    </mat-form-field>
+
 
     <!-- RICERCA PER CATEGORIA -->
-    <select class="category-style" [(ngModel)]="selectedCategory" (change)="searchBy()">
-      <option value="">Tutte le categorie</option>
-      <option value="Action">Action</option>
-      <option value="Animation">Animation</option>
-      <option value="Children">Children</option>
-      <option value="Classics">Classics</option>
-      <option value="Comedy">Comedy</option>
-      <option value="Documentary">Documentary</option>
-      <option value="Drama">Drama</option>
-      <option value="Family">Family</option>
-      <option value="Foreign">Foreign</option>
-      <option value="Games">Games</option>
-      <option value="Horror">Horror</option>
-      <option value="Music">Music</option>
-      <option value="New">New</option>
-      <option value="Sci-Fi">Sci-Fi</option>
-      <option value="Sport">Sport</option>
-      <option value="Travel">Travel</option>
-    </select>
-
-    <button class="rentals-past-style" (click)="openPastRental()"> NOLEGGI PASSATI </button>
-
-    <button class="personal-rental-style" (click)="openPersonalRental()"> NOLEGGI ATTIVI </button>
+    <mat-form-field appearance="fill" class="category-style">
+      <mat-label>Tutte le categorie</mat-label>
+      <mat-select [(ngModel)]="selectedCategory" (selectionChange)="searchBy()">
+        <mat-option value="">Tutte le categorie</mat-option>
+        <mat-option value="Action">Action</mat-option>
+        <mat-option value="Animation">Animation</mat-option>
+        <mat-option value="Children">Children</mat-option>
+        <mat-option value="Classics">Classics</mat-option>
+        <mat-option value="Comedy">Comedy</mat-option>
+        <mat-option value="Documentary">Documentary</mat-option>
+        <mat-option value="Drama">Drama</mat-option>
+        <mat-option value="Family">Family</mat-option>
+        <mat-option value="Foreign">Foreign</mat-option>
+        <mat-option value="Games">Games</mat-option>
+        <mat-option value="Horror">Horror</mat-option>
+        <mat-option value="Music">Music</mat-option>
+        <mat-option value="New">New</mat-option>
+        <mat-option value="Sci-Fi">Sci-Fi</mat-option>
+        <mat-option value="Sport">Sport</mat-option>
+        <mat-option value="Travel">Travel</mat-option>
+      </mat-select>
+    </mat-form-field>
 
   </div>
 
@@ -67,9 +72,8 @@
 
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Noleggio</th>
-        <td mat-cell *matCellDef="let film"> <button mat-stroked-button> Noleggia </button></td>
+        <td mat-cell *matCellDef="let film"> <button mat-button>Noleggia</button></td>
       </ng-container>
-
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

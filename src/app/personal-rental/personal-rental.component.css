@@ -2,60 +2,51 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #000;
+  background-color: #1976D2;
   color: #fff;
   text-align: center;
   line-height: 50px;
   font-size: 24px;
+  font-weight: bold;
   align-self: center;
-  margin-top: 20px;
 }
 
 .table {
-  width: 900px;
-  flex: 2;
-  padding: 10px;
-  margin-right: 50px;
+  width: 80%;
+  margin-left: 80px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  margin-right: 80px;
+  justify-content: flex-start;
 }
 
 .main{
   display: flex;
+  margin-top: 30px;
 }
 
 .user{
-  font-size: 28px;
-  color: black;
+  font-size: 24px;
   align-self: center;
 }
 
 .mat-mdc-row .mat-mdc-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
   cursor: pointer;
 }
 
-.mat-mdc-row:hover .mat-mdc-cell {
-  border-color: currentColor;
-}
-
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
 .button-home{
-  font-size: 14px;
-  height: 40px;
+  margin-top: 20px;
 }

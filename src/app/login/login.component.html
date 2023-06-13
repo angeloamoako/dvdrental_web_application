@@ -1,14 +1,24 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <form (ngSubmit)="onSubmit()">
+  <h2> Login </h2>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <div class="field-style">
-      <label for="customer_id">Customer ID</label>
-      <input id="customer_id" [(ngModel)]="customer_id" name="customer_id" required>
+      <mat-form-field>
+        <mat-label>Customer ID</mat-label>
+        <input matInput [(ngModel)]="customer_id" name="customer_id" required>
+        <mat-error *ngIf="loginForm.controls['customer_id'].invalid && loginForm.controls['customer_id'].touched">
+          Customer ID richiesto.
+        </mat-error>
+      </mat-form-field>
     </div>
     <div class="field-style">
-      <label for="userpassword">Password</label>
-      <input type="password" id="userpassword" [(ngModel)]="userpassword" name="userpassword" required>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="userpassword" name="userpassword" required>
+        <mat-error *ngIf="loginForm.controls['userpassword'].invalid && loginForm.controls['userpassword'].touched">
+          Password richiesta.
+        </mat-error>
+      </mat-form-field>
     </div>
-    <button class="button-style"  type="submit">Login</button>
+    <button mat-raised-button color="primary" type="submit"> Login </button>
   </form>
 </div>

@@ -16,6 +16,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {PastRentalComponent} from "./past-rental/past-rental.component";
 import {PersonalRentalComponent} from "./personal-rental/personal-rental.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import {PersonalRentalComponent} from "./personal-rental/personal-rental.compone
     MatSelectModule,
     MatDialogModule,
     MatButtonModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
