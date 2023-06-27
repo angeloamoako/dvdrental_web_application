@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-  //console.log('Body ricevuto: ', req.body);
+  console.log('Body ricevuto: ', req.body);
   let password = req.body.userpassword;
   let customer_id = req.body.customer_id;
 

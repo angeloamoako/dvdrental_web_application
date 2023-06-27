@@ -21,11 +21,36 @@ const GET_FILMS = gql`
       length,
       address,
       store_id,
-      inventory_id
+      inventory_id,
+      description
     }
   }
 
 `;
+
+
+const GET_PAGINATED_FILMS = gql`
+  query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String){
+    paginatedFilms(pageNumber: $pageNumber, pageSize: $pageSize, filmTitle: $filmTitle, category: $category){
+      filmList {
+        title,
+        release_year,
+        rating,
+        genre,
+        language,
+        cost,
+        duration,
+        length,
+        address,
+        store_id,
+        inventory_id,
+        description
+      }
+      totalResults
+    }
+  }
+`;
+
 
 const GET_ACTORS_BY_FILM = gql`
   query getActorsByFilm($filmName: String){
@@ -71,4 +96,4 @@ const GET_STORES_WITH_SPECIFIED_FILM = gql`
 `;
 
 
-export { GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS, GET_ACTIVE_RENTALS, GET_STORES_WITH_SPECIFIED_FILM }
+export { GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS, GET_ACTIVE_RENTALS, GET_STORES_WITH_SPECIFIED_FILM, GET_PAGINATED_FILMS }
