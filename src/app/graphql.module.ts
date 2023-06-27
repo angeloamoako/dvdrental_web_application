@@ -1,12 +1,36 @@
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular/http';
+//import { HttpLink } from 'apollo-angular/http';
 import { NgModule } from '@angular/core';
-import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context'; // per mettere il token nell'auth header
+import { ApolloClientOptions, InMemoryCache, createHttpLink } from '@apollo/client/core';
 
 const uri = 'http://localhost:4000/graphql'; // <-- add the URL of the GraphQL server here
-export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+export function createApollo(): ApolloClientOptions<any> {
+
+  // Crea un middleware per l'inclusione dell'header Authorization
+  const authLink = setContext((_, { headers }) => {
+    const token = sessionStorage.getItem('authToken');
+
+    // Aggiungi l'header Authorization solo se è presente un token
+    if (token) {
+      return {
+        headers: {
+          ...headers,
+          Authorization: token,
+        },
+      };
+    }
+
+    return {
+      headers,
+    };
+  });
+
+
+
+
   return {
-    link: httpLink.create({ uri }),
+    link: authLink.concat(createHttpLink({uri: uri})),
     cache: new InMemoryCache(),
   };
 }
@@ -17,7 +41,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
-      deps: [HttpLink],
+
     },
   ],
 })

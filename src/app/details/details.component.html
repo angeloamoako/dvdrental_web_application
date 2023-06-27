@@ -1,30 +1,55 @@
 <!-- in questa pagina devo mostrare i dettagli per il film richiesto -->
-<h2 mat-dialog-title>
+<h1 mat-dialog-title>
   {{ data.movie.title }}
-</h2>
+</h1>
 
 <div mat-dialog-content>
+  <mat-card>
+    <mat-card-title>Descrizione</mat-card-title>
+    <mat-card-content>
+      {{ data.movie.description }}
+    </mat-card-content>
+  </mat-card>
 
-  Attori:
-  <ul>
-    <li *ngFor="let actor of actors">
-      <div class="todo">
-        <span>{{ actor.first_name }} {{ actor.last_name }}</span>
+  <mat-card>
+    <mat-card-title>Cast</mat-card-title>
+    <mat-card-content>
+
+      <div *ngFor="let actor of actors" class="todo">
+        {{ actor.first_name }} {{ actor.last_name }}
       </div>
-    </li>
-  </ul>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Durata</mat-card-title>
+    <mat-card-content>
+      {{ data.movie.length }} minuti
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Durata massima del noleggio </mat-card-title>
+    <mat-card-content>
+      {{data.movie.duration}} giorni(?)
+    </mat-card-content>
+  </mat-card>
 
 
+
+  <!--
   Lunghezza del film: {{ data.movie.length }} minuti<br>
   Durata massima del noleggio: {{data.movie.duration}} giorni(?) <br>
-
+  Descrizione: {{ data.movie.description }} -->
   Questo film è disponibile nei seguenti negozi:
-  <div class="table">
 
+
+  <div class="table">
     <table>
       <tr>
         <th> Indirizzo </th>
         <th> Copie disponibili </th>
+        <th> Noleggia </th>
       </tr>
 
       <!-- La pipe keyvalue di Angular trasforma una mappa in un array di coppie chiave-valore.  -->
@@ -37,8 +62,7 @@
   </div>
 </div>
 
-<button mat-stroked-button> Noleggia </button>
-
 <div mat-dialog-actions>
+  <button (click)="openRentModal()" mat-stroked-button> Noleggia </button>
   <button mat-button mat-dialog-close> Chiudi</button>
 </div>

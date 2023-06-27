@@ -39,7 +39,7 @@
   </div>
 
   <div class="table">
-    <table mat-table [dataSource]="films">
+    <mat-table [dataSource]="datasource">
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef>Titolo</th>
         <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
@@ -77,6 +77,7 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    </mat-table>
+    <mat-paginator [pageIndex]="currentPageNumber" [length]="totalResults" (page)="onPageChange($event)" [pageSizeOptions]="[10, 20, 30]" [pageSize]="currentPageSize" showFirstLastButtons ></mat-paginator>
   </div>
 </div>
