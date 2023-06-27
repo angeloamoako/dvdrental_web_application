@@ -18,7 +18,7 @@ export class PersonalRentalComponent implements OnInit, OnDestroy{
   userLastName = history.state.lastName
   activeRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_rate'];
-
+  isSidenavOpen: boolean = false;
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router){}
 
   ngOnInit(): void {
@@ -41,9 +41,17 @@ export class PersonalRentalComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void{
     this.querySubscription.unsubscribe();
   }
-
   backToHome(){
     this.router.navigate(['/home'], {state: {
+        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  openPastRental(){
+    this.router.navigate(['/pastRental'], {state: {
         customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
   }
 }

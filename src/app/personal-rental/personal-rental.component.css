@@ -1,19 +1,37 @@
+.main{
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 .avatar{
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #1976D2;
+  background-color: #3D00E0;
   color: #fff;
   text-align: center;
   line-height: 50px;
   font-size: 24px;
   font-weight: bold;
   align-self: center;
+  margin-top: 5px
 }
 
-.table {
-  width: 80%;
-  margin-left: 80px;
+.user{
+  font-size: 24px;
+  align-self: center;
+}
+
+.rentals-past-style,
+.bottom-home{
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 table{
@@ -23,30 +41,41 @@ table{
 
 th,
 td {
-  padding: 10px;
+  padding: 1%;
   text-align: center;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+th {
+  width: 5%;
+  font-weight: bold;
 }
 
-.main{
-  display: flex;
-  margin-top: 30px;
-}
-
-.user{
-  font-size: 24px;
-  align-self: center;
+td {
+  min-width: 10%;
+  border-bottom: 1px solid #ccc;
 }
 
 .mat-mdc-row .mat-mdc-cell {
   cursor: pointer;
 }
 
-.button-home{
-  margin-top: 20px;
+.sidenav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+.bottom-style{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.bottom-menu{
+  margin-right: 20px;
 }

@@ -18,6 +18,8 @@ import {PastRentalComponent} from "./past-rental/past-rental.component";
 import {PersonalRentalComponent} from "./personal-rental/personal-rental.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MatButtonModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatIconModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

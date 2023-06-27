@@ -1,10 +1,19 @@
-<div class="main">
-  <div class="container">
-    <div class="avatar">{{ userFirstName.charAt(0) }}</div>
-    <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
-    <button  mat-raised-button class="button-home" (click)="backToHome()"> Ritorna all'HomePage </button>
+<mat-sidenav-container class="sidenav-container" >
+  <mat-sidenav #sidenav [opened]="isSidenavOpen" class="sidenav-left">
+    <div class="container">
+      <div class="avatar">{{ userFirstName.charAt(0) }}</div>
+      <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
 
-  </div>
+      <button mat-raised-button color="primary" class="bottom-home" (click)="backToHome()"> HomePage </button>
+      <button mat-raised-button color="primary" class="rentals-past-style" (click)="openPastRental()">Noleggi passati</button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="bottom-style">
+      <button class="bottom-menu" mat-raised-button color="primary" (click)="toggleSidenav()">Menu </button>
+    </div>
+
 
   <div class="table" *ngIf="activeRentalsFilms.length > 0; else noRentals">
     <table mat-table [dataSource]="activeRentalsFilms">
@@ -27,4 +36,5 @@
   <ng-template #noRentals>
     <p> Non sono presenti noleggi attivi </p>
   </ng-template>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

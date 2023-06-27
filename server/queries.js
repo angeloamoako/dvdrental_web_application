@@ -20,25 +20,6 @@ const poolDbUsers = new Pool({
   port: process.env.DB_PORT
 })
 
-
-/*
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'dvdrental',
-  password: 'postgres',
-  port: '5432'
-})
-
-const poolDbUsers = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'utenti',
-    password: 'postgres',
-    port: '5432'
-  })
-*/
-
 const getFilms = () => {
 
   const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost, F.length, F.rental_duration  AS duration

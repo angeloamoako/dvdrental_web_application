@@ -1,6 +1,5 @@
 .main{
   display: flex;
-  margin-top: 30px;
 }
 
 .container {
@@ -13,13 +12,14 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #1976D2;
+  background-color: #3D00E0;
   color: #fff;
   text-align: center;
   line-height: 50px;
   font-size: 24px;
   font-weight: bold;
   align-self: center;
+  margin-top: 5px;
 }
 
 .user{
@@ -29,25 +29,19 @@
 
 .search-container {
   width: 200px;
-  max-width: 200px;
-  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .category-style {
   width: 200px;
-  max-width: 200px;
-  align-self: center;
-  margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .personal-rental-style,
 .rentals-past-style{
-  margin-top: 20px;
-}
-
-.table {
-  width: 80%;
-  margin-left: 80px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 table{
@@ -57,20 +51,17 @@ table{
 
 th,
 td {
-  padding: 10px;
+  padding: 1%;
   text-align: center;
 }
 
-button {
-  margin-right: 10px;
-}
-
 th {
-  width: 200px;
+  width: 5%;
+  font-weight: bold;
 }
 
 td {
-  min-width: 100px;
+  min-width: 10%;
   border-bottom: 1px solid #ccc;
 }
 
@@ -78,6 +69,26 @@ td {
   cursor: pointer;
 }
 
+.sidenav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+.bottom-style{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.bottom-menu{
+  margin-right: 20px;
+}
 
 
 

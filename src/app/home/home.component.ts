@@ -5,7 +5,6 @@ import { DetailsComponent } from '../details/details.component';
 import { GET_FILMS } from '../graphql/graphql.queries';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -22,7 +21,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   customer_id = history.state.customer_id
   userFirstName = history.state.firstName
   userLastName = history.state.lastName
-  constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router) {  }
+  isSidenavOpen: boolean = false;
+
+  constructor(private apollo: Apollo,
+              private dialog: MatDialog,
+              private router: Router){}
+
 
   ngOnInit(): void {
     this.querySubscription = this.apollo.watchQuery({
@@ -58,6 +62,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   openPersonalRental(){
     this.router.navigate(['/personalRental'], {state: {
         customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
   }
 }
 

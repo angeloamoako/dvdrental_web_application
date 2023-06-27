@@ -19,6 +19,7 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   pastRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
   totalAmount: number = 0;
+  isSidenavOpen: boolean = false;
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router) {  }
 
   ngOnInit(): void {
@@ -51,6 +52,15 @@ export class PastRentalComponent implements OnInit, OnDestroy{
 
   backToHome(){
     this.router.navigate(['/home'], {state: {
+        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  openPersonalRental() {
+    this.router.navigate(['/personalRental'], {state: {
         customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
   }
 }
