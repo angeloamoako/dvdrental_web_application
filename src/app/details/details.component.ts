@@ -49,9 +49,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   openRentModal(){
+    console.log("Storeswithfilm prima di aprire la modale: ", this.storesWithFilm);
     this.dialog.open(RentModalComponent,
       {
-        data: { }
+        data: {movie: this.data.movie, storesWithFilm: this.storesWithFilm }
       });
   }
 

@@ -1,7 +1,20 @@
 <mat-form-field class="example-full-width">
   <mat-label>Data di inizio noleggio</mat-label>
-  <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
+  <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" [(ngModel)]="selectedDate">
   <mat-hint>MM/DD/YYYY</mat-hint>
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
+
+<h4>Seleziona il negozio</h4>
+<mat-form-field>
+  <mat-label>Negozio</mat-label>
+  <mat-select [(ngModel)]="selectedStore">>
+    <mat-option *ngFor="let store of this.storesWithAvailableCopies" [value]="store.address">
+      {{store.address }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button [disabled]="isDisabled()" mat-stroked-button> Noleggia </button>
+

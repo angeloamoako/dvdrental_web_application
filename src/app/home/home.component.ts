@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
-import {GET_ACTORS_BY_FILM, GET_FILMS, GET_STORES_WITH_SPECIFIED_FILM, GET_PAGINATED_FILMS} from '../graphql/graphql.queries';
+import {GET_ACTORS_BY_FILM, GET_FILMS, GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES, GET_PAGINATED_FILMS} from '../graphql/graphql.queries';
 import { Router } from '@angular/router';
 import {LogoutService} from "../logout.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -86,11 +86,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       /* Recupero i negozi che hanno copie del film specificato */
 
       this.storesWithCopiesQuerySubscription = this.apollo.watchQuery({
-        query: GET_STORES_WITH_SPECIFIED_FILM,
+        query: GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
         variables: { film_title: movie.title }
       }).valueChanges.subscribe(({data}: any) => {
-        storesWithFilm = data.storesWithSelectedFilm;
-        console.log(`Negozi con copie disponibili del film ${movie.title}: `, data.storesWithSelectedFilm);
+        storesWithFilm = data.storesWithSelectedFilmAndNumCopies;
+        console.log(`Negozi con copie disponibili del film ${movie.title}: `, data.storesWithSelectedFilmAndNumCopies);
 
 
         // Per ogni store recupero il numero di copie del film richiesto
@@ -174,6 +174,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       // aggiungo un paginator per ridurre il numero di righe nella pagina corrente
       this.datasource = new MatTableDataSource(this.films);
       this.totalResults = data.paginatedFilms.totalResults;
+      this.currentPageNumber = 0;
 
     }, (error) => {
       console.log("C'è stato un errore durante la chiamata all'API GET_PAGINATED_FILMS: ", error);

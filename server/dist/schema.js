@@ -37,7 +37,7 @@ type Store {
   inventory_id: Int
 }
 
-type PaginatedFilm{
+type PaginatedFilm {
   filmList: [Film]
   totalResults: Int
 }
@@ -49,7 +49,12 @@ type Query {
   actorsFromFilm(filmName: String): [Actor]
   pastRentals(customer_id: Int): [Rental]
   activeRentals(customer_id: Int): [Rental]
-  storesWithSelectedFilm(film_title: String): [Store]
+  storesWithSelectedFilmAndNumCopies(film_title: String): [Store]
+  storesWithSelectedFilmAvailable(film_title: String): [Store]
+}
+
+type Mutation {
+  insertRent(film_title: String, store_id: Int, customer_id: Int, rental_date: Date): Int
 }
 `;
 const resolvers = {
@@ -83,11 +88,26 @@ const resolvers = {
             const customer_id = args.customer_id;
             return queries.getActiveRentals(customer_id);
         },
-        storesWithSelectedFilm: (parent, args, contextValue, info) => {
+        storesWithSelectedFilmAndNumCopies: (parent, args, contextValue, info) => {
             const film_title = args.film_title;
-            return queries.storesWithSelectedFilm(film_title);
+            return queries.storesWithSelectedFilmAndNumCopies(film_title);
+        },
+        storesWithSelectedFilmAvailable: (parent, args, contextValue, info) => {
+            const film_title = args.film_title;
+            return queries.storesWithSelectedFilmAvailable(film_title);
         }
     },
+    Mutation: {
+        insertRent: (parent, args, contextValue, info) => {
+            const film_title = args.film_title;
+            const store_id = args.store_id;
+            //const customer_id = contextValue.cId;
+            const customer_id = args.customer_id;
+            const rental_date = args.rental_date;
+            const out = queries.insertNewRent(film_title, store_id, customer_id, rental_date);
+            return out;
+        }
+    }
 };
 export { typeDefs, resolvers };
 //# sourceMappingURL=schema.js.map

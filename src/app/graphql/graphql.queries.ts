@@ -42,7 +42,6 @@ const GET_PAGINATED_FILMS = gql`
         duration,
         length,
         address,
-        store_id,
         inventory_id,
         description
       }
@@ -85,9 +84,9 @@ const GET_ACTIVE_RENTALS = gql`
 `;
 
 
-const GET_STORES_WITH_SPECIFIED_FILM = gql`
+const GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES = gql`
   query getStoresWithSpecifiedFilm($film_title: String){
-    storesWithSelectedFilm(film_title: $film_title) {
+    storesWithSelectedFilmAndNumCopies(film_title: $film_title) {
       address
       store_id
       inventory_id
@@ -95,5 +94,22 @@ const GET_STORES_WITH_SPECIFIED_FILM = gql`
   }
 `;
 
+const GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE = gql`
+  query StoresWithSelectedFilmAvailable($filmTitle: String) {
+  storesWithSelectedFilmAvailable(film_title: $filmTitle) {
+    address
+    store_id
+    inventory_id
+  }
+}
+`;
 
-export { GET_ACTORS, GET_FILMS, GET_ACTORS_BY_FILM, GET_PAST_RENTALS, GET_ACTIVE_RENTALS, GET_STORES_WITH_SPECIFIED_FILM, GET_PAGINATED_FILMS }
+export { GET_ACTORS,
+        GET_FILMS,
+        GET_ACTORS_BY_FILM,
+        GET_PAST_RENTALS,
+        GET_ACTIVE_RENTALS,
+        GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
+        GET_PAGINATED_FILMS,
+  GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE
+}
