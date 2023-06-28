@@ -6,12 +6,13 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {MatSelectModule} from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE} from "../graphql/graphql.queries";
+import { GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE, INSERT_RENT} from "../graphql/graphql.queries";
 import {Apollo} from "apollo-angular";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule} from "@angular/forms";
-//import moment from "moment";
+import moment from 'moment';
+
 
 @Component({
   selector: 'app-rent-modal',
@@ -62,23 +63,46 @@ export class RentModalComponent implements OnInit {
   }
 
   isDisabled(){
-    /*
-    if (this.selectedDate != null) {
-      const a = moment(this.selectedDate).format('D-MM-YYYY');
-      console.log("Formatted date: ", a);
-    }
-     */
-
-
-    console.log("Selected date: ", this.selectedDate.getTime());
+    //console.log("Selected date: ", this.selectedDate.getTime());
     // abilito il bottone di submit solo quando entrambi i campi sono stati compilati
+    console.log(`SelectedDate: ${this.selectedDate}  selectedStore: ${this.selectedStore}`);
     return (this.selectedDate == null) || (this.selectedStore == '');
   }
 
 
-  onSubmit(){
+  rentDvd(){
     // chiamata alla mutation per il noleggio
+    const formattedDate = moment(this.selectedDate).format('YYYY-MM-D');
+    let store_id :any;
 
+    for(let store of this.data.storesWithFilm){
+        if (store.address === this.selectedStore) {
+          console.log(`Store found: ${store.address} with store_id: ${store.store_id}. store obj:`, store);
+          store_id = store.store_id;
+          break;
+        }
+    }
+
+    console.log(`Store_id after for loop: ${store_id}`);
+
+    this.apollo
+      .mutate({
+        mutation: INSERT_RENT,
+        variables: {
+          filmTitle: this.data.movie.title,
+          customer_id: null,
+          storeId: store_id,
+          rentalDate: formattedDate
+        },
+      })
+      .subscribe(
+        ({ data }) => {
+          console.log("Righe affette dal noleggio: ", data);
+        },
+        error => {
+          console.log('there was an error sending the query', error);
+        },
+      );
   }
 
 }

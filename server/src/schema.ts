@@ -107,12 +107,15 @@ const resolvers = {
     insertRent: (parent, args, contextValue, info) => {
       const film_title = args.film_title;
       const store_id = args.store_id;
-      //const customer_id = contextValue.cId;
-      const customer_id = args.customer_id;
-      const rental_date = args.rental_date;
+      let customer_id = args.customer_id;
 
-      const out = queries.insertNewRent(film_title, store_id, customer_id, rental_date);
-      return out;
+      if(!args.customer_id){
+        customer_id = contextValue.user.user.cId;
+      }
+      const rental_date = args.rental_date;
+      console.log(`insertRent film_title: ${film_title}\nstore_id: ${store_id}\ncustomer_id: ${customer_id}\nrental_date: ${rental_date}  `);
+
+      return queries.insertNewRent(film_title, store_id, customer_id, rental_date);
     }
   }
 };

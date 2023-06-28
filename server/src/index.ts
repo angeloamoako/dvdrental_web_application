@@ -3,7 +3,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 
 import { GraphQLError } from 'graphql';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import { typeDefs, resolvers } from './schema.js';
 import usersRouter from './users.js';
 
@@ -38,7 +38,7 @@ async function startApolloServer() {
           },
         });
       }
-      
+
       /* se l'utente fornisce il token allora aggiungo  le sue info all'oggetto
           context, che è disponibile  nei resolver */
       return { user };
