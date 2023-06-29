@@ -6,7 +6,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {MatSelectModule} from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE, INSERT_RENT} from "../graphql/graphql.queries";
+import {GET_PAGINATED_FILMS, GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE, INSERT_RENT} from "../graphql/graphql.queries";
 import {Apollo} from "apollo-angular";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
@@ -28,7 +28,7 @@ export class RentModalComponent implements OnInit {
   public selectedDate!: Date;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { movie: any, storesWithFilm: any[], },
-              private apollo: Apollo) {
+              private apollo: Apollo, private dialog: MatDialog) {
 
   }
 
@@ -94,10 +94,18 @@ export class RentModalComponent implements OnInit {
           storeId: store_id,
           rentalDate: formattedDate
         },
+        refetchQueries: [
+          {
+            query: GET_PAGINATED_FILMS, // La tua query storesWithSelectedFilmAndNumCopies
+            fetchPolicy: 'network-only'
+          }
+        ]
       })
       .subscribe(
         ({ data }) => {
           console.log("Righe affette dal noleggio: ", data);
+          window.alert("Hai prenotato con successo una copia del film " +  this.data.movie.title);
+          this.dialog.closeAll();
         },
         error => {
           console.log('there was an error sending the query', error);

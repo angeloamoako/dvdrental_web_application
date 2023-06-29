@@ -35,12 +35,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
                           movie: any,
                           actors: any[],
-                          storesWithFilm: any[],
-                          copiesForStore: Map<String, number>
-                      }, private dialog: MatDialog) {
+                          storesWithFilm: any[]},
+              private dialog: MatDialog) {
     this.actors = data.actors;
     this.storesWithFilm = data.storesWithFilm;
-    this.copiesForStore = data.copiesForStore;
   }
   ngOnInit(): void {
   }

@@ -239,6 +239,7 @@ const insertNewRent = (film_title, store_id, customer_id, rental_date) => {
   const q1 = `SELECT I.inventory_id
                                                 FROM film F JOIN inventory I on F.film_id = I.film_id
                                                     JOIN store S on S.store_id = I.store_id
+                                                    JOIN rental R ON I.inventory_id = R.inventory_id
                                                 WHERE F.title = $1 AND S.store_id = $2 AND I.inventory_id NOT IN (
                                                     SELECT inventory_id
                                                     FROM rental

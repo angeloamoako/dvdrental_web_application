@@ -72,11 +72,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     let actors: any;
     let storesWithFilm: any;
-    let copiesForStore:Map<String, number> = new Map();
 
     /* Recupero l'elenco degli attori dal server */
     this.actorsByFilmQuerySubscription = this.apollo.watchQuery({
       query: GET_ACTORS_BY_FILM,
+      fetchPolicy: 'network-only',
       variables: { filmName: movie.title }
     }).valueChanges.subscribe(({data}: any) => {
       actors = data.actorsFromFilm;
@@ -87,29 +87,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       this.storesWithCopiesQuerySubscription = this.apollo.watchQuery({
         query: GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
+        fetchPolicy: 'network-only',
         variables: { film_title: movie.title }
       }).valueChanges.subscribe(({data}: any) => {
         storesWithFilm = data.storesWithSelectedFilmAndNumCopies;
         console.log(`Negozi con copie disponibili del film ${movie.title}: `, data.storesWithSelectedFilmAndNumCopies);
 
-
-        // Per ogni store recupero il numero di copie del film richiesto
-
-        for(const element of storesWithFilm){
-          if(!copiesForStore.get(element.address))
-            copiesForStore.set(element.address, 1);
-          else{
-            //const previousValue = this.copiesForStore.get(element.address);
-            // il ?? 0 serve per dare un valore di default nel caso in cui il risultato sia undefined
-            const previousValue = copiesForStore.get(element.address) ?? 0;
-            copiesForStore.set(element.address, previousValue + 1);
-          }
-        }
-        console.log("Copie per negozio: ", copiesForStore);
-
         this.dialog.open(DetailsComponent,
           {
-            data: { movie, actors, storesWithFilm, copiesForStore }
+            data: { movie, actors, storesWithFilm }
           });
 
       }, (err_stores) => {
@@ -164,6 +150,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   callPaginatedFilmAPI(){
     this.filmQuerySubscription = this.apollo.watchQuery({
       query: GET_PAGINATED_FILMS,
+      fetchPolicy: 'network-only',
       variables: { pageNumber: this.currentPageNumber, pageSize: this.currentPageSize, filmTitle: this.searchTitle, category:this.selectedCategory }
     }).valueChanges.subscribe(({data}: any) => {
       this.films = data.paginatedFilms.filmList;
@@ -174,7 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       // aggiungo un paginator per ridurre il numero di righe nella pagina corrente
       this.datasource = new MatTableDataSource(this.films);
       this.totalResults = data.paginatedFilms.totalResults;
-      this.currentPageNumber = 0;
+      //this.currentPageNumber = 0;
 
     }, (error) => {
       console.log("C'è stato un errore durante la chiamata all'API GET_PAGINATED_FILMS: ", error);
