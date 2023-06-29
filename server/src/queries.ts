@@ -157,7 +157,7 @@ const storesWithSelectedFilmAndNumCopies = (film_title) => {
 
   /* Restituisce gli store in cui il film richiesto è disponibile */
 
-  const q = `SELECT S.store_id, A.address
+  const q = `SELECT S.store_id, A.address, COUNT(*) as numero_copie
                                         FROM inventory I JOIN rental R ON R.inventory_id = I.inventory_id
                                           JOIN store S ON S.store_id = I.store_id
                                           JOIN address A ON A.address_id = S.address_id
@@ -167,7 +167,8 @@ const storesWithSelectedFilmAndNumCopies = (film_title) => {
                                             JOIN rental R2 ON I2.inventory_id = R2.inventory_id
                                           WHERE F.title = $1
                                           GROUP BY I2.inventory_id
-                                        ) AND R.return_date IS NOT NULL;`;
+                                        ) AND R.return_date IS NOT NULL
+                                        GROUP BY s.store_id, A.address`;
 
   return new Promise((resolve, reject)=>{
     pool.query(q, [film_title], (error, results) => {

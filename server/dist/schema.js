@@ -34,7 +34,7 @@ type Rental {
 type Store {
   store_id: Int
   address: String
-  inventory_id: Int
+  numero_copie: Int
 }
 
 type PaginatedFilm {

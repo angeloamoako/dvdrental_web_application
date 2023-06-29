@@ -89,7 +89,7 @@ const GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES = gql`
     storesWithSelectedFilmAndNumCopies(film_title: $film_title) {
       address
       store_id
-      inventory_id
+      numero_copie
     }
   }
 `;
@@ -99,7 +99,6 @@ const GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE = gql`
   storesWithSelectedFilmAvailable(film_title: $filmTitle) {
     address
     store_id
-    inventory_id
   }
 }
 `;
