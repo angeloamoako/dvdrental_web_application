@@ -8,7 +8,7 @@ import {LogoutService} from "../services/logout.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {PageEvent} from "@angular/material/paginator";
 import {FilmService} from "../services/film.service";
-import {Subject, Subscription} from "rxjs";
+import {Subject, Subscription, take} from "rxjs";
 import {NotificationService} from "../services/notification.service";
 
 
@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private filmQuerySubscription: any;
   private unsubscribe$ = new Subject<void>();
 
-  private actorsByFilmQuerySubscription: any;
-  private storesWithCopiesQuerySubscription: any;
+  private actorsByFilmQuerySubscription!: Subscription;
+  private storesWithCopiesQuerySubscription!: Subscription;
   films: any[] = [];
   error: any;
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
@@ -60,9 +60,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
     this.filmService.unsubscribeToAllQuery();
     this.subscription.unsubscribe();
+    this.storesWithCopiesQuerySubscription.unsubscribe();
+    this.actorsByFilmQuerySubscription.unsubscribe();
   }
 
   openMovieDetails(movie: any){
@@ -78,7 +79,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.actorsByFilmQuerySubscription = this.apollo.watchQuery({
       query: GET_ACTORS_BY_FILM,
       variables: { filmName: movie.title }
-    }).valueChanges.subscribe(({data}: any) => {
+    }).valueChanges
+      .pipe(take(1))
+      .subscribe(({data}: any) => {
       actors = data.actorsFromFilm;
       console.log(`Lista degli attori per il film ${movie.title}: `, data.actorsFromFilm);
 
@@ -89,7 +92,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         query: GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
         fetchPolicy: 'network-only',
         variables: { film_title: movie.title }
-      }).valueChanges.subscribe(({data}: any) => {
+      }).valueChanges
+        .pipe(take(1))
+        .subscribe(({data}: any) => {
         storesWithFilm = data.storesWithSelectedFilmAndNumCopies;
         console.log(`Negozi con copie disponibili del film ${movie.title}: `, data.storesWithSelectedFilmAndNumCopies);
 

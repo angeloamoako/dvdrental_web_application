@@ -29,7 +29,7 @@ export class FilmService {
 
 
   unsubscribeToAllQuery(){
-    this.filmQuerySubscription.unsubscribe();
+    //this.filmQuerySubscription.unsubscribe();
   }
 
 }

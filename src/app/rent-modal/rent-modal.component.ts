@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -21,7 +21,7 @@ import {NotificationService} from "../services/notification.service";
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule, MatButtonModule, FormsModule]
 })
-export class RentModalComponent implements OnInit {
+export class RentModalComponent implements OnInit, OnDestroy {
   public selectedStore: string = '';
   public storesWithAvailableCopiesQuerySubscription: any;
   public storesWithAvailableCopies :any[] = [];
@@ -93,27 +93,25 @@ export class RentModalComponent implements OnInit {
           customer_id: null,
           storeId: store_id,
           rentalDate: formattedDate
-        },
-        refetchQueries: [
-          {
-            query: GET_PAGINATED_FILMS,
-            variables: { pageNumber: 1, pageSize: 30 },
-            fetchPolicy: 'network-only'
-          }
-        ]
+        }
       })
       .subscribe(
         ({ data }) => {
           console.log("Righe affette dal noleggio: ", data);
           window.alert("Hai prenotato con successo una copia del film " +  this.data.movie.title);
           this.dialog.closeAll();
+          this.notificationService.sendNotification('Noleggio eseguito');
         },
         error => {
           console.log('there was an error sending the query', error);
         },
       );
 
-    this.notificationService.sendNotification('Noleggio eseguito');
+
+  }
+
+  ngOnDestroy(): void {
+    this.storesWithAvailableCopiesQuerySubscription.unsubscribe();
   }
 
 }
