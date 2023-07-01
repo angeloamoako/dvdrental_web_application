@@ -23,9 +23,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
   searchFilter: string = '';
   selectedCategory: string = '';
-  customer_id = history.state.customer_id
-  userFirstName = history.state.firstName
-  userLastName = history.state.lastName
+  customer_id: any = parseInt(sessionStorage.getItem('customer_id') as string);
+  userFirstName = sessionStorage.getItem('firstName') as string;
+  userLastName = sessionStorage.getItem('lastName') as string;
   isSidenavOpen: boolean = false;
   currentPageSize: number = 20;
   currentPageNumber: number = 0;
@@ -106,14 +106,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.callPaginatedFilmAPI();
   }
 
-  openPastRental(){
-    this.router.navigate(['/pastRental'], {state: {
-      customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+  openPastRental() {
+    this.router.navigate(['/pastRental']);
   }
 
-  openPersonalRental(){
-    this.router.navigate(['/personalRental'], {state: {
-        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+
+  openPersonalRental() {
+    this.router.navigate(['/personalRental']);
   }
 
   toggleSidenav() {

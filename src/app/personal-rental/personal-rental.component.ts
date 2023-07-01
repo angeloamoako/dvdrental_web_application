@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Apollo } from "apollo-angular";
-import { GET_ACTIVE_RENTALS } from "../graphql/graphql.queries";
 import { Router } from "@angular/router";
 import { DetailsComponent } from "../details/details.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -14,12 +13,12 @@ import {RentService} from "../services/rent.service";
   templateUrl: './personal-rental.component.html',
   styleUrls: ['./personal-rental.component.css']
 })
-export class PersonalRentalComponent implements OnInit, OnDestroy{
+export class PersonalRentalComponent implements OnInit{
   private querySubscription: any;
   error: any;
-  customer_id = parseInt(history.state.customer_id);
-  userFirstName = history.state.firstName
-  userLastName = history.state.lastName
+  customer_id: any = parseInt(sessionStorage.getItem('customer_id') as string);
+  userFirstName = sessionStorage.getItem('firstName') as string;
+  userLastName = sessionStorage.getItem('lastName') as string;
   activeRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_rate'];
   isSidenavOpen: boolean = false;
@@ -77,11 +76,8 @@ export class PersonalRentalComponent implements OnInit, OnDestroy{
 
   }
 
-  ngOnDestroy(): void{
-  }
   backToHome(){
-    this.router.navigate(['/home'], {state: {
-        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+    this.router.navigate(['/home']);
   }
 
   toggleSidenav() {
@@ -89,7 +85,6 @@ export class PersonalRentalComponent implements OnInit, OnDestroy{
   }
 
   openPastRental(){
-    this.router.navigate(['/pastRental'], {state: {
-        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+    this.router.navigate(['/pastRental']);
   }
 }

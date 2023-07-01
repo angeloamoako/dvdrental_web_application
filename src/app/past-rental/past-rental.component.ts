@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Apollo} from "apollo-angular";
-import {GET_PAST_RENTALS} from "../graphql/graphql.queries";
-import {Router} from "@angular/router";
-import {DetailsComponent} from "../details/details.component";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Apollo } from "apollo-angular";
+import { GET_PAST_RENTALS } from "../graphql/graphql.queries";
+import { Router } from "@angular/router";
+import { DetailsComponent } from "../details/details.component";
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -13,9 +13,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class PastRentalComponent implements OnInit, OnDestroy{
   private querySubscription: any;
   error: any;
-  customer_id = parseInt(history.state.customer_id);
-  userFirstName = history.state.firstName
-  userLastName = history.state.lastName
+  customer_id: any = parseInt(sessionStorage.getItem('customer_id') as string);
+  userFirstName = sessionStorage.getItem('firstName') as string;
+  userLastName = sessionStorage.getItem('lastName') as string;
   pastRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
   totalAmount: number = 0;
@@ -52,8 +52,7 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   }
 
   backToHome(){
-    this.router.navigate(['/home'], {state: {
-        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+    this.router.navigate(['/home']);
   }
 
   toggleSidenav() {
@@ -61,7 +60,6 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   }
 
   openPersonalRental() {
-    this.router.navigate(['/personalRental'], {state: {
-        customer_id: this.customer_id, firstName: this.userFirstName, lastName: this.userLastName }});
+    this.router.navigate(['/personalRental']);
   }
 }
