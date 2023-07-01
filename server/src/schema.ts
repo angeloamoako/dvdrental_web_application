@@ -79,7 +79,7 @@ const resolvers = {
       if(!category){
         category = '';
       }
-
+      console.log("Sto per richiamare getPaginatedFilms!");
       return queries.getPaginatedFilms(pageNumber, pageSize, filmTitle, category);
     },
     actorsFromFilm: (parent, args, contextValue, info) => {

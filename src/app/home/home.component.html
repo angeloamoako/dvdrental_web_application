@@ -17,7 +17,7 @@
         <!-- RICERCA PER CATEGORIA -->
         <mat-form-field>
           <mat-label>Tutte le categorie</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="searchBy()">
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="searchByCategory()">
             <mat-option value="">Tutte le categorie</mat-option>
             <mat-option value="Action">Action</mat-option>
             <mat-option value="Animation">Animation</mat-option>
@@ -40,7 +40,7 @@
 
         <!-- RICERCA DINAMICA PER TITOLO -->
         <mat-form-field class="search-container">
-          <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchTitle" (keyup)="searchBy()">
+          <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchFilter" (keyup)="searchBy()">
         </mat-form-field>
       </div>
 

@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from '@angular/material/dia
 import {MatButtonModule} from "@angular/material/button";
 import {MatTableModule} from "@angular/material/table";
 import {MatCardModule} from '@angular/material/card';
-import {LogoutService} from "../logout.service";
+import {LogoutService} from "../services/logout.service";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {RentModalComponent} from "../rent-modal/rent-modal.component";
 

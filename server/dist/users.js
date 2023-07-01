@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
                 lName: lastName
             };
             /* se l'autenticazione va a buon fine genero un token di autenticazione */
-            jwt.sign({ user: userInfo }, process.env.SECRET_PASSWORD, { expiresIn: '15m' }, (err, token) => {
+            jwt.sign({ user: userInfo }, process.env.SECRET_PASSWORD, { expiresIn: '1h' }, (err, token) => {
                 console.log("Token emesso: ", token);
                 res.status(200).json({ message: "Credenziali corrette.", firstName: firstName, lastName: lastName, authToken: token });
             });

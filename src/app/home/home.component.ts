@@ -1,12 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
-import {GET_ACTORS_BY_FILM, GET_FILMS, GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES, GET_PAGINATED_FILMS} from '../graphql/graphql.queries';
+import {GET_ACTORS_BY_FILM, GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES } from '../graphql/graphql.queries';
 import { Router } from '@angular/router';
-import {LogoutService} from "../logout.service";
+import {LogoutService} from "../services/logout.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {PageEvent} from "@angular/material/paginator";
+import {FilmService} from "../services/film.service";
+import {Subject, Subscription} from "rxjs";
+import {NotificationService} from "../services/notification.service";
 
 
 @Component({
@@ -17,14 +20,15 @@ import {PageEvent} from "@angular/material/paginator";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private filmQuerySubscription: any;
+  private unsubscribe$ = new Subject<void>();
+
   private actorsByFilmQuerySubscription: any;
   private storesWithCopiesQuerySubscription: any;
   films: any[] = [];
   error: any;
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
-  searchTitle: string = '';
+  searchFilter: string = '';
   selectedCategory: string = '';
-  initialFilms: any[] = [];
   customer_id = history.state.customer_id
   userFirstName = history.state.firstName
   userLastName = history.state.lastName
@@ -35,33 +39,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   datasource: any;
 
   //@ViewChild(MatPaginator) paginator!: MatPaginator;
+  private periodicUpdate!: any;
+  private subscription!: Subscription;
 
-  constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router, private logoutService: LogoutService) { }
+  constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
+              private logoutService: LogoutService,
+              public filmService: FilmService,
+              private notificationService: NotificationService) { }
 
 
   ngOnInit(): void {
-
-    /*
-    this.filmQuerySubscription = this.apollo.watchQuery({
-      query: GET_FILMS
-    }).valueChanges.subscribe(({data, error}: any) => {
-      this.films = data.films;
-      this.initialFilms = this.films
-      this.error = error;
-
-      // aggiungo un paginator per ridurre il numero di righe nella pagina corrente
-      this.datasource = new MatTableDataSource(this.films);
-      this.datasource.paginator = this.paginator;
-    })
-    */
     this.callPaginatedFilmAPI();
+
+    this.subscription = this.notificationService.getNotification().subscribe(message => {
+      console.log("Notifica ricevuta: ", message);
+      console.log("Aggiornamento della vista...");
+      this.callPaginatedFilmAPI();
+    });
 
   }
 
   ngOnDestroy(): void {
-    this.filmQuerySubscription.unsubscribe();
-    //this.actorsByFilmQuerySubscription.unsubscribe();
-    //this.storesWithCopiesQuerySubscription.unsubscribe();
+
+    this.filmService.unsubscribeToAllQuery();
+    this.subscription.unsubscribe();
   }
 
   openMovieDetails(movie: any){
@@ -76,7 +77,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     /* Recupero l'elenco degli attori dal server */
     this.actorsByFilmQuerySubscription = this.apollo.watchQuery({
       query: GET_ACTORS_BY_FILM,
-      fetchPolicy: 'network-only',
       variables: { filmName: movie.title }
     }).valueChanges.subscribe(({data}: any) => {
       actors = data.actorsFromFilm;
@@ -112,14 +112,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-
   searchBy(){
+
+    /* ritardo la chiamata ad API nel filtro di ricerca per evitare che le richieste arrivino al server troppo
+      vicine l'una dall'altra.
+     */
+    const wait = setTimeout(() => {
+      this.callPaginatedFilmAPI();
+    }, 500);
+
+  }
+
+  searchByCategory() {
     console.log('Categoria selezionata:', this.selectedCategory);
-    /*
-    this.films = this.initialFilms.filter(film => film.title.toLowerCase().includes(this.searchTitle.toLowerCase()) &&
-      film.genre.toLowerCase().includes(this.selectedCategory.toLowerCase()));
-    this.datasource = new MatTableDataSource(this.films);
-    */
     this.callPaginatedFilmAPI();
   }
 
@@ -148,26 +153,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   callPaginatedFilmAPI(){
-    this.filmQuerySubscription = this.apollo.watchQuery({
-      query: GET_PAGINATED_FILMS,
-      fetchPolicy: 'network-only',
-      variables: { pageNumber: this.currentPageNumber, pageSize: this.currentPageSize, filmTitle: this.searchTitle, category:this.selectedCategory }
-    }).valueChanges.subscribe(({data}: any) => {
-      this.films = data.paginatedFilms.filmList;
-      this.initialFilms = this.films;
-      console.log(`Output query GET_PAGINATED_FILMS con parametri pageNumber: ${this.currentPageNumber} pageSize: ${this.currentPageSize}`);
-      console.log(data);
+    this.filmService.getPaginatedFilms(this.searchFilter, this.currentPageNumber, this.currentPageSize, this.selectedCategory)
+      .subscribe((queryOutput) => {
+          console.log(`Risultato della query con parametri pageNumber: ${this.currentPageNumber} pageSize: ${this.currentPageSize}`);
+          console.log(queryOutput);
+          this.films = queryOutput.filmList;
 
-      // aggiungo un paginator per ridurre il numero di righe nella pagina corrente
-      this.datasource = new MatTableDataSource(this.films);
-      this.totalResults = data.paginatedFilms.totalResults;
-      //this.currentPageNumber = 0;
+          // aggiungo un paginator per ridurre il numero di righe nella pagina corrente
+          this.datasource = new MatTableDataSource(this.films);
+          this.totalResults = queryOutput.totalResults;
 
-    }, (error) => {
-      console.log("C'è stato un errore durante la chiamata all'API GET_PAGINATED_FILMS: ", error);
-      this.logoutService.logout();
-    });
+        },
+        (error) => {
+          console.log(`Si è verificato un errore durante la query: ${error}`);
+          this.logoutService.logout();
+        });
+
+    this.currentPageNumber = 0;
   }
+
 }
 
 

@@ -8,10 +8,10 @@ import {MatSelectModule} from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import {GET_PAGINATED_FILMS, GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE, INSERT_RENT} from "../graphql/graphql.queries";
 import {Apollo} from "apollo-angular";
-import {MatTableDataSource} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule} from "@angular/forms";
 import moment from 'moment';
+import {NotificationService} from "../services/notification.service";
 
 
 @Component({
@@ -28,7 +28,8 @@ export class RentModalComponent implements OnInit {
   public selectedDate!: Date;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { movie: any, storesWithFilm: any[], },
-              private apollo: Apollo, private dialog: MatDialog) {
+              private apollo: Apollo, private dialog: MatDialog,
+              private notificationService: NotificationService) {
 
   }
 
@@ -65,7 +66,6 @@ export class RentModalComponent implements OnInit {
   isDisabled(){
     //console.log("Selected date: ", this.selectedDate.getTime());
     // abilito il bottone di submit solo quando entrambi i campi sono stati compilati
-    console.log(`SelectedDate: ${this.selectedDate}  selectedStore: ${this.selectedStore}`);
     return (this.selectedDate == null) || (this.selectedStore == '');
   }
 
@@ -96,7 +96,8 @@ export class RentModalComponent implements OnInit {
         },
         refetchQueries: [
           {
-            query: GET_PAGINATED_FILMS, // La tua query storesWithSelectedFilmAndNumCopies
+            query: GET_PAGINATED_FILMS,
+            variables: { pageNumber: 1, pageSize: 30 },
             fetchPolicy: 'network-only'
           }
         ]
@@ -111,6 +112,8 @@ export class RentModalComponent implements OnInit {
           console.log('there was an error sending the query', error);
         },
       );
+
+    this.notificationService.sendNotification('Noleggio eseguito');
   }
 
 }

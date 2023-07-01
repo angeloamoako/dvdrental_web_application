@@ -23,7 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { LogoutService } from "./logout.service";
+import { LogoutService } from "./services/logout.service";
 import { RentModalComponent } from './rent-modal/rent-modal.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 
