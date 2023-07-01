@@ -7,9 +7,6 @@ import {MatCardModule} from '@angular/material/card';
 import {LogoutService} from "../services/logout.service";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {RentModalComponent} from "../rent-modal/rent-modal.component";
-import {NotificationService} from "../services/notification.service";
-
-
 
 
 @Component({
@@ -24,8 +21,6 @@ import {NotificationService} from "../services/notification.service";
 export class DetailsComponent implements OnInit, OnDestroy {
   actors: any[] = [];
   public storesWithFilm: any[] = [];
-  displayedColumns: string[] = ['address', 'copies'];
-  public copiesForStore:Map<String, number> = new Map();
 
 
   /*
@@ -37,8 +32,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                           movie: any,
                           actors: any[],
                           storesWithFilm: any[]},
-              private dialog: MatDialog,
-              private notificationService: NotificationService) {
+              private dialog: MatDialog) {
     this.actors = data.actors;
     this.storesWithFilm = data.storesWithFilm;
   }
@@ -49,7 +43,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   openRentModal(){
-    console.log("Storeswithfilm prima di aprire la modale: ", this.storesWithFilm);
     const modalRef = this.dialog.open(RentModalComponent,
       {
         data: {movie: this.data.movie, storesWithFilm: this.storesWithFilm }

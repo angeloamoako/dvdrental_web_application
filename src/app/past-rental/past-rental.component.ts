@@ -25,6 +25,7 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.querySubscription = this.apollo.watchQuery({
       query: GET_PAST_RENTALS,
+      fetchPolicy: 'network-only',
       variables: {customer_id: this.customer_id}
     }).valueChanges.subscribe(({data, error}: any) => {
       this.pastRentalsFilms = data.pastRentals;

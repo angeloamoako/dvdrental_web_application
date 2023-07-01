@@ -2,13 +2,12 @@ import { Component, OnDestroy, OnInit} from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
-import {GET_ACTORS_BY_FILM, GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES } from '../graphql/graphql.queries';
 import { Router } from '@angular/router';
 import {LogoutService} from "../services/logout.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {PageEvent} from "@angular/material/paginator";
 import {FilmService} from "../services/film.service";
-import {Subject, Subscription, take} from "rxjs";
+import { Subscription, take} from "rxjs";
 import {NotificationService} from "../services/notification.service";
 
 
@@ -19,11 +18,6 @@ import {NotificationService} from "../services/notification.service";
   providers: [LogoutService]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private filmQuerySubscription: any;
-  private unsubscribe$ = new Subject<void>();
-
-  private actorsByFilmQuerySubscription!: Subscription;
-  private storesWithCopiesQuerySubscription!: Subscription;
   films: any[] = [];
   error: any;
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
@@ -39,7 +33,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   datasource: any;
 
   //@ViewChild(MatPaginator) paginator!: MatPaginator;
-  private periodicUpdate!: any;
   private subscription!: Subscription;
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
@@ -50,7 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.callPaginatedFilmAPI();
-
     this.subscription = this.notificationService.getNotification().subscribe(message => {
       console.log("Notifica ricevuta: ", message);
       console.log("Aggiornamento della vista...");
@@ -60,60 +52,41 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.filmService.unsubscribeToAllQuery();
     this.subscription.unsubscribe();
-    this.storesWithCopiesQuerySubscription.unsubscribe();
-    this.actorsByFilmQuerySubscription.unsubscribe();
   }
 
-  openMovieDetails(movie: any){
-    /* faccio prima le chiamate all' API per reperire i dati.
-       Se la chiamata va a buon fine allora apro la modale
-       altrimenti redirigo alla login perché il token è scaduto
-    */
 
+
+  openMovieDetails(movie: any) {
     let actors: any;
     let storesWithFilm: any;
 
-    /* Recupero l'elenco degli attori dal server */
-    this.actorsByFilmQuerySubscription = this.apollo.watchQuery({
-      query: GET_ACTORS_BY_FILM,
-      variables: { filmName: movie.title }
-    }).valueChanges
+    this.filmService.getActorsByFilm(movie.title)
       .pipe(take(1))
-      .subscribe(({data}: any) => {
-      actors = data.actorsFromFilm;
-      console.log(`Lista degli attori per il film ${movie.title}: `, data.actorsFromFilm);
+      .subscribe((outputQueryActors) => {
+        actors = outputQueryActors;
+
+        // recupero i negozi che hanno copie disponibili del film
+        this.filmService.getStoresWithSpecifiedFilmAndNumCopies(movie.title)
+          .pipe(take(1))
+          .subscribe((outputQueryStoresWithCopies) => {
+              storesWithFilm = outputQueryStoresWithCopies;
+              this.dialog.open(DetailsComponent,
+                {
+                  data: { movie, actors, storesWithFilm }
+                });
+          },
+            (error) => {
+              console.log(`filmService.getStoresWithSpecifiedFilmAndNumCopies - si è verificato un errore durante la query: ${error}`);
+              this.logoutService.logout();
+            })
 
 
-      /* Recupero i negozi che hanno copie del film specificato */
-
-      this.storesWithCopiesQuerySubscription = this.apollo.watchQuery({
-        query: GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
-        fetchPolicy: 'network-only',
-        variables: { film_title: movie.title }
-      }).valueChanges
-        .pipe(take(1))
-        .subscribe(({data}: any) => {
-        storesWithFilm = data.storesWithSelectedFilmAndNumCopies;
-        console.log(`Negozi con copie disponibili del film ${movie.title}: `, data.storesWithSelectedFilmAndNumCopies);
-
-        this.dialog.open(DetailsComponent,
-          {
-            data: { movie, actors, storesWithFilm }
-          });
-
-      }, (err_stores) => {
-        console.error("Errore durante la chiamata alla query GET_STORES_WITH_SPECIFIED_FILM: ", err_stores);
-        this.logoutService.logout();
-      });
-
-    }, (error) => {
-      console.error("Errore durante la chiamata API a GET_ACTORS_BY_FILM: ", error);
-      this.error = error;
-      this.logoutService.logout();
-    });
-
+      },
+        (error) => {
+          console.log(`filmService.getActorsByFilm - si è verificato un errore durante la query: ${error}`);
+          this.logoutService.logout();
+        })
   }
 
 
@@ -164,7 +137,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log(queryOutput);
           this.films = queryOutput.filmList;
 
-          // aggiungo un paginator per ridurre il numero di righe nella pagina corrente
+          // aggiungo un paginator per gestire il passaggio da una pagina all'altra
           this.datasource = new MatTableDataSource(this.films);
           this.totalResults = queryOutput.totalResults;
 
