@@ -9,6 +9,7 @@ import {PageEvent} from "@angular/material/paginator";
 import {FilmService} from "../services/film.service";
 import { Subscription, take} from "rxjs";
 import {NotificationService} from "../services/notification.service";
+import {RentModalComponent} from "../rent-modal/rent-modal.component";
 
 
 @Component({
@@ -87,6 +88,30 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log(`filmService.getActorsByFilm - si è verificato un errore durante la query: ${error}`);
           this.logoutService.logout();
         })
+  }
+
+
+  openRentComponent(movie: any){
+    // recupero i negozi che hanno copie disponibili del film richiesto
+    let storesWithFilm;
+    this.filmService.getStoresWithSpecifiedFilmAndNumCopies(movie.title)
+      .pipe(take(1))
+      .subscribe(
+        (outputQuery) => {
+          storesWithFilm = outputQuery;
+
+          const modalRef = this.dialog.open(RentModalComponent,
+            {
+              data: {movie: movie, storesWithFilm: storesWithFilm }
+            });
+
+
+        }, (error) => {
+          console.log("filmService.getStoresWithSpecifiedFilmAndNumCopies - errore durante la query: ", error);
+        }
+      )
+
+
   }
 
 

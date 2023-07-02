@@ -78,7 +78,7 @@
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Noleggio</th>
-          <td mat-cell *matCellDef="let film"> <button mat-button>Noleggia</button></td>
+          <td mat-cell *matCellDef="let film"> <button (click)="openRentComponent(film)" mat-button>Noleggia</button></td>
         </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

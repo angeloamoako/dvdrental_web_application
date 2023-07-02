@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Apollo} from "apollo-angular";
-import {GET_ACTIVE_RENTALS, INSERT_RENT} from "../graphql/graphql.queries";
-import {map, tap} from "rxjs";
+import {GET_ACTIVE_RENTALS, GET_PAST_RENTALS, INSERT_RENT} from "../graphql/graphql.queries";
+import {map, Observable, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +37,24 @@ export class RentService {
     }).valueChanges
       .pipe(
         map((outputQueryActiveRentals: any) => outputQueryActiveRentals.data.activeRentals),
-        tap((mappedOutput) => console.log("Elenco dei noleggi passati: ", mappedOutput))
+        tap((mappedOutput) => console.log("Elenco dei noleggi attivi: ", mappedOutput))
       )
 
   }
 
 
+  getPastRentals(customer_id: number): Observable<any> {
+    return this.apollo.watchQuery({
+      query: GET_PAST_RENTALS,
+      fetchPolicy: 'network-only',
+      variables: {customer_id: customer_id}
+    }).valueChanges
+      .pipe(
+        map( (outputQueryPastRentals:any) => outputQueryPastRentals.data.pastRentals),
+        tap( (mappedOutput) => console.log("Elenco dei noleggi passati: ", mappedOutput))
+      )
+
+  }
 
 
 }
