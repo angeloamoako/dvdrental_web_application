@@ -61,8 +61,8 @@ const GET_ACTORS_BY_FILM = gql`
 `;
 
 const GET_PAST_RENTALS = gql`
-  query getPastRentals($customer_id: Int){
-    pastRentals(customer_id: $customer_id){
+  query getPastRentals($customer_id: Int, $category: String){
+    pastRentals(customer_id: $customer_id, category: $category){
       title
       rental_date
       return_date

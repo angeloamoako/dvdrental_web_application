@@ -31,7 +31,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
                           movie: any,
                           actors: any[],
-                          storesWithFilm: any[]},
+                          storesWithFilm: any[],
+                          fromHomePage: boolean},
               private dialog: MatDialog) {
     this.actors = data.actors;
     this.storesWithFilm = data.storesWithFilm;

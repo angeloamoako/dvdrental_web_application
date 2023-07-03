@@ -29,6 +29,7 @@ type Rental {
   rental_date: Date
   return_date: Date
   amount: Float
+  category: String
 }
 
 type Store {
@@ -47,7 +48,7 @@ type Query {
   films: [Film]
   paginatedFilms(pageNumber: Int, pageSize: Int, filmTitle: String, category: String): PaginatedFilm
   actorsFromFilm(filmName: String): [Actor]
-  pastRentals(customer_id: Int): [Rental]
+  pastRentals(customer_id: Int, category: String): [Rental]
   activeRentals(customer_id: Int): [Rental]
   storesWithSelectedFilmAndNumCopies(film_title: String): [Store]
   storesWithSelectedFilmAvailable(film_title: String): [Store]
@@ -83,7 +84,12 @@ const resolvers = {
         },
         pastRentals: (parent, args, contextValue, info) => {
             const customer_id = args.customer_id;
-            return queries.getPastRentals(customer_id);
+            let category = args.category;
+            if (!category)
+                category = 'F.title';
+            console.log(`Sto chiamando getPastRentals con questi parametri: customer_id: ${customer_id}\n
+      category: ${category}`);
+            return queries.getPastRentals(customer_id, category);
         },
         activeRentals: (parent, args, contextValue, info) => {
             const customer_id = args.customer_id;

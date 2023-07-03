@@ -108,15 +108,17 @@ const getActorFromSpecificFilm = (filmName) =>{
   })
 }
 
-const getPastRentals = (customer_id) => {
+const getPastRentals = (customer_id, category) => {
   /* Query che recupera i film noleggiati in passato dall'utente specificato  */
-  const q = `SELECT F.title, R.rental_date, R.return_date, P.amount
+  const q = `SELECT F.title, R.rental_date, R.return_date, P.amount, CAT.name AS category
         FROM film F JOIN inventory I ON F.film_id = I.film_id
+            JOIN film_category FC ON FC.film_id = F.film_id
+            JOIN category CAT ON CAT.category_id = FC.category_id
             JOIN rental R ON R.inventory_id = I.inventory_id
             JOIN customer C ON C.customer_id = R.customer_id
             JOIN payment P ON P.rental_id = R.rental_id
-        WHERE C.customer_id = $1 AND (R.return_date IS NOT NULL)`;
-
+        WHERE C.customer_id = $1 AND (R.return_date IS NOT NULL)
+        ORDER BY ${category}`;
 
   return new Promise((resolve, reject)=>{
     pool.query(q, [customer_id], (error, results) => {
@@ -124,6 +126,7 @@ const getPastRentals = (customer_id) => {
         reject(error);
       }else{
         let output = results.rows;
+        console.log("Output query: ", output);
         resolve(output);
       }
     });

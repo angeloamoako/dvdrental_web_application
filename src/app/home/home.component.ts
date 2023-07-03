@@ -75,9 +75,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           .pipe(take(1))
           .subscribe((outputQueryStoresWithCopies) => {
               storesWithFilm = outputQueryStoresWithCopies;
+              const fromHomePage:boolean = true;
               this.dialog.open(DetailsComponent,
                 {
-                  data: { movie, actors, storesWithFilm }
+                  data: { movie, actors, storesWithFilm, fromHomePage }
                 });
           },
             (error) => {

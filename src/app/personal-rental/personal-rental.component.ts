@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Apollo} from "apollo-angular";
-import {GET_ACTIVE_RENTALS} from "../graphql/graphql.queries";
 import {Router} from "@angular/router";
 import {DetailsComponent} from "../details/details.component";
 import { MatDialog } from '@angular/material/dialog';

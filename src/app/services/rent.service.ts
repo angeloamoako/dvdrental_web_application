@@ -43,11 +43,11 @@ export class RentService {
   }
 
 
-  getPastRentals(customer_id: number): Observable<any> {
+  getPastRentals(customer_id: number, orderByAttribute: string): Observable<any> {
     return this.apollo.watchQuery({
       query: GET_PAST_RENTALS,
       fetchPolicy: 'network-only',
-      variables: {customer_id: customer_id}
+      variables: {customer_id: customer_id, category: orderByAttribute}
     }).valueChanges
       .pipe(
         map( (outputQueryPastRentals:any) => outputQueryPastRentals.data.pastRentals),
