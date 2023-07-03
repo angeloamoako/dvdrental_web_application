@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Apollo } from "apollo-angular";
 import { GET_PAST_RENTALS } from "../graphql/graphql.queries";
 import { Router } from "@angular/router";
@@ -8,6 +8,8 @@ import {take} from "rxjs";
 import {FilmService} from "../services/film.service";
 import {LogoutService} from "../services/logout.service";
 import {RentService} from "../services/rent.service";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-past-rental',
@@ -24,6 +26,9 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
   totalAmount: number = 0;
   isSidenavOpen: boolean = false;
+  datasource: any;
+
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(private apollo: Apollo, private dialog: MatDialog,
               private router: Router,
               private filmService: FilmService,
@@ -43,6 +48,12 @@ export class PastRentalComponent implements OnInit, OnDestroy{
         }
         // per arrotondare due cifre dopo la virgola
         this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
+        this.datasource = new MatTableDataSource(this.pastRentalsFilms);
+
+        // DA SISTEMARE
+        setTimeout(() => {
+          this.datasource.sort = this.sort;
+        }, 1000);
 
       }, (error) => {
         console.log("rentalService.getPastRentals - c'è stato un errore durante la query: ", error);

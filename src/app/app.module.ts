@@ -59,7 +59,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MatCardModule,
     MatGridListModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [LogoutService],
   bootstrap: [AppComponent]

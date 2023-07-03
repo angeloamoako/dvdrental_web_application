@@ -95,7 +95,7 @@ const getActorFromSpecificFilm = (filmName) => {
     });
 };
 const getPastRentals = (customer_id) => {
-    /* Query che recuepera i film noleggiati in passato dall'utente specificato  */
+    /* Query che recupera i film noleggiati in passato dall'utente specificato  */
     const q = `SELECT F.title, R.rental_date, R.return_date, P.amount
         FROM film F JOIN inventory I ON F.film_id = I.film_id
             JOIN rental R ON R.inventory_id = I.inventory_id

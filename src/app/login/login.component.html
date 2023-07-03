@@ -1,5 +1,5 @@
 <div class="login-container">
-  <h2> Login </h2>
+  <h1> Login </h1>
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <div class="field-style">
       <mat-form-field>
@@ -19,6 +19,6 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <button mat-raised-button color="primary" type="submit"> Login </button>
+    <button mat-raised-button color="primary" type="submit" aria-label="Login"> Login </button>
   </form>
 </div>

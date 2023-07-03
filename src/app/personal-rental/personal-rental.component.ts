@@ -1,12 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Apollo } from "apollo-angular";
-import { Router } from "@angular/router";
-import { DetailsComponent } from "../details/details.component";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Apollo} from "apollo-angular";
+import {GET_ACTIVE_RENTALS} from "../graphql/graphql.queries";
+import {Router} from "@angular/router";
+import {DetailsComponent} from "../details/details.component";
 import { MatDialog } from '@angular/material/dialog';
 import { FilmService } from "../services/film.service";
 import { take } from "rxjs";
 import { LogoutService } from "../services/logout.service";
 import {RentService} from "../services/rent.service";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-personal-rental',
@@ -29,6 +32,9 @@ export class PersonalRentalComponent implements OnInit{
               private filmService: FilmService,
               private rentService: RentService,
               private logoutService: LogoutService) {}
+  datasource: any;
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
 
@@ -36,6 +42,11 @@ export class PersonalRentalComponent implements OnInit{
       .pipe(take(1))
       .subscribe( (outputQueryActiveRentals) => {
         this.activeRentalsFilms = outputQueryActiveRentals;
+        this.datasource = new MatTableDataSource(this.activeRentalsFilms);
+
+        setTimeout(() => {
+          this.datasource.sort = this.sort;
+        }, 1000);
       } , (error) => {
         console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
       })

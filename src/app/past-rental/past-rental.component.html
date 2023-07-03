@@ -1,40 +1,39 @@
 <mat-sidenav-container class="sidenav-container" >
   <mat-sidenav #sidenav [opened]="isSidenavOpen" class="sidenav-left">
     <div class="container">
-      <div class="avatar">{{ userFirstName.charAt(0) }}</div>
-      <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
+      <h1 class="user" aria-label="Nome utente"> {{ userFirstName }} {{userLastName}} </h1>
 
-      <button mat-raised-button color="primary" class="bottom-home" (click)="backToHome()">HomePage</button>
-      <button mat-raised-button color="primary" class="personal-rental-style" (click)="openPersonalRental()">Noleggi attivi</button>
+      <button mat-raised-button color="primary" class="bottom-home" (click)="backToHome()" aria-label="Ritorna alla Home">HomePage</button>
+      <button mat-raised-button color="primary" class="personal-rental-style" (click)="openPersonalRental()" aria-label="Pagina noleggi attivi">Noleggi attivi</button>
+
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <div class="bottom-style">
-      <button class="bottom-menu" mat-raised-button color="primary" (click)="toggleSidenav()">Menu </button>
-      <button class="bottom-menu" mat-raised-button color="primary"> Spesa totale : {{ totalAmount }} € </button>
+      <button class="bottom-menu" mat-raised-button color="primary" (click)="toggleSidenav()" aria-label="Apri il menu">Menu </button>
+      <button class="bottom-menu" mat-raised-button color="primary" aria-label="Spesa totale dei noleggi"> Spesa totale : {{ totalAmount }} € </button>
     </div>
 
       <div class="table" *ngIf="pastRentalsFilms.length > 0; else noRentals">
-        <table mat-table [dataSource]="pastRentalsFilms">
-
+        <table mat-table [dataSource]="datasource" matSort>
           <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef>Titolo</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Titolo</th>
             <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
           </ng-container>
 
           <ng-container matColumnDef="rental_date">
-            <th mat-header-cell *matHeaderCellDef>Data di noleggio</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data di noleggio</th>
             <td mat-cell *matCellDef="let film">{{ film.rental_date.split("T")[0] }}</td>
           </ng-container>
 
           <ng-container matColumnDef="return_date">
-            <th mat-header-cell *matHeaderCellDef>Data di consegna</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data di consegna</th>
             <td mat-cell *matCellDef="let film">{{ film.return_date.split("T")[0] }}</td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef>Costo</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo</th>
             <td mat-cell *matCellDef="let film">{{ film.amount }}€</td>
           </ng-container>
 
@@ -42,7 +41,6 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
-
     <ng-template #noRentals>
       <p> Non sono presenti noleggi passati </p>
     </ng-template>

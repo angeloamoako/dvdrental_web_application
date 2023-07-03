@@ -1,90 +1,97 @@
 <mat-sidenav-container class="sidenav-container" >
   <mat-sidenav #sidenav [opened]="isSidenavOpen" class="sidenav-left">
     <div class="container">
-      <div class="avatar">{{ userFirstName.charAt(0) }}</div>
       <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
 
-      <button mat-raised-button color="primary" class="rentals-past-style" (click)="openPastRental()">Noleggi passati</button>
-      <button mat-raised-button color="primary" class="personal-rental-style" (click)="openPersonalRental()">Noleggi attivi</button>
+      <button mat-raised-button color="primary" aria-label="Pagina noleggi passati" class="rentals-past-style" (click)="openPastRental()">Noleggi passati</button>
+      <button mat-raised-button color="primary" aria-label="Pagina noleggi attivi" class="personal-rental-style" (click)="openPersonalRental()">Noleggi attivi</button>
 
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
       <div class="bottom-style">
-        <button class="bottom-menu" mat-raised-button color="primary" (click)="toggleSidenav()">Menu </button>
+        <button class="bottom-menu" aria-label="Apri il menu" mat-raised-button color="primary" (click)="toggleSidenav()">Menu </button>
 
         <!-- RICERCA PER CATEGORIA -->
         <mat-form-field>
           <mat-label>Tutte le categorie</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="searchByCategory()">
-            <mat-option value="">Tutte le categorie</mat-option>
-            <mat-option value="Action">Action</mat-option>
-            <mat-option value="Animation">Animation</mat-option>
-            <mat-option value="Children">Children</mat-option>
-            <mat-option value="Classics">Classics</mat-option>
-            <mat-option value="Comedy">Comedy</mat-option>
-            <mat-option value="Documentary">Documentary</mat-option>
-            <mat-option value="Drama">Drama</mat-option>
-            <mat-option value="Family">Family</mat-option>
-            <mat-option value="Foreign">Foreign</mat-option>
-            <mat-option value="Games">Games</mat-option>
-            <mat-option value="Horror">Horror</mat-option>
-            <mat-option value="Music">Music</mat-option>
-            <mat-option value="New">New</mat-option>
-            <mat-option value="Sci-Fi">Sci-Fi</mat-option>
-            <mat-option value="Sport">Sport</mat-option>
-            <mat-option value="Travel">Travel</mat-option>
+          <mat-select aria-label="Seleziona categoria" [(ngModel)]="selectedCategory" (selectionChange)="searchBy()">
+            <mat-option value="" class="category-option">Tutte le categorie</mat-option>
+            <mat-option value="Action" class="category-option">Action</mat-option>
+            <mat-option value="Animation" class="category-option">Animation</mat-option>
+            <mat-option value="Children" class="category-option">Children</mat-option>
+            <mat-option value="Classics" class="category-option">Classics</mat-option>
+            <mat-option value="Comedy" class="category-option">Comedy</mat-option>
+            <mat-option value="Documentary" class="category-option">Documentary</mat-option>
+            <mat-option value="Drama" class="category-option">Drama</mat-option>
+            <mat-option value="Family" class="category-option">Family</mat-option>
+            <mat-option value="Foreign" class="category-option">Foreign</mat-option>
+            <mat-option value="Games" class="category-option">Games</mat-option>
+            <mat-option value="Horror" class="category-option">Horror</mat-option>
+            <mat-option value="Music" class="category-option">Music</mat-option>
+            <mat-option value="New" class="category-option">New</mat-option>
+            <mat-option value="Sci-Fi" class="category-option">Sci-Fi</mat-option>
+            <mat-option value="Sport" class="category-option">Sport</mat-option>
+            <mat-option value="Travel" class="category-option">Travel</mat-option>
           </mat-select>
         </mat-form-field>
 
         <!-- RICERCA DINAMICA PER TITOLO -->
         <mat-form-field class="search-container">
-          <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchFilter" (keyup)="searchBy()">
+          <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchFilter" (keyup)="searchBy()"aria-label="Cerca titolo di un film">
         </mat-form-field>
       </div>
 
   <div class="table">
-    <mat-table [dataSource]="datasource">
+    <mat-table [dataSource]="datasource" matSort>
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Titolo</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Titolo</th>
         <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
       </ng-container>
 
         <ng-container matColumnDef="release_year">
-          <th mat-header-cell *matHeaderCellDef>Anno di uscita</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Anno di uscita</th>
           <td mat-cell *matCellDef="let film">{{ film.release_year }}</td>
         </ng-container>
 
         <ng-container matColumnDef="rating">
-          <th mat-header-cell *matHeaderCellDef>Rating</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
           <td mat-cell *matCellDef="let film">{{ film.rating }}</td>
         </ng-container>
 
         <ng-container matColumnDef="genre">
-          <th mat-header-cell *matHeaderCellDef>Genere</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Genere</th>
           <td mat-cell *matCellDef="let film">{{ film.genre }}</td>
         </ng-container>
 
         <ng-container matColumnDef="language">
-          <th mat-header-cell *matHeaderCellDef>Lingua</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Lingua</th>
           <td mat-cell *matCellDef="let film">{{ film.language }}</td>
         </ng-container>
 
         <ng-container matColumnDef="cost">
-          <th mat-header-cell *matHeaderCellDef>Costo</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo</th>
           <td mat-cell *matCellDef="let film">{{ film.cost }} € </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Noleggio</th>
           <th mat-header-cell *matHeaderCellDef>Noleggio</th>
-          <td mat-cell *matCellDef="let film"> <button (click)="openRentComponent(film)" mat-button>Noleggia</button></td>
+          <td mat-cell *matCellDef="let film" aria-label="Bottone per noleggio film"> <button (click)="openRentComponent(film)" mat-button>Noleggia</button></td>
         </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
     </mat-table>
-    <mat-paginator [pageIndex]="currentPageNumber" [length]="totalResults" (page)="onPageChange($event)" [pageSizeOptions]="[10, 20, 30]" [pageSize]="currentPageSize" showFirstLastButtons ></mat-paginator>
+    <mat-paginator [pageIndex]="currentPageNumber"
+                   [length]="totalResults"
+                   (page)="onPageChange($event)"
+                   [pageSizeOptions]="[10, 20, 30]"
+                   [pageSize]="currentPageSize" showFirstLastButtons
+                   aria-label="Pulsanti per la navigazione della pagina">
+    </mat-paginator>
   </div>
 </mat-sidenav-content>
 </mat-sidenav-container>

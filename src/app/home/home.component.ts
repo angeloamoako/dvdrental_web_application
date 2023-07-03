@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
@@ -11,6 +11,7 @@ import { Subscription, take} from "rxjs";
 import {NotificationService} from "../services/notification.service";
 import {RentModalComponent} from "../rent-modal/rent-modal.component";
 
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //@ViewChild(MatPaginator) paginator!: MatPaginator;
   private subscription!: Subscription;
+  @ViewChild(MatSort) sort!: MatSort;
+  // ! per dire che oggetto non è NULL
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
               private logoutService: LogoutService,
@@ -57,10 +60,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-
   openMovieDetails(movie: any) {
     let actors: any;
     let storesWithFilm: any;
+    let copiesForStore:Map<String, number> = new Map();
 
     this.filmService.getActorsByFilm(movie.title)
       .pipe(take(1))
@@ -91,7 +94,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  openRentComponent(movie: any){
+  openRentComponent(movie: any) {
     // recupero i negozi che hanno copie disponibili del film richiesto
     let storesWithFilm;
     this.filmService.getStoresWithSpecifiedFilmAndNumCopies(movie.title)
@@ -102,7 +105,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           const modalRef = this.dialog.open(RentModalComponent,
             {
-              data: {movie: movie, storesWithFilm: storesWithFilm }
+              data: {movie: movie, storesWithFilm: storesWithFilm}
             });
 
 
@@ -110,8 +113,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log("filmService.getStoresWithSpecifiedFilmAndNumCopies - errore durante la query: ", error);
         }
       )
-
-
   }
 
 
@@ -164,7 +165,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           // aggiungo un paginator per gestire il passaggio da una pagina all'altra
           this.datasource = new MatTableDataSource(this.films);
           this.totalResults = queryOutput.totalResults;
-
+          this.datasource.sort = this.sort;
         },
         (error) => {
           console.log(`Si è verificato un errore durante la query: ${error}`);

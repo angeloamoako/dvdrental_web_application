@@ -8,20 +8,6 @@
   justify-content: flex-start;
 }
 
-.avatar{
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #3D00E0;
-  color: #fff;
-  text-align: center;
-  line-height: 50px;
-  font-size: 24px;
-  font-weight: bold;
-  align-self: center;
-  margin-top: 5px
-}
-
 .user{
   font-size: 24px;
   align-self: center;
@@ -42,7 +28,7 @@ table{
 th,
 td {
   padding: 1%;
-  text-align: center;
+  text-align: left;
 }
 
 th {
@@ -78,4 +64,8 @@ td {
 
 .bottom-menu{
   margin-right: 20px;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
 }
