@@ -61,7 +61,7 @@
   </div>
 </div>
 
-<div mat-dialog-actions *ngIf="this.data.fromHomePage">
-  <button (click)="openRentModal()" mat-stroked-button> Noleggia </button>
+<div mat-dialog-actions >
+  <button *ngIf="this.data.fromHomePage" (click)="openRentModal()" mat-stroked-button> Noleggia </button>
   <button mat-button mat-dialog-close> Chiudi</button>
 </div>

@@ -56,7 +56,7 @@ export class PersonalRentalComponent implements OnInit{
 
     let actors: any;
     let storesWithFilm: any;
-
+    console.log("Selected movie details: ", movie);
     this.filmService.getActorsByFilm(movie.title)
       .pipe(take(1))
       .subscribe((outputQueryActors) => {

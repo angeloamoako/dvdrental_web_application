@@ -67,6 +67,9 @@ const GET_PAST_RENTALS = gql`
       rental_date
       return_date
       amount
+      duration
+      length
+      description
     }
   }
 `;
@@ -76,9 +79,9 @@ const GET_ACTIVE_RENTALS = gql`
   query getActiveRentalsForUser($customer_id: Int){
     activeRentals(customer_id: $customer_id){
       title
-      rental_date
-      return_date
-      amount
+      duration
+      length
+      description
     }
   }
 `;

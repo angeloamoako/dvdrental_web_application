@@ -31,6 +31,9 @@ type Rental {
   return_date: Date
   amount: Float
   category: String
+  length: Int
+  duration: Int
+  description: String
 }
 
 type Store {
