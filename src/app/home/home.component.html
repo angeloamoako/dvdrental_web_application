@@ -85,8 +85,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </mat-table>
-    <mat-paginator [pageIndex]="currentPageNumber"
-                   [length]="totalResults"
+    <mat-paginator [length]="totalResults"
                    (page)="onPageChange($event)"
                    [pageSizeOptions]="[10, 20, 30]"
                    [pageSize]="currentPageSize" showFirstLastButtons

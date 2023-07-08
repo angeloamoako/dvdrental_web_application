@@ -5,7 +5,7 @@ import { DetailsComponent } from '../details/details.component';
 import { Router } from '@angular/router';
 import {LogoutService} from "../services/logout.service";
 import {MatTableDataSource} from "@angular/material/table";
-import {PageEvent} from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {FilmService} from "../services/film.service";
 import { Subscription, take} from "rxjs";
 import {NotificationService} from "../services/notification.service";
@@ -33,10 +33,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentPageNumber: number = 0;
   totalResults!: number;
   datasource: any;
+  notFromPageChange: boolean = true;
 
   //@ViewChild(MatPaginator) paginator!: MatPaginator;
   private subscription!: Subscription;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   // ! per dire che oggetto non è NULL
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
@@ -123,6 +126,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       vicine l'una dall'altra.
      */
     const wait = setTimeout(() => {
+      this.currentPageNumber = 0;
+      this.notFromPageChange = true;
       this.callPaginatedFilmAPI();
     }, 500);
 
@@ -130,6 +135,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   searchByCategory() {
     console.log('Categoria selezionata:', this.selectedCategory);
+    this.paginator.pageIndex = 0;
+    this.notFromPageChange = true;
     this.callPaginatedFilmAPI();
   }
 
@@ -152,11 +159,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(`Current page-size: ${event.pageSize}`);
     this.currentPageSize = event.pageSize;
     console.log("Pagine totali: ",event.length);
+    this.notFromPageChange = false;
 
     this.callPaginatedFilmAPI();
   }
 
   callPaginatedFilmAPI(){
+    console.log("callPaginatedFilmAPI() with params: ");
+    console.log(`currentPageNumber: ${this.currentPageNumber}\ncurrentPageSize: ${this.currentPageSize}\ncategory: ${this.selectedCategory}`)
     this.filmService.getPaginatedFilms(this.searchFilter, this.currentPageNumber, this.currentPageSize, this.selectedCategory)
       .subscribe((queryOutput) => {
           console.log(`Risultato della query con parametri pageNumber: ${this.currentPageNumber} pageSize: ${this.currentPageSize}`);
@@ -165,15 +175,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           // aggiungo un paginator per gestire il passaggio da una pagina all'altra
           this.datasource = new MatTableDataSource(this.films);
-          this.totalResults = queryOutput.totalResults;
           this.datasource.sort = this.sort;
+          this.paginator.length = queryOutput.totalResults;
+
+          if ((this.searchFilter != '' || this.selectedCategory != '') && this.notFromPageChange){
+            this.notFromPageChange = false;
+            this.paginator.pageIndex = 0;
+            console.log("UPDATED: Paginator page index: ", this.paginator.pageIndex);
+          }
         },
         (error) => {
           console.log(`Si è verificato un errore durante la query: ${error}`);
           this.logoutService.logout();
         });
 
-    this.currentPageNumber = 0;
+    //this.currentPageNumber = 0;
   }
 
 }
