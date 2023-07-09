@@ -16,8 +16,8 @@
 
     <p>Seleziona un negozio</p>
     <mat-form-field>
-      <mat-label for="store-select">Negozio</mat-label>
-      <mat-select id="store-select" [(ngModel)]="selectedStore" aria-label="Seleziona un negozio tra quelli in lista">
+      <mat-label>Negozio</mat-label>
+      <mat-select [(ngModel)]="selectedStore" aria-label="Seleziona un negozio tra quelli in lista">
         <mat-option *ngFor="let store of this.storesWithAvailableCopies" [value]="store.address">
           {{store.address }}
         </mat-option>

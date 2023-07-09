@@ -28,6 +28,12 @@ const GET_FILMS = gql`
 
 `;
 
+const GET_CATEGORIES = gql`
+  query{
+    categories {
+      category_name
+    }
+  }`;
 
 const GET_PAGINATED_FILMS = gql`
   query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String){
@@ -116,7 +122,9 @@ const INSERT_RENT = gql`
 }
 `;
 
-export { GET_ACTORS,
+export {
+        GET_CATEGORIES,
+        GET_ACTORS,
         GET_FILMS,
         GET_ACTORS_BY_FILM,
         GET_PAST_RENTALS,

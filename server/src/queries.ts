@@ -151,7 +151,6 @@ const getActiveRentals = (customer_id) => {
         reject(error);
       }else{
         let output = results.rows;
-        console.log("Prima data: ", results.rows[0].rental_date)
         resolve(output);
       }
     });
@@ -285,6 +284,23 @@ const insertNewRent = (film_title, store_id, customer_id, rental_date) => {
 }
 
 
+const getCategories = () => {
+  const q = `SELECT name AS category_name FROM category`;
+
+  return new Promise((resolve, reject) =>{
+    pool.query(q, (error, results) =>{
+      if (error){
+        reject(error);
+      } else{
+        let output = results.rows;
+        resolve(output);
+      }
+    });
+  })
+
+}
+
+
 export default {
   getFilms,
   getPaginatedFilms,
@@ -295,5 +311,6 @@ export default {
   storesWithSelectedFilmAvailable,
   getStaffForStore,
   insertNewRent,
+  getCategories,
   poolDbUsers,
 }

@@ -18,22 +18,33 @@
       <div class="table" *ngIf="pastRentalsFilms.length > 0; else noRentals">
         <table mat-table [dataSource]="datasource">
           <ng-container matColumnDef="title">
-            <th class="button-header" (click)="orderBy('title')" mat-header-cell *matHeaderCellDef>Titolo</th>
-            <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
+            <th class="button-header" mat-header-cell *matHeaderCellDef>
+              <button (click)="orderBy('title')" mat-button tabindex="0">Titolo</button>
+            </th>
+            <td mat-cell *matCellDef="let film">
+              <button (click)="openMovieDetails(film)" mat-button tabindex="0">{{ film.title }}</button>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="rental_date">
-            <th class="button-header" (click)="orderBy('rental_date')" mat-header-cell *matHeaderCellDef >Data di noleggio</th>
+            <th class="button-header" mat-header-cell *matHeaderCellDef >
+              <button (click)="orderBy('rental_date')" mat-button tabindex="0">Data di noleggio</button>
+            </th>
             <td mat-cell *matCellDef="let film">{{ film.rental_date.split("T")[0] }}</td>
           </ng-container>
 
           <ng-container matColumnDef="return_date">
-            <th class="button-header" (click)="orderBy('return_date')"  mat-header-cell *matHeaderCellDef>Data di consegna</th>
+            <th class="button-header" (click)="orderBy('return_date')"  mat-header-cell *matHeaderCellDef>
+              <button (click)="orderBy('return_date')" mat-button tabindex="0">Data di consegna</button>
+            </th>
             <td mat-cell *matCellDef="let film">{{ film.return_date.split("T")[0] }}</td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
-            <th class="button-header" (click)="orderBy('amount')" mat-header-cell *matHeaderCellDef>Costo</th>
+            <th class="button-header" mat-header-cell *matHeaderCellDef>
+              <button (click)="orderBy('amount')" mat-button tabindex="0">Costo</button>
+            </th>
+
             <td mat-cell *matCellDef="let film">{{ film.amount }}€</td>
           </ng-container>
 

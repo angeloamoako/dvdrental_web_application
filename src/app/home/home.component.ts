@@ -21,6 +21,7 @@ import {MatSort} from "@angular/material/sort";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   films: any[] = [];
+  categories: any[] = [];
   error: any;
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
   searchFilter: string = '';
@@ -49,7 +50,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.filmService.getCategories().subscribe((outputQuery) => {
+      this.categories = outputQuery;
+    }, (error) => {
+      console.log("filmService.getCategories() - Errore durante la chiamata: ", error);
+    })
+
     this.callPaginatedFilmAPI();
+
     this.subscription = this.notificationService.getNotification().subscribe(message => {
       console.log("Notifica ricevuta: ", message);
       console.log("Aggiornamento della vista...");

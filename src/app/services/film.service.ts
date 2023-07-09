@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  GET_ACTORS_BY_FILM,
+  GET_ACTORS_BY_FILM, GET_CATEGORIES,
   GET_PAGINATED_FILMS,
   GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES
 } from '../graphql/graphql.queries';
@@ -32,7 +32,16 @@ export class FilmService {
   }
 
 
-
+  getCategories() {
+    return this.apollo.watchQuery({
+      query: GET_CATEGORIES,
+      fetchPolicy: 'network-only',
+    }).valueChanges
+      .pipe(
+        map( ({data}: any) => data.categories),
+        tap(mappedData => console.log(`Elenco delle categorie: `, mappedData))
+      );
+  }
 
   getActorsByFilm(movieTitle: string){
     return this.apollo.watchQuery({

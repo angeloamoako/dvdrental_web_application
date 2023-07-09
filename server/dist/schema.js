@@ -2,6 +2,11 @@ import queries from './queries.js';
 const typeDefs = `
 scalar Date
 
+type Category {
+  category_id: Int
+  category_name: String
+}
+
 type Actor{
   actor_id: Int
   first_name: String
@@ -51,6 +56,7 @@ type PaginatedFilm {
 type Query {
   actors: [Actor]
   films: [Film]
+  categories: [Category]
   paginatedFilms(pageNumber: Int, pageSize: Int, filmTitle: String, category: String): PaginatedFilm
   actorsFromFilm(filmName: String): [Actor]
   pastRentals(customer_id: Int, category: String): [Rental]
@@ -68,6 +74,9 @@ const resolvers = {
         films: (parent, args, contextValue, info) => {
             console.log("ContextValue: ", contextValue);
             return queries.getFilms();
+        },
+        categories: (parent, args, contextValue, info) => {
+            return queries.getCategories();
         },
         paginatedFilms: (parent, args, contextValue, info) => {
             const pageNumber = args.pageNumber;
