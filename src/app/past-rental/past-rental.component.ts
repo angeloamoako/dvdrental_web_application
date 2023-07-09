@@ -57,7 +57,12 @@ export class PastRentalComponent implements OnInit, OnDestroy{
                 storesWithFilm = outputQueryStoresWithCopies;
                 this.dialog.open(DetailsComponent,
                   {
-                    data: { movie, actors, storesWithFilm }
+                    data: { movie, actors, storesWithFilm },
+                    width: '700px', // Dimensione orizzontale di default
+                    height: 'auto', // Altezza calcolata in base al contenuto
+                    maxWidth: '90vw', // Larghezza massima in viewport width
+                    maxHeight: '90vh', // Altezza massima in viewport height
+
                   });
               },
               (error) => {

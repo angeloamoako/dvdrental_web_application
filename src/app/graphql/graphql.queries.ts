@@ -38,7 +38,7 @@ const GET_PAGINATED_FILMS = gql`
         rating,
         genre,
         language,
-        cost,
+        rental_rate,
         duration,
         length,
         address,
@@ -66,6 +66,7 @@ const GET_PAST_RENTALS = gql`
       title
       rental_date
       return_date
+      rental_rate
       amount
       duration
       length
@@ -81,7 +82,9 @@ const GET_ACTIVE_RENTALS = gql`
       title
       duration
       length
+      rental_rate
       description
+      rental_date
     }
   }
 `;

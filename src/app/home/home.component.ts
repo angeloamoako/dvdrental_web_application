@@ -81,7 +81,11 @@ export class HomeComponent implements OnInit, OnDestroy {
               const fromHomePage:boolean = true;
               this.dialog.open(DetailsComponent,
                 {
-                  data: { movie, actors, storesWithFilm, fromHomePage }
+                  data: { movie, actors, storesWithFilm, fromHomePage },
+                  width: '700px', // Dimensione orizzontale di default
+                  height: 'auto', // Altezza calcolata in base al contenuto
+                  maxWidth: '90vw', // Larghezza massima in viewport width
+                  maxHeight: '90vh', // Altezza massima in viewport height
                 });
           },
             (error) => {

@@ -21,6 +21,11 @@
         <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="rental_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data di inizio noleggio</th>
+        <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.rental_date }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="rental_rate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tariffa giornaliera</th>
         <td mat-cell *matCellDef="let film">{{ film.rental_rate }}€</td>

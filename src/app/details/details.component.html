@@ -5,63 +5,61 @@
 
 <div mat-dialog-content>
   <mat-card>
-    <mat-card-title>Descrizione</mat-card-title>
-    <mat-card-content>
-      {{ data.movie.description }}
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card>
-    <mat-card-title>Cast</mat-card-title>
+    <mat-card-header>
+      <mat-card-title>Informazioni sul film</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
 
-      <div *ngFor="let actor of actors" class="todo">
-        {{ actor.first_name }} {{ actor.last_name }}
+      <div class="film-details">
+        <div class="film-detail-row">
+          <div class="film-detail-label">Trama:</div>
+          <div class="film-detail-value">{{ data.movie.description }}</div>
+        </div>
+
+        <div class="film-detail-row">
+          <div class="film-detail-label">Attori:</div>
+          <div class="film-detail-value">
+            <ng-container *ngFor="let actor of actors; let last = last">
+              {{ actor.first_name }} {{ actor.last_name }}
+              <ng-container *ngIf="!last">, </ng-container>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="film-detail-row">
+          <div class="film-detail-label">Durata:</div>
+          <div class="film-detail-value">{{ data.movie.length }} minuti</div>
+        </div>
+
+        <div class="film-detail-row">
+          <div class="film-detail-label">Durata massima del noleggio:</div>
+          <div class="film-detail-value">Puoi noleggiare questo film per un massimo di {{ data.movie.duration }}
+          giorni ad una tariffa di {{data.movie.rental_rate}}€/giorno. Superato il periodo massimo di noleggio la tariffa
+            giornaliera subirà una maggiorazione.</div>
+
+        </div>
+      </div>
+
+
+      Questo film è disponibile nei seguenti negozi:
+      <div class="table">
+        <table>
+          <tr>
+            <th> Indirizzo </th>
+            <th> Copie disponibili </th>
+          </tr>
+
+          <tr *ngFor="let store of storesWithFilm" >
+            <td style="text-align: center"> {{ store.address }}</td>
+            <td style="text-align: center"> {{ store.numero_copie }}</td>
+          </tr>
+        </table>
+
       </div>
     </mat-card-content>
+    <mat-card-actions align="end">
+      <button *ngIf="this.data.fromHomePage" (click)="openRentModal()" mat-stroked-button> Noleggia </button>
+      <button mat-button mat-dialog-close> Chiudi</button>
+    </mat-card-actions>
   </mat-card>
-
-  <mat-card>
-    <mat-card-title>Durata</mat-card-title>
-    <mat-card-content>
-      {{ data.movie.length }} minuti
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card>
-    <mat-card-title>Durata massima del noleggio </mat-card-title>
-    <mat-card-content>
-      {{data.movie.duration}} giorni(?)
-    </mat-card-content>
-  </mat-card>
-
-
-
-  <!--
-  Lunghezza del film: {{ data.movie.length }} minuti<br>
-  Durata massima del noleggio: {{data.movie.duration}} giorni(?) <br>
-  Descrizione: {{ data.movie.description }} -->
-  Questo film è disponibile nei seguenti negozi:
-
-
-  <div class="table">
-    <table>
-      <tr>
-        <th> Indirizzo </th>
-        <th> Copie disponibili </th>
-      </tr>
-
-      <!-- La pipe keyvalue di Angular trasforma una mappa in un array di coppie chiave-valore.  -->
-      <tr *ngFor="let store of storesWithFilm" >
-        <td style="text-align: center"> {{ store.address }}</td>
-        <td style="text-align: center"> {{ store.numero_copie }}</td>
-      </tr>
-    </table>
-
-  </div>
-</div>
-
-<div mat-dialog-actions >
-  <button *ngIf="this.data.fromHomePage" (click)="openRentModal()" mat-stroked-button> Noleggia </button>
-  <button mat-button mat-dialog-close> Chiudi</button>
 </div>

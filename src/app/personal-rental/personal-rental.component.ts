@@ -22,7 +22,7 @@ export class PersonalRentalComponent implements OnInit{
   userFirstName = sessionStorage.getItem('firstName') as string;
   userLastName = sessionStorage.getItem('lastName') as string;
   activeRentalsFilms: any[] = [];
-  displayedColumns: string[] = ['title', 'rental_rate'];
+  displayedColumns: string[] = ['title', 'rental_date','rental_rate'];
   isSidenavOpen: boolean = false;
 
   constructor(private apollo: Apollo,
@@ -69,7 +69,11 @@ export class PersonalRentalComponent implements OnInit{
                 storesWithFilm = outputQueryStoresWithCopies;
                 this.dialog.open(DetailsComponent,
                   {
-                    data: { movie, actors, storesWithFilm }
+                    data: { movie, actors, storesWithFilm },
+                    width: '700px', // Dimensione orizzontale di default
+                    height: 'auto', // Altezza calcolata in base al contenuto
+                    maxWidth: '90vw', // Larghezza massima in viewport width
+                    maxHeight: '90vh', // Altezza massima in viewport height
                   });
               },
               (error) => {

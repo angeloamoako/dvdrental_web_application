@@ -15,7 +15,7 @@ type Film {
   rating: String
   genre: String
   language: String
-  cost: Float
+  rental_rate: Float
   length: Int
   duration: Int
   store_id: Int
@@ -31,8 +31,10 @@ type Rental {
   return_date: Date
   amount: Float
   category: String
+  rental_rate: Float
   length: Int
   duration: Int
+
   description: String
 }
 

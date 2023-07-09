@@ -53,7 +53,7 @@ const getFilms = () => {
 const getPaginatedFilms = (pageNumber, pageSize, filmTitle, category) => {
   /* Funzione che restituisce un elenco di film paginato */
 
-  const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost, F.length,
+  const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate, F.length,
                               F.rental_duration  AS duration, F.description
                      FROM film F JOIN inventory I ON F.film_id = I.film_id
                         JOIN film_category FC ON F.film_id = FC.film_id
@@ -111,7 +111,7 @@ const getActorFromSpecificFilm = (filmName) =>{
 const getPastRentals = (customer_id, category) => {
   /* Query che recupera i film noleggiati in passato dall'utente specificato  */
   const q = `SELECT F.title, R.rental_date, F.description, R.return_date,
- P.amount, CAT.name AS category, F.rental_duration  AS duration, F.length
+ P.amount, CAT.name AS category, F.rental_duration  AS duration, F.length, F.rental_rate
         FROM film F JOIN inventory I ON F.film_id = I.film_id
             JOIN film_category FC ON FC.film_id = F.film_id
             JOIN category CAT ON CAT.category_id = FC.category_id
@@ -137,7 +137,8 @@ const getPastRentals = (customer_id, category) => {
 
 const getActiveRentals = (customer_id) => {
   /* Query che recuepera i film che l'utente specificato sta noleggiando attualmente  */
-  const q = `SELECT F.title, F.rental_duration  AS duration, F.length, F.description
+  const q = `SELECT F.title, F.rental_duration  AS duration, F.length, F.description,
+                                        R.rental_date, F.rental_rate
         FROM film F JOIN inventory I ON F.film_id = I.film_id
             JOIN rental R ON R.inventory_id = I.inventory_id
             JOIN customer C ON C.customer_id = R.customer_id
@@ -150,6 +151,7 @@ const getActiveRentals = (customer_id) => {
         reject(error);
       }else{
         let output = results.rows;
+        console.log("Prima data: ", results.rows[0].rental_date)
         resolve(output);
       }
     });
