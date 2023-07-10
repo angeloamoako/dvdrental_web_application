@@ -4,6 +4,7 @@
         <mat-form-field class="search-container">
           <mat-label> Ricerca per categoria </mat-label>
           <mat-select aria-label="Seleziona categoria" [(ngModel)]="selectedCategory" (selectionChange)="searchBy()" (focus)="onCategorySearchFieldFocus()" (blur)="onCategorySearchFieldBlur()">
+            <mat-option value="">Tutte le categorie</mat-option>
             <mat-option *ngFor="let category of this.categories" [value]="category.category_name" [class.selected-category]="selectedCategory === ''"> {{ category.category_name }}  </mat-option>
           </mat-select>
         </mat-form-field>

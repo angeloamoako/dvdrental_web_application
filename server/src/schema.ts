@@ -55,9 +55,9 @@ type PaginatedFilm {
 }
 
 type Query {
-  actors: [Actor]
-  films: [Film]
-  categories: [Category]
+  actors: [Actor!]!
+  films: [Film!]!
+  categories: [Category!]!
   paginatedFilms(pageNumber: Int, pageSize: Int, filmTitle: String, category: String, orderByAttribute: String): PaginatedFilm
   actorsFromFilm(filmName: String): [Actor]
   pastRentals(customer_id: Int, category: String): [Rental]
