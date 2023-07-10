@@ -111,7 +111,7 @@ const GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES = gql`
 
 
 const INSERT_RENT = gql`
-  mutation insertRent($filmTitle: String, $storeId: Int, $rentalDate: String) {
+  mutation insertRent($filmTitle: String!, $storeId: Int!, $rentalDate: String!) {
   insertRent(film_title: $filmTitle, store_id: $storeId, rental_date: $rentalDate)
 }
 `;

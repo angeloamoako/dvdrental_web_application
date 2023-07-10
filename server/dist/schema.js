@@ -65,7 +65,7 @@ type Query {
 }
 
 type Mutation {
-  insertRent(film_title: String, store_id: Int, customer_id: Int, rental_date: String): Int
+  insertRent(film_title: String!, store_id: Int!, customer_id: Int, rental_date: String!): Int
 }
 `;
 const resolvers = {
