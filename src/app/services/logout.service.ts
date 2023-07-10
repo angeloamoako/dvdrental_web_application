@@ -11,6 +11,7 @@ export class LogoutService {
     console.log("logoutService - entered");
     window.alert("Sessione scaduta, stai per essere rediretto alla pagina di login.");
     // pulisco il session storage e redirigo l'utente alla pagina di login
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 }

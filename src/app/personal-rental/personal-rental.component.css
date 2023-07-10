@@ -8,21 +8,13 @@
   justify-content: flex-start;
 }
 
-.user{
-  font-size: 24px;
-  align-self: center;
-}
-
-.rentals-past-style,
-.bottom-home{
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-table{
-  width: 100%;
+.table{
+  width: 90%;
   border-collapse: collapse;
+  margin: 0 auto;
+  text-align: center;
+  overflow-x: auto;
+  border: 1px solid #ccc;
 }
 
 th,
@@ -37,7 +29,6 @@ th {
 }
 
 td {
-  min-width: 10%;
   border-bottom: 1px solid #ccc;
 }
 
@@ -46,26 +37,6 @@ td {
 }
 
 .sidenav-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #eee;
+  background-color: white;
 }
 
-.bottom-style{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-.bottom-menu{
-  margin-right: 20px;
-}
-
-th.mat-sort-header-sorted {
-  color: black;
-}

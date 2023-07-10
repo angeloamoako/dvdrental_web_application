@@ -8,21 +8,13 @@
   justify-content: flex-start;
 }
 
-.user{
-  font-size: 24px;
-  align-self: center;
-}
-
-.personal-rental-style,
-.bottom-home{
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-table{
-  width: 100%;
+.table{
+  width: 90%;
   border-collapse: collapse;
+  margin: 0 auto;
+  text-align: center;
+  overflow-x: auto;
+  border: 1px solid #ccc;
 }
 
 th,
@@ -37,7 +29,6 @@ th {
 }
 
 td {
-  min-width: 10%;
   border-bottom: 1px solid #ccc;
 }
 
@@ -45,23 +36,24 @@ td {
   cursor: pointer;
 }
 
+.card-style{
+  width: 20%;
+  text-align: center;
+  border-collapse: collapse;
+  margin: 0 auto 20px;
+}
+
+@media (max-width: 600px) {
+  .card-style {
+    width: 50%;
+  }
+
+  .table th,
+  .table td {
+    min-width: 80px;
+  }
+}
+
 .sidenav-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #eee;
-}
-
-.bottom-style{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-.bottom-menu{
-  margin-right: 20px;
+  background-color: white;
 }

@@ -24,10 +24,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { LogoutService } from "./services/logout.service";
-import { RentModalComponent } from './rent-modal/rent-modal.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
-
-
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -36,7 +34,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     LoginComponent,
     PastRentalComponent,
     PersonalRentalComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -62,9 +59,11 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MatDatepickerModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule
   ],
   providers: [LogoutService],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

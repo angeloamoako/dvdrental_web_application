@@ -42,7 +42,6 @@ export class RentService {
 
   }
 
-
   getPastRentals(customer_id: number): Observable<any> {
     return this.apollo.watchQuery({
       query: GET_PAST_RENTALS,
@@ -53,8 +52,6 @@ export class RentService {
         map( (outputQueryPastRentals:any) => outputQueryPastRentals.data.pastRentals),
         tap( (mappedOutput) => console.log("Elenco dei noleggi passati: ", mappedOutput))
       )
-
   }
-
 
 }

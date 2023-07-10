@@ -1,4 +1,3 @@
-// prende le variabili d'ambiente definite nel file  ".env"
 import dotenv from 'dotenv';
 dotenv.config();
 import pkg from 'pg';
@@ -109,6 +108,7 @@ const getPastRentals = (customer_id) => {
             }
             else {
                 let output = results.rows;
+                console.log("LOGGATA:  ", output);
                 resolve(output);
             }
         });

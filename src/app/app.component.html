@@ -1,5 +1,23 @@
 <div class="content" role="main">
-  <router-outlet></router-outlet>
-  <input type="hidden" #selection>
-  <div class="card-container"></div>
+
+  <mat-toolbar color="primary" *ngIf="sessionStorage.getItem('authToken')">
+    <button aria-label="Apri il menu" mat-raised-button color="primary" (click)="toggleSidenav()">Menu</button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav [opened]="isSidenavOpen" mode="side" class="sidenav">
+      <div>
+        <button class="toolbar-style" mat-raised-button color="primary" aria-label="Ritorna alla Home" (click)="backToHome()">HomePage</button>
+        <button class="toolbar-style" mat-raised-button color="primary" aria-label="Pagina noleggi passati" (click)="openPastRental()">Noleggi passati</button>
+        <button class="toolbar-style" mat-raised-button color="primary" aria-label="Pagina noleggi attivi" (click)="openPersonalRental()">Noleggi attivi</button>
+        <button class="toolbar-style" mat-raised-button color="primary" aria-label="Esci dall'applicazione" (click)="logout()">Logout</button>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="body-stile">
+      <router-outlet></router-outlet>
+      <input type="hidden" #selection>
+      <div class="card-container"></div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

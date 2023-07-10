@@ -1,6 +1,5 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Apollo } from "apollo-angular";
-import { GET_PAST_RENTALS } from "../graphql/graphql.queries";
 import { Router } from "@angular/router";
 import { DetailsComponent } from "../details/details.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -8,8 +7,6 @@ import {take} from "rxjs";
 import {FilmService} from "../services/film.service";
 import {LogoutService} from "../services/logout.service";
 import {RentService} from "../services/rent.service";
-import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-past-rental',
@@ -17,18 +14,12 @@ import {MatTableDataSource} from "@angular/material/table";
   styleUrls: ['./past-rental.component.css']
 })
 export class PastRentalComponent implements OnInit, OnDestroy{
-  private querySubscription: any;
   error: any;
   customer_id: any = parseInt(sessionStorage.getItem('customer_id') as string);
-  userFirstName = sessionStorage.getItem('firstName') as string;
-  userLastName = sessionStorage.getItem('lastName') as string;
   pastRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
   totalAmount: number = 0;
-  isSidenavOpen: boolean = false;
-  datasource: any;
 
-  @ViewChild(MatSort) sort!: MatSort;
   constructor(private apollo: Apollo, private dialog: MatDialog,
               private router: Router,
               private filmService: FilmService,
@@ -36,27 +27,22 @@ export class PastRentalComponent implements OnInit, OnDestroy{
               private logoutService: LogoutService) {  }
 
   ngOnInit(): void {
-
+    console.log("TEST: ", this.customer_id)
     this.rentalService.getPastRentals(this.customer_id)
       .pipe(take(1))
       .subscribe((outputQuery) => {
         this.pastRentalsFilms = outputQuery;
+        console.log("TYPESCRIPT: ", outputQuery);
+        console.log("TYPESCRIPT: ", this.pastRentalsFilms);
 
-        // dentro la funzione perché è asincrona
         for (let i = 0; i < this.pastRentalsFilms.length; i++) {
           this.totalAmount += this.pastRentalsFilms[i].amount;
         }
-        // per arrotondare due cifre dopo la virgola
-        this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
-        this.datasource = new MatTableDataSource(this.pastRentalsFilms);
 
-        // DA SISTEMARE
-        setTimeout(() => {
-          this.datasource.sort = this.sort;
-        }, 1000);
+        this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
 
       }, (error) => {
-        console.log("rentalService.getPastRentals - c'è stato un errore durante la query: ", error);
+        console.log("rentalService.getPastRentals - ERRORE durante la query: ", error);
       })
 
   }
@@ -70,7 +56,6 @@ export class PastRentalComponent implements OnInit, OnDestroy{
       .subscribe((outputQueryActors) => {
           actors = outputQueryActors;
 
-          // recupero i negozi che hanno copie disponibili del film
           this.filmService.getStoresWithSpecifiedFilmAndNumCopies(movie.title)
             .pipe(take(1))
             .subscribe((outputQueryStoresWithCopies) => {
@@ -94,17 +79,5 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void{
-  }
-
-  backToHome(){
-    this.router.navigate(['/home']);
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
-  openPersonalRental() {
-    this.router.navigate(['/personalRental']);
   }
 }

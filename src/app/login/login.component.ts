@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent{
   customer_id!: number;
   userpassword!: string;
+
   constructor(private router: Router, private httpClient: HttpClient) {}
   headers = new Headers();
 
@@ -31,7 +34,7 @@ export class LoginComponent{
           sessionStorage.setItem('firstName', firstName);
           sessionStorage.setItem('lastName', lastName);
           sessionStorage.setItem('customer_id', String(this.customer_id));
-
+          // Salvo il token nel session storage così posso inviarlo nelle richieste successive
           const token = response.authToken;
 
 
@@ -39,6 +42,7 @@ export class LoginComponent{
             customer_id: this.customer_id, firstName: firstName, lastName: lastName }});
         },
         error => {
+          //console.log('Login failed:', error);
           this.router.navigate(['/login']);
         }
       );

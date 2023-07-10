@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
@@ -25,25 +25,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['title', 'release_year', 'rating', 'genre', 'language', 'cost', 'action'];
   searchFilter: string = '';
   selectedCategory: string = '';
-  customer_id: any = parseInt(sessionStorage.getItem('customer_id') as string);
-  userFirstName = sessionStorage.getItem('firstName') as string;
-  userLastName = sessionStorage.getItem('lastName') as string;
-  isSidenavOpen: boolean = false;
   currentPageSize: number = 20;
   currentPageNumber: number = 0;
   totalResults!: number;
-  datasource: any;
-
-  //@ViewChild(MatPaginator) paginator!: MatPaginator;
   private subscription!: Subscription;
-  @ViewChild(MatSort) sort!: MatSort;
-  // ! per dire che oggetto non è NULL
+  categorySearchFieldFocused: boolean = false;
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
               private logoutService: LogoutService,
               public filmService: FilmService,
               private notificationService: NotificationService) { }
-
 
   ngOnInit(): void {
     this.callPaginatedFilmAPI();
@@ -115,9 +106,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
   }
 
-
   searchBy(){
-
     /* ritardo la chiamata ad API nel filtro di ricerca per evitare che le richieste arrivino al server troppo
       vicine l'una dall'altra.
      */
@@ -127,45 +116,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
-  searchByCategory() {
-    console.log('Categoria selezionata:', this.selectedCategory);
-    this.callPaginatedFilmAPI();
-  }
-
-  openPastRental() {
-    this.router.navigate(['/pastRental']);
-  }
-
-
-  openPersonalRental() {
-    this.router.navigate(['/personalRental']);
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
   onPageChange(event: PageEvent){
-    console.log(`Current page: ${event.pageIndex}`);
+    //console.log(`Current page: ${event.pageIndex}`);
     this.currentPageNumber = event.pageIndex;
-    console.log(`Current page-size: ${event.pageSize}`);
+    //console.log(`Current page-size: ${event.pageSize}`);
     this.currentPageSize = event.pageSize;
-    console.log("Pagine totali: ",event.length);
-
+    //console.log("Pagine totali: ",event.length);
     this.callPaginatedFilmAPI();
   }
 
   callPaginatedFilmAPI(){
     this.filmService.getPaginatedFilms(this.searchFilter, this.currentPageNumber, this.currentPageSize, this.selectedCategory)
       .subscribe((queryOutput) => {
-          console.log(`Risultato della query con parametri pageNumber: ${this.currentPageNumber} pageSize: ${this.currentPageSize}`);
-          console.log(queryOutput);
+          //console.log(`Risultato della query con parametri pageNumber: ${this.currentPageNumber} pageSize: ${this.currentPageSize}`);
+          //console.log(queryOutput);
           this.films = queryOutput.filmList;
 
           // aggiungo un paginator per gestire il passaggio da una pagina all'altra
-          this.datasource = new MatTableDataSource(this.films);
           this.totalResults = queryOutput.totalResults;
-          this.datasource.sort = this.sort;
         },
         (error) => {
           console.log(`Si è verificato un errore durante la query: ${error}`);
@@ -173,6 +141,32 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
 
     this.currentPageNumber = 0;
+  }
+
+  onCategorySearchFieldFocus() {
+    this.categorySearchFieldFocused = true;
+  }
+
+  onCategorySearchFieldBlur() {
+    this.categorySearchFieldFocused = false;
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (!this.categorySearchFieldFocused) {
+      return;
+    }
+
+    const options = ['', 'Action', 'Animation', 'Children', 'Classics', 'Comedy', 'Documentary', 'Drama', 'Family', 'Foreign', 'Games', 'Horror', 'Music', 'New', 'Sci-Fi', 'Sport', 'Travel'];
+    const currentIndex = options.indexOf(this.selectedCategory);
+
+    if (event.key === 'ArrowUp' && currentIndex > 0) {
+      this.selectedCategory = options[currentIndex - 1];
+      this.searchBy();
+    } else if (event.key === 'ArrowDown' && currentIndex < options.length - 1) {
+      this.selectedCategory = options[currentIndex + 1];
+      this.searchBy();
+    }
   }
 
 }

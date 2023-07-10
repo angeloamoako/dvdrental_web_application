@@ -1,9 +1,7 @@
-// prende le variabili d'ambiente definite nel file  ".env"
 import dotenv from 'dotenv';
 dotenv.config();
 import pkg from 'pg';
 const { Pool } = pkg;
-
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -124,6 +122,7 @@ const getPastRentals = (customer_id) => {
         reject(error);
       }else{
         let output = results.rows;
+        console.log("LOGGATA:  ", output);
         resolve(output);
       }
     });

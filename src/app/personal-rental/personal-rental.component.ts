@@ -24,7 +24,6 @@ export class PersonalRentalComponent implements OnInit{
   userLastName = sessionStorage.getItem('lastName') as string;
   activeRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_rate'];
-  isSidenavOpen: boolean = false;
 
   constructor(private apollo: Apollo,
               private dialog: MatDialog,
@@ -32,9 +31,6 @@ export class PersonalRentalComponent implements OnInit{
               private filmService: FilmService,
               private rentService: RentService,
               private logoutService: LogoutService) {}
-  datasource: any;
-
-  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
 
@@ -42,10 +38,8 @@ export class PersonalRentalComponent implements OnInit{
       .pipe(take(1))
       .subscribe( (outputQueryActiveRentals) => {
         this.activeRentalsFilms = outputQueryActiveRentals;
-        this.datasource = new MatTableDataSource(this.activeRentalsFilms);
 
         setTimeout(() => {
-          this.datasource.sort = this.sort;
         }, 1000);
       } , (error) => {
         console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
@@ -85,17 +79,5 @@ export class PersonalRentalComponent implements OnInit{
           this.logoutService.logout();
         })
 
-  }
-
-  backToHome(){
-    this.router.navigate(['/home']);
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
-  openPastRental(){
-    this.router.navigate(['/pastRental']);
   }
 }
