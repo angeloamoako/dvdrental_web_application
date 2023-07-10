@@ -29,11 +29,11 @@ export class RentService {
   }
 
 
-  getActiveRentals(customer_id: number){
+  getActiveRentals(customerId: number, orderByAttribute: String){
     return this.apollo.watchQuery({
       query: GET_ACTIVE_RENTALS,
       fetchPolicy: 'network-only',
-      variables: { customer_id: customer_id }
+      variables: { customerId: customerId, orderByAttribute: orderByAttribute }
     }).valueChanges
       .pipe(
         map((outputQueryActiveRentals: any) => outputQueryActiveRentals.data.activeRentals),
@@ -42,16 +42,19 @@ export class RentService {
 
   }
 
-  getPastRentals(customer_id: number): Observable<any> {
+
+  getPastRentals(customer_id: number, orderByAttribute: string): Observable<any> {
     return this.apollo.watchQuery({
       query: GET_PAST_RENTALS,
       fetchPolicy: 'network-only',
-      variables: {customer_id: customer_id}
+      variables: {customer_id: customer_id, category: orderByAttribute}
     }).valueChanges
       .pipe(
         map( (outputQueryPastRentals:any) => outputQueryPastRentals.data.pastRentals),
         tap( (mappedOutput) => console.log("Elenco dei noleggi passati: ", mappedOutput))
       )
+
   }
+
 
 }

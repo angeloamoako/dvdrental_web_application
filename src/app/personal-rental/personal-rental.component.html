@@ -2,12 +2,31 @@
   <div class="table">
     <mat-table [dataSource]="activeRentalsFilms">
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Titolo</th>
-        <td (click)="openMovieDetails(film)" mat-cell *matCellDef="let film">{{ film.title }}</td>
+        <th mat-header-cell *matHeaderCellDef>
+          <button (click)="orderBy('title')" mat-button tabindex="0">
+            Titolo
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let film">
+          <button (click)="openMovieDetails(film)" mat-button tabindex="0">{{ film.title }}</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rental_date">
+        <th mat-header-cell *matHeaderCellDef>
+          <button (click)="orderBy('rental_date')" mat-button tabindex="0">
+            Data di inizio noleggio
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let film">{{ film.rental_date.split('T')[0] }}</td>
       </ng-container>
 
       <ng-container matColumnDef="rental_rate">
-        <th mat-header-cell *matHeaderCellDef>Tariffa giornaliera</th>
+        <th mat-header-cell *matHeaderCellDef>
+          <button (click)="orderBy('rental_rate')" mat-button tabindex="0">
+            Tariffa giornaliera
+          </button>
+        </th>
         <td mat-cell *matCellDef="let film">{{ film.rental_rate }}€</td>
       </ng-container>
 

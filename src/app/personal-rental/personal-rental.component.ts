@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Apollo} from "apollo-angular";
-import {GET_ACTIVE_RENTALS} from "../graphql/graphql.queries";
 import {Router} from "@angular/router";
 import {DetailsComponent} from "../details/details.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -23,7 +22,9 @@ export class PersonalRentalComponent implements OnInit{
   userFirstName = sessionStorage.getItem('firstName') as string;
   userLastName = sessionStorage.getItem('lastName') as string;
   activeRentalsFilms: any[] = [];
-  displayedColumns: string[] = ['title', 'rental_rate'];
+  displayedColumns: string[] = ['title', 'rental_date','rental_rate'];
+  isSidenavOpen: boolean = false;
+  private orderByAttribute: string = '';
 
   constructor(private apollo: Apollo,
               private dialog: MatDialog,
@@ -31,19 +32,11 @@ export class PersonalRentalComponent implements OnInit{
               private filmService: FilmService,
               private rentService: RentService,
               private logoutService: LogoutService) {}
+  datasource: any;
 
   ngOnInit(): void {
 
-    this.rentService.getActiveRentals(this.customer_id)
-      .pipe(take(1))
-      .subscribe( (outputQueryActiveRentals) => {
-        this.activeRentalsFilms = outputQueryActiveRentals;
-
-        setTimeout(() => {
-        }, 1000);
-      } , (error) => {
-        console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
-      })
+    this.callPersonalRentalAPI();
   }
 
   openMovieDetails(movie: any){
@@ -51,7 +44,7 @@ export class PersonalRentalComponent implements OnInit{
 
     let actors: any;
     let storesWithFilm: any;
-
+    console.log("Selected movie details: ", movie);
     this.filmService.getActorsByFilm(movie.title)
       .pipe(take(1))
       .subscribe((outputQueryActors) => {
@@ -64,7 +57,11 @@ export class PersonalRentalComponent implements OnInit{
                 storesWithFilm = outputQueryStoresWithCopies;
                 this.dialog.open(DetailsComponent,
                   {
-                    data: { movie, actors, storesWithFilm }
+                    data: { movie, actors, storesWithFilm },
+                    width: '700px', // Dimensione orizzontale di default
+                    height: 'auto', // Altezza calcolata in base al contenuto
+                    maxWidth: '90vw', // Larghezza massima in viewport width
+                    maxHeight: '90vh', // Altezza massima in viewport height
                   });
               },
               (error) => {
@@ -79,5 +76,41 @@ export class PersonalRentalComponent implements OnInit{
           this.logoutService.logout();
         })
 
+  }
+
+  orderBy(attribute: string){
+    console.log("Order by attribute: ", attribute);
+    this.orderByAttribute = attribute;
+    this.callPersonalRentalAPI();
+  }
+
+  backToHome(){
+    this.router.navigate(['/home']);
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  openPastRental(){
+    this.router.navigate(['/pastRental']);
+  }
+
+
+
+  callPersonalRentalAPI(){
+    console.log('Calling active rentals with orderByAttr: ', this.orderByAttribute)
+    this.rentService.getActiveRentals(this.customer_id, this.orderByAttribute)
+      .pipe(take(1))
+      .subscribe( (outputQueryActiveRentals) => {
+        this.activeRentalsFilms = outputQueryActiveRentals;
+        this.datasource = new MatTableDataSource(this.activeRentalsFilms);
+
+        setTimeout(() => {
+          this.datasource.sort = this.sort;
+        }, 1000);
+      } , (error) => {
+        console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
+      })
   }
 }

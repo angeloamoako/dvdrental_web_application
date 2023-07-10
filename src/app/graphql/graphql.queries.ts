@@ -28,17 +28,23 @@ const GET_FILMS = gql`
 
 `;
 
+const GET_CATEGORIES = gql`
+  query{
+    categories {
+      category_name
+    }
+  }`;
 
 const GET_PAGINATED_FILMS = gql`
-  query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String){
-    paginatedFilms(pageNumber: $pageNumber, pageSize: $pageSize, filmTitle: $filmTitle, category: $category){
+  query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String, $orderByAttribute: String){
+    paginatedFilms(pageNumber: $pageNumber, pageSize: $pageSize, filmTitle: $filmTitle, category: $category, orderByAttribute: $orderByAttribute){
       filmList {
         title,
         release_year,
         rating,
         genre,
         language,
-        cost,
+        rental_rate,
         duration,
         length,
         address,
@@ -61,26 +67,35 @@ const GET_ACTORS_BY_FILM = gql`
 `;
 
 const GET_PAST_RENTALS = gql`
-  query getPastRentals($customer_id: Int){
-    pastRentals(customer_id: $customer_id){
+  query getPastRentals($customer_id: Int, $category: String){
+    pastRentals(customer_id: $customer_id, category: $category){
       title
       rental_date
       return_date
+      rental_rate
       amount
+      duration
+      length
+      description
     }
   }
 `;
 
 
 const GET_ACTIVE_RENTALS = gql`
-  query getActiveRentalsForUser($customer_id: Int){
-    activeRentals(customer_id: $customer_id){
-      title
-      rental_date
-      return_date
-      amount
-    }
+  query ActiveRentals($customerId: Int, $orderByAttribute: String) {
+  activeRentals(customer_id: $customerId, orderByAttribute: $orderByAttribute) {
+    title
+    rental_date
+    return_date
+    amount
+    category
+    rental_rate
+    length
+    duration
+    description
   }
+}
 `;
 
 
@@ -110,7 +125,9 @@ const INSERT_RENT = gql`
 }
 `;
 
-export { GET_ACTORS,
+export {
+        GET_CATEGORIES,
+        GET_ACTORS,
         GET_FILMS,
         GET_ACTORS_BY_FILM,
         GET_PAST_RENTALS,

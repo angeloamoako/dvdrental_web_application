@@ -1,9 +1,9 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import {MatNativeDateModule} from '@angular/material/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from "@angular/material/dialog";
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { Apollo } from "apollo-angular";
@@ -14,6 +14,7 @@ import { NotificationService } from "../services/notification.service";
 import { FilmService } from "../services/film.service";
 import { take } from "rxjs";
 import {RentService} from "../services/rent.service";
+import {MatCardModule} from "@angular/material/card";
 
 
 @Component({
@@ -21,7 +22,18 @@ import {RentService} from "../services/rent.service";
   templateUrl: './rent-modal.component.html',
   styleUrls: ['./rent-modal.component.css'],
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule, MatButtonModule, FormsModule]
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatButtonModule,
+    FormsModule,
+    MatDialogModule,
+    MatCardModule
+  ]
 })
 export class RentModalComponent implements OnInit, OnDestroy {
   public selectedStore: string = '';

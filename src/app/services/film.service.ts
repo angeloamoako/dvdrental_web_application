@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  GET_ACTORS_BY_FILM,
+  GET_ACTORS_BY_FILM, GET_CATEGORIES,
   GET_PAGINATED_FILMS,
   GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES
 } from '../graphql/graphql.queries';
@@ -15,7 +15,7 @@ export class FilmService {
 
   constructor(private apollo: Apollo) { }
 
-  getPaginatedFilms(searchFilter:string, currentPageNumber: number, currentPageSize: number, selectedCategory: string ): Observable<any> {
+  getPaginatedFilms(searchFilter:string, currentPageNumber: number, currentPageSize: number, selectedCategory: string, orderByAttribute:string ): Observable<any> {
     return this.apollo.watchQuery({
       query: GET_PAGINATED_FILMS,
       fetchPolicy: 'network-only',
@@ -23,7 +23,8 @@ export class FilmService {
         pageNumber: currentPageNumber,
         pageSize: currentPageSize,
         filmTitle: searchFilter,
-        category: selectedCategory
+        category: selectedCategory,
+        orderByAttribute: orderByAttribute
       }
     }).valueChanges
       .pipe(
@@ -32,7 +33,16 @@ export class FilmService {
   }
 
 
-
+  getCategories() {
+    return this.apollo.watchQuery({
+      query: GET_CATEGORIES,
+      fetchPolicy: 'network-only',
+    }).valueChanges
+      .pipe(
+        map( ({data}: any) => data.categories),
+        tap(mappedData => console.log(`Elenco delle categorie: `, mappedData))
+      );
+  }
 
   getActorsByFilm(movieTitle: string){
     return this.apollo.watchQuery({

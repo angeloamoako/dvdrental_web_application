@@ -41,9 +41,9 @@ const getFilms = () => {
         });
     });
 };
-const getPaginatedFilms = (pageNumber, pageSize, filmTitle, category) => {
+const getPaginatedFilms = (pageNumber, pageSize, filmTitle, category, orderByAttribute) => {
     /* Funzione che restituisce un elenco di film paginato */
-    const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate AS cost, F.length,
+    const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate, F.length,
                               F.rental_duration  AS duration, F.description
                      FROM film F JOIN inventory I ON F.film_id = I.film_id
                         JOIN film_category FC ON F.film_id = FC.film_id
@@ -55,7 +55,7 @@ const getPaginatedFilms = (pageNumber, pageSize, filmTitle, category) => {
                       FROM rental
                       WHERE return_date IS NULL
                     ) AND F.title ILIKE $1 AND C.name ILIKE $2
-                    ORDER BY F.title`;
+                    ORDER BY ${orderByAttribute}`;
     return new Promise((resolve, reject) => {
         pool.query(q1, [`%${filmTitle}%`, `%${category}%`], (error, results) => {
             if (error) {
@@ -93,14 +93,18 @@ const getActorFromSpecificFilm = (filmName) => {
         });
     });
 };
-const getPastRentals = (customer_id) => {
+const getPastRentals = (customer_id, category) => {
     /* Query che recupera i film noleggiati in passato dall'utente specificato  */
-    const q = `SELECT F.title, R.rental_date, R.return_date, P.amount
+    const q = `SELECT F.title, R.rental_date, F.description, R.return_date,
+ P.amount, CAT.name AS category, F.rental_duration  AS duration, F.length, F.rental_rate
         FROM film F JOIN inventory I ON F.film_id = I.film_id
+            JOIN film_category FC ON FC.film_id = F.film_id
+            JOIN category CAT ON CAT.category_id = FC.category_id
             JOIN rental R ON R.inventory_id = I.inventory_id
             JOIN customer C ON C.customer_id = R.customer_id
             JOIN payment P ON P.rental_id = R.rental_id
-        WHERE C.customer_id = $1 AND (R.return_date IS NOT NULL)`;
+        WHERE C.customer_id = $1 AND (R.return_date IS NOT NULL)
+        ORDER BY ${category}`;
     return new Promise((resolve, reject) => {
         pool.query(q, [customer_id], (error, results) => {
             if (error) {
@@ -114,16 +118,19 @@ const getPastRentals = (customer_id) => {
         });
     });
 };
-const getActiveRentals = (customer_id) => {
+const getActiveRentals = (customer_id, order_by_attribute) => {
     /* Query che recuepera i film che l'utente specificato sta noleggiando attualmente  */
-    const q = `SELECT F.title
+    const q = `SELECT F.title, F.rental_duration  AS duration, F.length, F.description,
+                                        R.rental_date, F.rental_rate
         FROM film F JOIN inventory I ON F.film_id = I.film_id
             JOIN rental R ON R.inventory_id = I.inventory_id
             JOIN customer C ON C.customer_id = R.customer_id
-        WHERE C.customer_id = $1 AND (R.return_date IS NULL)`;
+        WHERE C.customer_id = $1 AND (R.return_date IS NULL)
+        ORDER BY ${order_by_attribute}`;
     return new Promise((resolve, reject) => {
         pool.query(q, [customer_id], (error, results) => {
             if (error) {
+                console.log("Errore nella query dei noleggi attivi: ", error);
                 reject(error);
             }
             else {
@@ -242,6 +249,20 @@ const insertNewRent = (film_title, store_id, customer_id, rental_date) => {
         });
     });
 };
+const getCategories = () => {
+    const q = `SELECT name AS category_name FROM category`;
+    return new Promise((resolve, reject) => {
+        pool.query(q, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                let output = results.rows;
+                resolve(output);
+            }
+        });
+    });
+};
 export default {
     getFilms,
     getPaginatedFilms,
@@ -252,6 +273,7 @@ export default {
     storesWithSelectedFilmAvailable,
     getStaffForStore,
     insertNewRent,
+    getCategories,
     poolDbUsers,
 };
 //# sourceMappingURL=queries.js.map

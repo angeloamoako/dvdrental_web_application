@@ -1,0 +1,17 @@
+.film-details {
+  margin-bottom: 20px;
+}
+
+.film-detail-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.film-detail-label {
+  width: 200px;
+}
+
+.film-detail-value {
+  flex: 1;
+}
