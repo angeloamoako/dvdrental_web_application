@@ -72,12 +72,12 @@
 
     </mat-table>
 
-    <mat-paginator [length]="totalResults"
+    <mat-paginator class="custom-paginator"
+                   [length]="totalResults"
                    (page)="onPageChange($event)"
                    [pageSizeOptions]="[10, 20, 30]"
                    [pageSize]="currentPageSize"
                    [showFirstLastButtons] = "true"
-                   [ngClass]="'custom-paginator'"
                    aria-label="Pulsanti per la navigazione della pagina">
     </mat-paginator>
   </div>

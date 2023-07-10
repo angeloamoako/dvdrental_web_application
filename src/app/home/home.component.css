@@ -69,9 +69,11 @@ td {
   background-color: white;
 }
 
-.mat-paginator{
-  background-color: #DBDBDB;
+.mat-paginator.custom-paginator .mat-select-panel {
+  background-color: red;
 }
+
+
 
 
 
