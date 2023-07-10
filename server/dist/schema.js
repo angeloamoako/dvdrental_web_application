@@ -57,12 +57,11 @@ type Query {
   actors: [Actor!]!
   films: [Film!]!
   categories: [Category!]!
-  paginatedFilms(pageNumber: Int, pageSize: Int, filmTitle: String, category: String, orderByAttribute: String): PaginatedFilm
-  actorsFromFilm(filmName: String): [Actor]
-  pastRentals(customer_id: Int, category: String): [Rental]
-  activeRentals(customer_id: Int, orderByAttribute: String): [Rental]
-  storesWithSelectedFilmAndNumCopies(film_title: String): [Store]
-  storesWithSelectedFilmAvailable(film_title: String): [Store]
+  paginatedFilms(pageNumber: Int!, pageSize: Int!, filmTitle: String, category: String, orderByAttribute: String): PaginatedFilm
+  actorsFromFilm(filmName: String!): [Actor!]
+  pastRentals(customer_id: Int!, category: String): [Rental!]
+  activeRentals(customer_id: Int!, orderByAttribute: String): [Rental!]
+  storesWithSelectedFilmAndNumCopies(film_title: String!): [Store!]
 }
 
 type Mutation {
@@ -115,10 +114,6 @@ const resolvers = {
         storesWithSelectedFilmAndNumCopies: (parent, args, contextValue, info) => {
             const film_title = args.film_title;
             return queries.storesWithSelectedFilmAndNumCopies(film_title);
-        },
-        storesWithSelectedFilmAvailable: (parent, args, contextValue, info) => {
-            const film_title = args.film_title;
-            return queries.storesWithSelectedFilmAvailable(film_title);
         }
     },
     Mutation: {

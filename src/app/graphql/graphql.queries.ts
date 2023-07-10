@@ -36,7 +36,7 @@ const GET_CATEGORIES = gql`
   }`;
 
 const GET_PAGINATED_FILMS = gql`
-  query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String, $orderByAttribute: String){
+  query getPaginatedFilms($pageNumber: Int!, $pageSize: Int!, $filmTitle: String, $category: String, $orderByAttribute: String){
     paginatedFilms(pageNumber: $pageNumber, pageSize: $pageSize, filmTitle: $filmTitle, category: $category, orderByAttribute: $orderByAttribute){
       filmList {
         title,
@@ -58,7 +58,7 @@ const GET_PAGINATED_FILMS = gql`
 
 
 const GET_ACTORS_BY_FILM = gql`
-  query getActorsByFilm($filmName: String){
+  query getActorsByFilm($filmName: String!){
     actorsFromFilm (filmName: $filmName){
     first_name
     last_name
@@ -67,7 +67,7 @@ const GET_ACTORS_BY_FILM = gql`
 `;
 
 const GET_PAST_RENTALS = gql`
-  query getPastRentals($customer_id: Int, $category: String){
+  query getPastRentals($customer_id: Int!, $category: String){
     pastRentals(customer_id: $customer_id, category: $category){
       title
       rental_date
@@ -83,7 +83,7 @@ const GET_PAST_RENTALS = gql`
 
 
 const GET_ACTIVE_RENTALS = gql`
-  query ActiveRentals($customerId: Int, $orderByAttribute: String) {
+  query ActiveRentals($customerId: Int!, $orderByAttribute: String) {
   activeRentals(customer_id: $customerId, orderByAttribute: $orderByAttribute) {
     title
     rental_date
@@ -100,22 +100,13 @@ const GET_ACTIVE_RENTALS = gql`
 
 
 const GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES = gql`
-  query getStoresWithSpecifiedFilm($film_title: String){
+  query getStoresWithSpecifiedFilm($film_title: String!){
     storesWithSelectedFilmAndNumCopies(film_title: $film_title) {
       address
       store_id
       numero_copie
     }
   }
-`;
-
-const GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE = gql`
-  query StoresWithSelectedFilmAvailable($filmTitle: String) {
-  storesWithSelectedFilmAvailable(film_title: $filmTitle) {
-    address
-    store_id
-  }
-}
 `;
 
 
@@ -134,6 +125,5 @@ export {
   GET_ACTIVE_RENTALS,
   GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
   GET_PAGINATED_FILMS,
-  GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE,
   INSERT_RENT
 }
