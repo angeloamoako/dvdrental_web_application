@@ -110,9 +110,7 @@ const resolvers = {
             let order_by_attribute = args.orderByAttribute;
             if (!order_by_attribute || order_by_attribute === '')
                 order_by_attribute = 'F.title';
-            const output = queries.getActiveRentals(customer_id, order_by_attribute);
-            console.log("output activeRentals: ", output);
-            return output;
+            return queries.getActiveRentals(customer_id, order_by_attribute);
         },
         storesWithSelectedFilmAndNumCopies: (parent, args, contextValue, info) => {
             const film_title = args.film_title;

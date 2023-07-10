@@ -66,14 +66,20 @@ export class PersonalRentalComponent implements OnInit{
               },
               (error) => {
                 console.log(`filmService.getStoresWithSpecifiedFilmAndNumCopies - si è verificato un errore durante la query: ${error}`);
-                this.logoutService.logout();
+                console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+                if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+                  this.logoutService.logout();
+                }
               })
 
 
         },
         (error) => {
           console.log(`filmService.getActorsByFilm - si è verificato un errore durante la query: ${error}`);
-          this.logoutService.logout();
+          console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+          if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+            this.logoutService.logout();
+          }
         })
 
   }
@@ -108,6 +114,10 @@ export class PersonalRentalComponent implements OnInit{
 
       } , (error) => {
         console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
+        console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+        if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+          this.logoutService.logout();
+        }
       })
   }
 }

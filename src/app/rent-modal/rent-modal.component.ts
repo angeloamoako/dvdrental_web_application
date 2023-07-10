@@ -15,6 +15,7 @@ import { FilmService } from "../services/film.service";
 import { take } from "rxjs";
 import {RentService} from "../services/rent.service";
 import {MatCardModule} from "@angular/material/card";
+import {LogoutService} from "../services/logout.service";
 
 
 @Component({
@@ -44,7 +45,8 @@ export class RentModalComponent implements OnInit, OnDestroy {
               private apollo: Apollo, private dialog: MatDialog,
               private notificationService: NotificationService,
               private filmService: FilmService,
-              private rentService: RentService) {
+              private rentService: RentService,
+              private logoutService: LogoutService) {
 
   }
 
@@ -57,6 +59,10 @@ export class RentModalComponent implements OnInit, OnDestroy {
       },
         ({error}) => {
           console.log("filmService.getStoresWithSpecifiedFilmAndNumCopies - c'è stato un errore durante la chiamata: ", error);
+          console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+          if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+            this.logoutService.logout();
+          }
         })
 
   }
@@ -103,6 +109,10 @@ export class RentModalComponent implements OnInit, OnDestroy {
 
       }, (error) =>{
         console.log("rentService.rentMovie - C'è stato un errore durante la query: ", error);
+        console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+        if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+          this.logoutService.logout();
+        }
       })
 
   }

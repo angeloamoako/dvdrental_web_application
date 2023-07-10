@@ -50,6 +50,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.categories = outputQuery;
     }, (error) => {
       console.log("filmService.getCategories() - Errore durante la chiamata: ", error);
+      console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+      if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+        this.logoutService.logout();
+      }
     })
 
     this.callPaginatedFilmAPI();
@@ -94,7 +98,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           },
             (error) => {
               console.log(`filmService.getStoresWithSpecifiedFilmAndNumCopies - si è verificato un errore durante la query: ${error}`);
-              this.logoutService.logout();
+              console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+              if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+                this.logoutService.logout();
+              }
             })
 
 
@@ -123,6 +130,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         }, (error) => {
           console.log("filmService.getStoresWithSpecifiedFilmAndNumCopies - errore durante la query: ", error);
+          console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+          if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+            this.logoutService.logout();
+          }
         }
       )
   }
@@ -202,7 +213,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.log(`Si è verificato un errore durante la query: ${error}`);
-          this.logoutService.logout();
+          console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
+          if(error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED'){
+            this.logoutService.logout();
+          }
         });
 
     this.currentPageNumber = 0;

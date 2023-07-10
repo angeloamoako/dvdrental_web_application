@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import {Apollo} from "apollo-angular";
 import {GET_ACTIVE_RENTALS, GET_PAST_RENTALS, INSERT_RENT} from "../graphql/graphql.queries";
 import {map, Observable, tap} from "rxjs";
+import {LogoutService} from "./logout.service";
+import {outputAst} from "@angular/compiler";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RentService {
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo, private logoutService: LogoutService) { }
 
   rentMovie(movieTitle: string, storeId: number, formattedDate: string){
     return this.apollo
@@ -41,7 +43,6 @@ export class RentService {
       )
 
   }
-
 
   getPastRentals(customer_id: number, orderByAttribute: string): Observable<any> {
     return this.apollo.watchQuery({
