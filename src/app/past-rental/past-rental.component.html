@@ -1,47 +1,59 @@
 <mat-sidenav-container class="sidenav-container" >
+  <mat-sidenav #sidenav [opened]="isSidenavOpen" class="sidenav-left">
+    <div class="container">
+      <h1 class="user" aria-label="Nome utente"> {{ userFirstName }} {{userLastName}} </h1>
+
+      <button mat-raised-button color="primary" class="bottom-home" (click)="backToHome()" aria-label="Ritorna alla Home">HomePage</button>
+      <button mat-raised-button color="primary" class="personal-rental-style" (click)="openPersonalRental()" aria-label="Pagina noleggi attivi">Noleggi attivi</button>
+
+    </div>
+  </mat-sidenav>
+
   <mat-sidenav-content>
-    <div>
-      <mat-card class="card-style">
-        <mat-card-content> Spesa totale: {{totalAmount}} €</mat-card-content>
-      </mat-card>
+    <div class="bottom-style">
+      <button class="bottom-menu" mat-raised-button color="primary" (click)="toggleSidenav()" aria-label="Apri il menu">Menu </button>
+      <button class="bottom-menu" mat-raised-button color="primary" aria-label="Spesa totale dei noleggi"> Spesa totale : {{ totalAmount }} € </button>
     </div>
 
-      <div class="table">
-        <table mat-table [dataSource]="pastRentalsFilms">
-          <ng-container matColumnDef="title">
-            <th class="button-header" mat-header-cell *matHeaderCellDef>
-              <button (click)="orderBy('title')" mat-button tabindex="0">Titolo</button>
-            </th>
-            <td mat-cell *matCellDef="let film">
-              <button (click)="openMovieDetails(film)" mat-button tabindex="0">{{ film.title }}</button>
-            </td>
-          </ng-container>
+    <div class="table" *ngIf="pastRentalsFilms.length > 0; else noRentals">
+      <table mat-table [dataSource]="datasource">
+        <ng-container matColumnDef="title">
+          <th (click)="orderBy('title')" class="button-header" mat-header-cell *matHeaderCellDef>
+            <button mat-button tabindex="0">Titolo</button>
+          </th>
+          <td mat-cell *matCellDef="let film">
+            <button (click)="openMovieDetails(film)" mat-button tabindex="0">{{ film.title }}</button>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="rental_date">
-            <th class="button-header" mat-header-cell *matHeaderCellDef >
-              <button (click)="orderBy('rental_date')" mat-button tabindex="0">Data di noleggio</button>
-            </th>
-            <td mat-cell *matCellDef="let film">{{ film.rental_date.split("T")[0] }}</td>
-          </ng-container>
+        <ng-container matColumnDef="rental_date">
+          <th class="button-header" mat-header-cell *matHeaderCellDef >
+            <button (click)="orderBy('rental_date')" mat-button tabindex="0">Data di noleggio</button>
+          </th>
+          <td mat-cell *matCellDef="let film">{{ film.rental_date | date : 'dd/MM/yyyy' }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="return_date">
-            <th class="button-header" (click)="orderBy('return_date')"  mat-header-cell *matHeaderCellDef>
-              <button (click)="orderBy('return_date')" mat-button tabindex="0">Data di consegna</button>
-            </th>
-            <td mat-cell *matCellDef="let film">{{ film.return_date.split("T")[0] }}</td>
-          </ng-container>
+        <ng-container matColumnDef="return_date">
+          <th class="button-header" (click)="orderBy('return_date')"  mat-header-cell *matHeaderCellDef>
+            <button (click)="orderBy('return_date')" mat-button tabindex="0">Data di consegna</button>
+          </th>
+          <td mat-cell *matCellDef="let film">{{ film.return_date | date : 'dd/MM/yyyy' }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="amount">
-            <th class="button-header" mat-header-cell *matHeaderCellDef>
-              <button (click)="orderBy('amount')" mat-button tabindex="0">Costo</button>
-            </th>
+        <ng-container matColumnDef="amount">
+          <th class="button-header" mat-header-cell *matHeaderCellDef>
+            <button (click)="orderBy('amount')" mat-button tabindex="0">Costo</button>
+          </th>
 
-            <td mat-cell *matCellDef="let film">{{ film.amount }}€</td>
-          </ng-container>
+          <td mat-cell *matCellDef="let film">{{ film.amount }}€</td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <ng-template #noRentals>
+      <p> Non sono presenti noleggi passati </p>
+    </ng-template>
   </mat-sidenav-content>
 </mat-sidenav-container>

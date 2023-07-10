@@ -120,20 +120,20 @@ const GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE = gql`
 
 
 const INSERT_RENT = gql`
-  mutation insertRent($filmTitle: String, $storeId: Int, $rentalDate: Date) {
+  mutation insertRent($filmTitle: String, $storeId: Int, $rentalDate: String) {
   insertRent(film_title: $filmTitle, store_id: $storeId, rental_date: $rentalDate)
 }
 `;
 
 export {
-        GET_CATEGORIES,
-        GET_ACTORS,
-        GET_FILMS,
-        GET_ACTORS_BY_FILM,
-        GET_PAST_RENTALS,
-        GET_ACTIVE_RENTALS,
-        GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
-        GET_PAGINATED_FILMS,
-        GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE,
-        INSERT_RENT
+  GET_CATEGORIES,
+  GET_ACTORS,
+  GET_FILMS,
+  GET_ACTORS_BY_FILM,
+  GET_PAST_RENTALS,
+  GET_ACTIVE_RENTALS,
+  GET_STORES_WITH_SPECIFIED_FILM_AND_NUMCOPIES,
+  GET_PAGINATED_FILMS,
+  GET_STORES_WITH_SPECIFIED_FILM_AVAILABLE,
+  INSERT_RENT
 }

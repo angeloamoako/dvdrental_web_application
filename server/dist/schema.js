@@ -1,6 +1,6 @@
 import queries from './queries.js';
 const typeDefs = `
-scalar Date
+scalar DateTime
 
 type Category {
   category_id: Int
@@ -31,8 +31,8 @@ type Film {
 
 type Rental {
   title: String
-  rental_date: Date
-  return_date: Date
+  rental_date: String
+  return_date: String
   amount: Float
   category: String
   rental_rate: Float
@@ -66,7 +66,7 @@ type Query {
 }
 
 type Mutation {
-  insertRent(film_title: String, store_id: Int, customer_id: Int, rental_date: Date): Int
+  insertRent(film_title: String, store_id: Int, customer_id: Int, rental_date: String): Int
 }
 `;
 const resolvers = {
@@ -110,7 +110,9 @@ const resolvers = {
             let order_by_attribute = args.orderByAttribute;
             if (!order_by_attribute || order_by_attribute === '')
                 order_by_attribute = 'F.title';
-            return queries.getActiveRentals(customer_id, order_by_attribute);
+            const output = queries.getActiveRentals(customer_id, order_by_attribute);
+            console.log("output activeRentals: ", output);
+            return output;
         },
         storesWithSelectedFilmAndNumCopies: (parent, args, contextValue, info) => {
             const film_title = args.film_title;
@@ -130,6 +132,7 @@ const resolvers = {
             if (!args.customer_id) {
                 customer_id = contextValue.user.user.cId;
             }
+            console.log("insertRent -  rental_date: ", rental_date);
             return queries.insertNewRent(film_title, store_id, customer_id, rental_date);
         }
     }
