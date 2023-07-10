@@ -27,16 +27,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentPageSize: number = 20;
   currentPageNumber: number = 0;
   totalResults!: number;
+  userFirstName =  sessionStorage.getItem('firstName') as  string;
+  userLastName =  sessionStorage.getItem('lastName') as  string;
   datasource: any;
   notFromPageChange: boolean = true;
   orderByAttribute: string = '';
-
-  //@ViewChild(MatPaginator) paginator!: MatPaginator;
   private subscription!: Subscription;
+  isSidenavOpen: boolean = false;
   categorySearchFieldFocused: boolean = false;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  // ! per dire che oggetto non è NULL
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
               private logoutService: LogoutService,

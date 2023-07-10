@@ -30,7 +30,6 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   isSidenavOpen: boolean = false;
   datasource: any;
 
-  //@ViewChild(MatSort) sort!: MatSort;
   constructor(private apollo: Apollo, private dialog: MatDialog,
               private router: Router,
               private filmService: FilmService,
@@ -109,5 +108,17 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void{
+  }
+
+  backToHome(){
+    this.router.navigate(['/home']);
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  openPersonalRental() {
+    this.router.navigate(['/personalRental']);
   }
 }

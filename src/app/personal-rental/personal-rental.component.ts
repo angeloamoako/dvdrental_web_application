@@ -106,9 +106,6 @@ export class PersonalRentalComponent implements OnInit{
         this.activeRentalsFilms = outputQueryActiveRentals;
         this.datasource = new MatTableDataSource(this.activeRentalsFilms);
 
-        setTimeout(() => {
-          this.datasource.sort = this.sort;
-        }, 1000);
       } , (error) => {
         console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
       })

@@ -1,30 +1,29 @@
 <mat-sidenav-container class="sidenav-container" >
-  <mat-sidenav #sidenav [opened]="isSidenavOpen" class="sidenav-left">
-    <div class="container">
-      <h1 class="user"> {{ userFirstName }} {{userLastName}} </h1>
-
-      <button mat-raised-button color="primary" aria-label="Pagina noleggi passati" class="rentals-past-style" (click)="openPastRental()">Noleggi passati</button>
-      <button mat-raised-button color="primary" aria-label="Pagina noleggi attivi" class="personal-rental-style" (click)="openPersonalRental()">Noleggi attivi</button>
-
-    </div>
-  </mat-sidenav>
-
   <mat-sidenav-content>
       <div class="bottom-style">
-        <button class="bottom-menu" aria-label="Apri il menu" mat-raised-button color="primary" (click)="toggleSidenav()">Menu </button>
-
-        <!-- RICERCA PER CATEGORIA -->
-        <mat-form-field>
-          <mat-label>Tutte le categorie</mat-label>
+        <mat-form-field class="search-container">
+          <mat-label> Ricerca per categoria </mat-label>
           <mat-select aria-label="Seleziona categoria" [(ngModel)]="selectedCategory" (selectionChange)="searchBy()" (focus)="onCategorySearchFieldFocus()" (blur)="onCategorySearchFieldBlur()">
-            <mat-option value="" class="category-option">Tutte le categorie</mat-option>
-
-            <mat-option class="stile-categoria" *ngFor="let category of categories" [class.selected-category]="category.category_name">{{ category.category_name }}</mat-option>
-
+            <mat-option value="" class="stile-categoria" [class.selected-category]="selectedCategory === ''"> Tutte le categorie </mat-option>
+            <mat-option value="Action" class="stile-categoria" [class.selected-category]="selectedCategory === 'Action'"> Action</mat-option>
+            <mat-option value="Animation" class="stile-categoria" [class.selected-category]="selectedCategory === 'Animation'"> Animation</mat-option>
+            <mat-option value="Children" class="stile-categoria" [class.selected-category]="selectedCategory === 'Children'"> Children</mat-option>
+            <mat-option value="Classics" class="stile-categoria" [class.selected-category]="selectedCategory === 'Classics'"> Classics</mat-option>
+            <mat-option value="Comedy" class="stile-categoria" [class.selected-category]="selectedCategory === 'Comedy'"> Comedy</mat-option>
+            <mat-option value="Documentary" class="stile-categoria" [class.selected-category]="selectedCategory === 'Documentary'"> Documentary</mat-option>
+            <mat-option value="Drama" class="stile-categoria" [class.selected-category]="selectedCategory === 'Drama'"> Drama</mat-option>
+            <mat-option value="Family" class="stile-categoria" [class.selected-category]="selectedCategory === 'Family'"> Family</mat-option>
+            <mat-option value="Foreign" class="stile-categoria" [class.selected-category]="selectedCategory === 'Foreign'"> Foreign</mat-option>
+            <mat-option value="Games" class="stile-categoria" [class.selected-category]="selectedCategory === 'Games'"> Games</mat-option>
+            <mat-option value="Horror" class="stile-categoria" [class.selected-category]="selectedCategory === 'Horror'"> Horror</mat-option>
+            <mat-option value="Music" class="stile-categoria" [class.selected-category]="selectedCategory === 'Music'"> Music</mat-option>
+            <mat-option value="New" class="stile-categoria" [class.selected-category]="selectedCategory === 'New'"> New</mat-option>
+            <mat-option value="Sci-Fi" class="stile-categoria" [class.selected-category]="selectedCategory === 'Sci-Fi'"> Sci-Fi</mat-option>
+            <mat-option value="Sport" class="stile-categoria" [class.selected-category]="selectedCategory === 'Sport'"> Sport</mat-option>
+            <mat-option value="Travel" class="stile-categoria" [class.selected-category]="selectedCategory === 'Travel'"> Travel</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <!-- RICERCA DINAMICA PER TITOLO -->
         <mat-form-field class="search-container">
           <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchFilter" (keyup)="searchBy()" aria-label="Cerca titolo di un film">
         </mat-form-field>

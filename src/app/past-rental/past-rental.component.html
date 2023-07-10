@@ -6,7 +6,7 @@
       </mat-card>
     </div>
 
-      <div class="table" *ngIf="pastRentalsFilms.length > 0; else noRentals">
+      <div class="table">
         <table mat-table [dataSource]="pastRentalsFilms">
           <ng-container matColumnDef="title">
             <th class="button-header" mat-header-cell *matHeaderCellDef>
