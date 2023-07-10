@@ -15,7 +15,7 @@ export class FilmService {
 
   constructor(private apollo: Apollo) { }
 
-  getPaginatedFilms(searchFilter:string, currentPageNumber: number, currentPageSize: number, selectedCategory: string ): Observable<any> {
+  getPaginatedFilms(searchFilter:string, currentPageNumber: number, currentPageSize: number, selectedCategory: string, orderByAttribute:string ): Observable<any> {
     return this.apollo.watchQuery({
       query: GET_PAGINATED_FILMS,
       fetchPolicy: 'network-only',
@@ -23,7 +23,8 @@ export class FilmService {
         pageNumber: currentPageNumber,
         pageSize: currentPageSize,
         filmTitle: searchFilter,
-        category: selectedCategory
+        category: selectedCategory,
+        orderByAttribute: orderByAttribute
       }
     }).valueChanges
       .pipe(

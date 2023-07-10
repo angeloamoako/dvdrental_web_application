@@ -29,11 +29,11 @@ export class RentService {
   }
 
 
-  getActiveRentals(customer_id: number){
+  getActiveRentals(customerId: number, orderByAttribute: String){
     return this.apollo.watchQuery({
       query: GET_ACTIVE_RENTALS,
       fetchPolicy: 'network-only',
-      variables: { customer_id: customer_id }
+      variables: { customerId: customerId, orderByAttribute: orderByAttribute }
     }).valueChanges
       .pipe(
         map((outputQueryActiveRentals: any) => outputQueryActiveRentals.data.activeRentals),

@@ -24,6 +24,7 @@ export class PersonalRentalComponent implements OnInit{
   activeRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_date','rental_rate'];
   isSidenavOpen: boolean = false;
+  private orderByAttribute: string = '';
 
   constructor(private apollo: Apollo,
               private dialog: MatDialog,
@@ -37,18 +38,7 @@ export class PersonalRentalComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.rentService.getActiveRentals(this.customer_id)
-      .pipe(take(1))
-      .subscribe( (outputQueryActiveRentals) => {
-        this.activeRentalsFilms = outputQueryActiveRentals;
-        this.datasource = new MatTableDataSource(this.activeRentalsFilms);
-
-        setTimeout(() => {
-          this.datasource.sort = this.sort;
-        }, 1000);
-      } , (error) => {
-        console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
-      })
+    this.callPersonalRentalAPI();
   }
 
   openMovieDetails(movie: any){
@@ -90,6 +80,12 @@ export class PersonalRentalComponent implements OnInit{
 
   }
 
+  orderBy(attribute: string){
+    console.log("Order by attribute: ", attribute);
+    this.orderByAttribute = attribute;
+    this.callPersonalRentalAPI();
+  }
+
   backToHome(){
     this.router.navigate(['/home']);
   }
@@ -100,5 +96,23 @@ export class PersonalRentalComponent implements OnInit{
 
   openPastRental(){
     this.router.navigate(['/pastRental']);
+  }
+
+
+
+  callPersonalRentalAPI(){
+    console.log('Calling active rentals with orderByAttr: ', this.orderByAttribute)
+    this.rentService.getActiveRentals(this.customer_id, this.orderByAttribute)
+      .pipe(take(1))
+      .subscribe( (outputQueryActiveRentals) => {
+        this.activeRentalsFilms = outputQueryActiveRentals;
+        this.datasource = new MatTableDataSource(this.activeRentalsFilms);
+
+        setTimeout(() => {
+          this.datasource.sort = this.sort;
+        }, 1000);
+      } , (error) => {
+        console.log("rentService.getActiveRentals - c'è stato un problema durante la chiamata: ", error);
+      })
   }
 }

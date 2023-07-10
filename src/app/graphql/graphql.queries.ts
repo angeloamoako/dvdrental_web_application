@@ -36,8 +36,8 @@ const GET_CATEGORIES = gql`
   }`;
 
 const GET_PAGINATED_FILMS = gql`
-  query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String){
-    paginatedFilms(pageNumber: $pageNumber, pageSize: $pageSize, filmTitle: $filmTitle, category: $category){
+  query getPaginatedFilms($pageNumber: Int, $pageSize: Int, $filmTitle: String, $category: String, $orderByAttribute: String){
+    paginatedFilms(pageNumber: $pageNumber, pageSize: $pageSize, filmTitle: $filmTitle, category: $category, orderByAttribute: $orderByAttribute){
       filmList {
         title,
         release_year,
@@ -83,16 +83,19 @@ const GET_PAST_RENTALS = gql`
 
 
 const GET_ACTIVE_RENTALS = gql`
-  query getActiveRentalsForUser($customer_id: Int){
-    activeRentals(customer_id: $customer_id){
-      title
-      duration
-      length
-      rental_rate
-      description
-      rental_date
-    }
+  query ActiveRentals($customerId: Int, $orderByAttribute: String) {
+  activeRentals(customer_id: $customerId, orderByAttribute: $orderByAttribute) {
+    title
+    rental_date
+    return_date
+    amount
+    category
+    rental_rate
+    length
+    duration
+    description
   }
+}
 `;
 
 

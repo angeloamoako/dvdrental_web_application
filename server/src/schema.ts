@@ -58,10 +58,10 @@ type Query {
   actors: [Actor]
   films: [Film]
   categories: [Category]
-  paginatedFilms(pageNumber: Int, pageSize: Int, filmTitle: String, category: String): PaginatedFilm
+  paginatedFilms(pageNumber: Int, pageSize: Int, filmTitle: String, category: String, orderByAttribute: String): PaginatedFilm
   actorsFromFilm(filmName: String): [Actor]
   pastRentals(customer_id: Int, category: String): [Rental]
-  activeRentals(customer_id: Int): [Rental]
+  activeRentals(customer_id: Int, orderByAttribute: String): [Rental]
   storesWithSelectedFilmAndNumCopies(film_title: String): [Store]
   storesWithSelectedFilmAvailable(film_title: String): [Store]
 }
@@ -75,7 +75,6 @@ type Mutation {
 const resolvers = {
   Query: {
     films: (parent, args, contextValue, info) => {
-      console.log("ContextValue: ", contextValue);
       return queries.getFilms();
     },
     categories: (parent, args, contextValue, info) => {
@@ -86,6 +85,11 @@ const resolvers = {
       const pageSize = args.pageSize;
       let category = args.category;
       let filmTitle = args.filmTitle;
+      let orderByAttribute = args.orderByAttribute;
+
+      if(!orderByAttribute){
+        orderByAttribute = 'F.title';
+      }
 
       if (!filmTitle) {
         filmTitle = '';
@@ -94,8 +98,8 @@ const resolvers = {
       if(!category){
         category = '';
       }
-      console.log("Sto per richiamare getPaginatedFilms!");
-      return queries.getPaginatedFilms(pageNumber, pageSize, filmTitle, category);
+
+      return queries.getPaginatedFilms(pageNumber, pageSize, filmTitle, category, orderByAttribute);
     },
     actorsFromFilm: (parent, args, contextValue, info) => {
       const filmName = args.filmName;
@@ -107,13 +111,15 @@ const resolvers = {
       if (!category)
         category = 'F.title';
 
-      console.log(`Sto chiamando getPastRentals con questi parametri: customer_id: ${customer_id}\n
-      category: ${category}`);
       return queries.getPastRentals(customer_id, category);
     },
     activeRentals: (parent, args, contextValue, info) => {
       const customer_id = args.customer_id;
-      return queries.getActiveRentals(customer_id);
+      let order_by_attribute = args.orderByAttribute;
+      if (!order_by_attribute || order_by_attribute === '')
+        order_by_attribute = 'F.title';
+
+      return queries.getActiveRentals(customer_id, order_by_attribute);
     },
     storesWithSelectedFilmAndNumCopies: (parent, args, contextValue, info) => {
       const film_title = args.film_title;
@@ -129,12 +135,11 @@ const resolvers = {
       const film_title = args.film_title;
       const store_id = args.store_id;
       let customer_id = args.customer_id;
+      const rental_date = args.rental_date;
 
       if(!args.customer_id){
         customer_id = contextValue.user.user.cId;
       }
-      const rental_date = args.rental_date;
-      console.log(`insertRent film_title: ${film_title}\nstore_id: ${store_id}\ncustomer_id: ${customer_id}\nrental_date: ${rental_date}  `);
 
       return queries.insertNewRent(film_title, store_id, customer_id, rental_date);
     }
