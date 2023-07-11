@@ -32,7 +32,6 @@ export class FilmService {
       );
   }
 
-
   getCategories() {
     return this.apollo.watchQuery({
       query: GET_CATEGORIES,

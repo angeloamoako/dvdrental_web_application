@@ -8,15 +8,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent{
+export class LoginComponent implements OnInit{
   customer_id!: number;
   userpassword!: string;
 
   constructor(private router: Router, private httpClient: HttpClient) {}
   headers = new Headers();
 
-  onSubmit() {
 
+  ngOnInit(){
+    sessionStorage.clear();
+  }
+
+  onSubmit(){
     const loginData = {
       customer_id: this.customer_id,
       userpassword: this.userpassword

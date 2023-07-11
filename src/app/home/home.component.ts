@@ -144,13 +144,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.callPaginatedFilmAPI();
   }
 
-  searchByCategory() {
-    console.log('Categoria selezionata:', this.selectedCategory);
-    this.paginator.pageIndex = 0;
-    this.notFromPageChange = true;
-    this.callPaginatedFilmAPI();
-  }
-
   onPageChange(event: PageEvent){
     console.log(`Current page: ${event.pageIndex}`);
     this.currentPageNumber = event.pageIndex;
@@ -163,18 +156,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   callPaginatedFilmAPI(){
-    console.log("callPaginatedFilmAPI() with params: ");
-    console.log(`currentPageNumber: ${this.currentPageNumber}
-    \ncurrentPageSize: ${this.currentPageSize}\n
-    category: ${this.selectedCategory}\n
-    orderByAttribute: ${this.orderByAttribute}`);
     this.filmService.getPaginatedFilms(this.searchFilter, this.currentPageNumber, this.currentPageSize, this.selectedCategory, this.orderByAttribute)
       .subscribe((queryOutput) => {
-          console.log(`Risultato della query con parametri pageNumber: ${this.currentPageNumber} pageSize: ${this.currentPageSize}`);
-          console.log(queryOutput);
           this.films = queryOutput.filmList;
-
-          // aggiungo un paginator per gestire il passaggio da una pagina all'altra
           this.datasource = new MatTableDataSource(this.films);
           this.paginator.length = queryOutput.totalResults;
 

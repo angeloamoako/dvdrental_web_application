@@ -1,5 +1,11 @@
 <mat-sidenav-container class="sidenav-container">
   <h1 class="titolo"> Noleggi passati </h1>
+  <div>
+    <mat-card class="card-style">
+      <mat-card-content> Spesa totale: {{totalAmount}} €</mat-card-content>
+    </mat-card>
+  </div>
+
   <div class="table">
     <table mat-table [dataSource]="datasource">
       <ng-container matColumnDef="title">

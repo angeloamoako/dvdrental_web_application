@@ -17,13 +17,9 @@ import {MatTableDataSource} from "@angular/material/table";
   styleUrls: ['./past-rental.component.css']
 })
 export class PastRentalComponent implements OnInit, OnDestroy{
-  private querySubscription: any;
   error: any;
   customer_id: any = parseInt(sessionStorage.getItem('customer_id') as string);
-  userFirstName = sessionStorage.getItem('firstName') as string;
-  userLastName = sessionStorage.getItem('lastName') as string;
   orderByAttribute: string = '';
-
   pastRentalsFilms: any[] = [];
   displayedColumns: string[] = ['title', 'rental_date', 'return_date', 'amount'];
   totalAmount: number = 0;
@@ -89,17 +85,13 @@ export class PastRentalComponent implements OnInit, OnDestroy{
       .pipe(take(1))
       .subscribe((outputQuery:any) => {
         this.pastRentalsFilms = outputQuery;
-
-        this.totalAmount = 0;
-        // dentro la funzione perché è asincrona
+        this.totalAmount = 0; // dentro la funzione perché è asincrona
         for (let i = 0; i < this.pastRentalsFilms.length; i++) {
           this.totalAmount += this.pastRentalsFilms[i].amount;
         }
         // per arrotondare due cifre dopo la virgola
         this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
-
         this.datasource = new MatTableDataSource(this.pastRentalsFilms);
-
       }, (error) => {
         console.log("rentalService.getPastRentals - c'è stato un errore durante la query: ", error);
         console.log("Errore graphQL: ",error.networkError.result.errors[0].message);
@@ -110,7 +102,6 @@ export class PastRentalComponent implements OnInit, OnDestroy{
 
   }
 
-
   orderBy(attribute: string){
     console.log("Order by attribute: ", attribute);
     this.orderByAttribute = attribute;
@@ -118,17 +109,5 @@ export class PastRentalComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void{
-  }
-
-  backToHome(){
-    this.router.navigate(['/home']);
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
-  openPersonalRental() {
-    this.router.navigate(['/personalRental']);
   }
 }
