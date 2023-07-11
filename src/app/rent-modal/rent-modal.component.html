@@ -7,7 +7,7 @@
   <mat-card-content>
     <p>Seleziona una data</p>
     <mat-form-field class="example-full-width">
-      <mat-label for="date-input">Data di inizio noleggio</mat-label>
+      <mat-label for="date-input"> Data di inizio noleggio</mat-label>
       <input id="date-input" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"  [(ngModel)]="selectedDate">
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker" aria-label="Apri calendario" ></mat-datepicker-toggle>
@@ -15,9 +15,8 @@
     </mat-form-field>
 
     <p>Seleziona un negozio</p>
-    <mat-form-field>
-      <mat-label>Negozio</mat-label>
-      <mat-select [(ngModel)]="selectedStore" aria-label="Seleziona un negozio tra quelli in lista">
+    <mat-form-field aria-describedby="Seleziona un negozio">
+      <mat-select [(ngModel)]="selectedStore" >
         <mat-option *ngFor="let store of this.storesWithAvailableCopies" [value]="store.address">
           {{store.address }}
         </mat-option>

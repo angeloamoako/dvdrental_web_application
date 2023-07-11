@@ -1,15 +1,16 @@
-<mat-sidenav-container class="sidenav-container" >
+<mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content>
+    <h1 class="titolo"> Homepage </h1>
       <div class="bottom-style">
-        <mat-form-field class="search-container">
-          <mat-label> Ricerca per categoria </mat-label>
-          <mat-select aria-label="Seleziona categoria" [(ngModel)]="selectedCategory" (selectionChange)="searchBy()" (focus)="onCategorySearchFieldFocus()" (blur)="onCategorySearchFieldBlur()">
-            <mat-option value="">Tutte le categorie</mat-option>
-            <mat-option *ngFor="let category of this.categories" [value]="category.category_name" [class.selected-category]="selectedCategory === ''"> {{ category.category_name }}  </mat-option>
+        <mat-form-field class="search-container" aria-label="Seleziona categoria">
+          <mat-select (keydown.enter)="searchBy()" [(ngModel)]="selectedCategory">
+            <mat-option (click)="searchBy()" value="">Tutte le categorie</mat-option>
+            <mat-option (click)="searchBy()" *ngFor="let category of this.categories" [value]="category.category_name"> {{ category.category_name }}  </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="search-container">
+          <mat-label>Ricerca titolo di un film</mat-label>
           <input matInput type="text" placeholder="Ricerca per titolo" [(ngModel)]="searchFilter" (keyup)="searchBy()" aria-label="Cerca titolo di un film">
         </mat-form-field>
       </div>
@@ -23,39 +24,38 @@
         <td  mat-cell *matCellDef="let film">
           <button (click)="openMovieDetails(film)" mat-button tabindex="0">{{ film.title }}</button>
         </td>
-
       </ng-container>
 
         <ng-container matColumnDef="release_year">
-          <th (click)="orderBy('F.release_year')" class="table-header" mat-header-cell *matHeaderCellDef>
+          <th (click)="orderBy('F.release_year')" mat-header-cell *matHeaderCellDef>
             <button mat-button tabindex="0">Anno di uscita</button>
           </th>
           <td mat-cell *matCellDef="let film">{{ film.release_year }}</td>
         </ng-container>
 
         <ng-container matColumnDef="rating">
-          <th (click)="orderBy('F.rating')" class="table-header" mat-header-cell *matHeaderCellDef>
+          <th (click)="orderBy('F.rating')" mat-header-cell *matHeaderCellDef>
             <button mat-button tabindex="0">Rating</button>
           </th>
           <td mat-cell *matCellDef="let film">{{ film.rating }}</td>
         </ng-container>
 
         <ng-container matColumnDef="genre">
-          <th (click)="orderBy('genre')" class="table-header" mat-header-cell *matHeaderCellDef>
+          <th (click)="orderBy('genre')" mat-header-cell *matHeaderCellDef>
             <button mat-button tabindex="0">Genere</button>
           </th>
           <td mat-cell *matCellDef="let film">{{ film.genre }}</td>
         </ng-container>
 
         <ng-container matColumnDef="language">
-          <th (click)="orderBy('language')" class="table-header" mat-header-cell *matHeaderCellDef>
+          <th (click)="orderBy('language')" mat-header-cell *matHeaderCellDef>
             <button mat-button tabindex="0">Lingua</button>
           </th>
           <td mat-cell *matCellDef="let film">{{ film.language }}</td>
         </ng-container>
 
         <ng-container matColumnDef="cost">
-          <th (click)="orderBy('rental_rate')" class="table-header" mat-header-cell *matHeaderCellDef>
+          <th (click)="orderBy('rental_rate')" mat-header-cell *matHeaderCellDef>
             <button mat-button tabindex="0">Costo</button>
           </th>
           <td mat-cell *matCellDef="let film">{{ film.rental_rate }} € </td>

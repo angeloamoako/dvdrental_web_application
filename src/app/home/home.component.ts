@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '../details/details.component';
@@ -27,23 +27,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentPageSize: number = 20;
   currentPageNumber: number = 0;
   totalResults!: number;
-  userFirstName =  sessionStorage.getItem('firstName') as  string;
-  userLastName =  sessionStorage.getItem('lastName') as  string;
   datasource: any;
   notFromPageChange: boolean = true;
   orderByAttribute: string = '';
+  private timer: any;
   private subscription!: Subscription;
-  isSidenavOpen: boolean = false;
-  categorySearchFieldFocused: boolean = false;
-
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private apollo: Apollo, private dialog: MatDialog, private router: Router,
               private logoutService: LogoutService,
               public filmService: FilmService,
               private notificationService: NotificationService) { }
-
 
   ngOnInit(): void {
     this.filmService.getCategories().subscribe((outputQuery) => {
@@ -74,7 +68,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   openMovieDetails(movie: any) {
     let actors: any;
     let storesWithFilm: any;
-    let copiesForStore:Map<String, number> = new Map();
 
     this.filmService.getActorsByFilm(movie.title)
       .pipe(take(1))
@@ -103,15 +96,12 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.logoutService.logout();
               }
             })
-
-
       },
         (error) => {
           console.log(`filmService.getActorsByFilm - si è verificato un errore durante la query: ${error}`);
           this.logoutService.logout();
         })
   }
-
 
   openRentComponent(movie: any) {
     // recupero i negozi che hanno copie disponibili del film richiesto
@@ -138,13 +128,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
   }
 
-
   searchBy(){
-
-    /* ritardo la chiamata ad API nel filtro di ricerca per evitare che le richieste arrivino al server troppo
-      vicine l'una dall'altra.
-     */
-    const wait = setTimeout(() => {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
       this.currentPageNumber = 0;
       this.notFromPageChange = true;
       this.callPaginatedFilmAPI();
@@ -163,19 +149,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.paginator.pageIndex = 0;
     this.notFromPageChange = true;
     this.callPaginatedFilmAPI();
-  }
-
-  openPastRental() {
-    this.router.navigate(['/pastRental']);
-  }
-
-
-  openPersonalRental() {
-    this.router.navigate(['/personalRental']);
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
   }
 
   onPageChange(event: PageEvent){
@@ -218,35 +191,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.logoutService.logout();
           }
         });
-
-    this.currentPageNumber = 0;
   }
-
-  onCategorySearchFieldFocus() {
-    this.categorySearchFieldFocused = true;
-  }
-
-  onCategorySearchFieldBlur() {
-    this.categorySearchFieldFocused = false;
-  }
-
-  @HostListener('keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (!this.categorySearchFieldFocused) {
-      this.searchBy();
-      return;
-    }
-
-    const options = ['', 'Action', 'Animation', 'Children', 'Classics', 'Comedy', 'Documentary', 'Drama', 'Family', 'Foreign', 'Games', 'Horror', 'Music', 'New', 'Sci-Fi', 'Sport', 'Travel'];
-    const currentIndex = options.indexOf(this.selectedCategory);
-
-    if (event.key === 'ArrowUp' && currentIndex > 0) {
-      this.selectedCategory = options[currentIndex - 1];
-    } else if (event.key === 'ArrowDown' && currentIndex < options.length - 1) {
-      this.selectedCategory = options[currentIndex + 1];
-    }
-  }
-
 }
 
 

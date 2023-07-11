@@ -67,3 +67,9 @@ td {
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
+
+.titolo{
+  text-align: center;
+  color: #3f51b5;
+
+}
