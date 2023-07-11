@@ -233,6 +233,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (!this.categorySearchFieldFocused) {
+      this.searchBy();
       return;
     }
 
@@ -241,10 +242,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (event.key === 'ArrowUp' && currentIndex > 0) {
       this.selectedCategory = options[currentIndex - 1];
-      this.searchBy();
     } else if (event.key === 'ArrowDown' && currentIndex < options.length - 1) {
       this.selectedCategory = options[currentIndex + 1];
-      this.searchBy();
     }
   }
 

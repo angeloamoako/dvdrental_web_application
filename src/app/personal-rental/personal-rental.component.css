@@ -40,3 +40,12 @@ td {
   background-color: white;
 }
 
+.button-header {
+  background-color: #f5f5f5;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+

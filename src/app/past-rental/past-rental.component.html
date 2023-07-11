@@ -1,20 +1,5 @@
-<mat-sidenav-container class="sidenav-container" >
-  <mat-sidenav #sidenav [opened]="isSidenavOpen" class="sidenav-left">
-    <div class="container">
-      <h1 class="user" aria-label="Nome utente"> {{ userFirstName }} {{userLastName}} </h1>
-
-      <button mat-raised-button color="primary" class="bottom-home" (click)="backToHome()" aria-label="Ritorna alla Home">HomePage</button>
-      <button mat-raised-button color="primary" class="personal-rental-style" (click)="openPersonalRental()" aria-label="Pagina noleggi attivi">Noleggi attivi</button>
-
-    </div>
-  </mat-sidenav>
-
+<mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content>
-    <div class="bottom-style">
-      <button class="bottom-menu" mat-raised-button color="primary" (click)="toggleSidenav()" aria-label="Apri il menu">Menu </button>
-      <button class="bottom-menu" mat-raised-button color="primary" aria-label="Spesa totale dei noleggi"> Spesa totale : {{ totalAmount }} € </button>
-    </div>
-
     <div class="table" *ngIf="pastRentalsFilms.length > 0; else noRentals">
       <table mat-table [dataSource]="datasource">
         <ng-container matColumnDef="title">

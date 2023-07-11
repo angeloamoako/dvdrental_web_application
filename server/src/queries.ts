@@ -107,7 +107,6 @@ const getActorFromSpecificFilm = (filmName) =>{
 }
 
 const getPastRentals = (customer_id, category) => {
-  /* Query che recupera i film noleggiati in passato dall'utente specificato  */
   const q = `SELECT F.title, R.rental_date, F.description, R.return_date,
  P.amount, CAT.name AS category, F.rental_duration  AS duration, F.length, F.rental_rate
         FROM film F JOIN inventory I ON F.film_id = I.film_id
@@ -125,7 +124,6 @@ const getPastRentals = (customer_id, category) => {
         reject(error);
       }else{
         let output = results.rows;
-        console.log("LOGGATA:  ", output);
         resolve(output);
       }
     });
