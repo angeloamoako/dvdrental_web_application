@@ -33,12 +33,10 @@ export class LoginComponent implements OnInit{
           const firstName = response.firstName;
           const lastName = response.lastName;
 
-          // Salvo il token nel session storage così posso inviarlo nelle richieste successive
           sessionStorage.setItem('authToken', response.authToken);
           sessionStorage.setItem('firstName', firstName);
           sessionStorage.setItem('lastName', lastName);
           sessionStorage.setItem('customer_id', String(this.customer_id));
-          // Salvo il token nel session storage così posso inviarlo nelle richieste successive
           const token = response.authToken;
 
 
@@ -46,7 +44,6 @@ export class LoginComponent implements OnInit{
             customer_id: this.customer_id, firstName: firstName, lastName: lastName }});
         },
         error => {
-          //console.log('Login failed:', error);
           this.router.navigate(['/login']);
         }
       );

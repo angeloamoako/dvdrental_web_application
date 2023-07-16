@@ -6,6 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { typeDefs, resolvers } from './schema.js';
 import usersRouter from './users.js';
 const SECRET_KEY = process.env.SECRET_PASSWORD;
+//middleware
 const getUser = (token) => {
     try {
         if (token) {
@@ -18,7 +19,6 @@ const getUser = (token) => {
     }
 };
 async function startApolloServer() {
-    //const server = new ApolloServer({ typeDefs, resolvers });
     const server = new ApolloServer({
         typeDefs,
         resolvers,
@@ -44,7 +44,6 @@ async function startApolloServer() {
     app.use(express.json()); //to parse json data
     app.use(cors()); //to allow cors
     server.applyMiddleware({ app });
-    //app.use("/users", usersRouter);
     app.use('/users', usersRouter);
     app.listen({ port: 4000 }, () => {
         console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);

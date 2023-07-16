@@ -8,7 +8,6 @@ import {LogoutService} from "../services/logout.service";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {RentModalComponent} from "../rent-modal/rent-modal.component";
 
-
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -22,12 +21,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   actors: any[] = [];
   public storesWithFilm: any[] = [];
 
-
-  /*
-  * L’@Inject decorator è usato per specificare una dipendenza che deve essere
-  * iniettata nel costruttore del componente.
-  * In questo caso, stiamo iniettando il token MAT_DIALOG_DATA, che rappresenta
-  * i dati passati alla modale quando viene aperta */
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
                           movie: any,
                           actors: any[],
@@ -49,7 +42,4 @@ export class DetailsComponent implements OnInit, OnDestroy {
         data: {movie: this.data.movie, storesWithFilm: this.storesWithFilm }
       });
   }
-
-
-
 }

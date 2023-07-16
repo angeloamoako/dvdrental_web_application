@@ -21,8 +21,6 @@ const getUser = (token) => {
 };
 
 async function startApolloServer() {
-  //const server = new ApolloServer({ typeDefs, resolvers });
-
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -38,9 +36,6 @@ async function startApolloServer() {
           },
         });
       }
-
-      /* se l'utente fornisce il token allora aggiungo  le sue info all'oggetto
-          context, che è disponibile  nei resolver */
       return { user };
     },
   });
@@ -55,7 +50,6 @@ async function startApolloServer() {
 
   server.applyMiddleware({ app });
 
-  //app.use("/users", usersRouter);
   app.use('/users', usersRouter);
 
   app.listen({ port: 4000 }, () => {

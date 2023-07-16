@@ -49,8 +49,6 @@ const getFilms = () => {
 
 
 const getPaginatedFilms = (pageNumber, pageSize, filmTitle, category, orderByAttribute) => {
-  /* Funzione che restituisce un elenco di film paginato */
-
   const q1 = `SELECT DISTINCT F.title, F.release_year, F.rating, C.name AS genre, L.name AS language, F.rental_rate, F.length,
                               F.rental_duration  AS duration, F.description
                      FROM film F JOIN inventory I ON F.film_id = I.film_id
@@ -71,11 +69,7 @@ const getPaginatedFilms = (pageNumber, pageSize, filmTitle, category, orderByAtt
         reject(error);
       }
       else {
-
-        /* trovo la pagina richiesta */
-
         let output = results.rows;
-        // il paginator sul front-end è indicizzato a partire da 0, quindi non devo sottrarre 1 a pageNumber
         let start = pageSize * pageNumber ;
         let end = start + pageSize;
         console.log(`page-number: ${pageNumber}`);
@@ -133,7 +127,6 @@ const getPastRentals = (customer_id, category) => {
 
 
 const getActiveRentals = (customer_id, order_by_attribute) => {
-  /* Query che recuepera i film che l'utente specificato sta noleggiando attualmente  */
   const q = `SELECT F.title, F.rental_duration  AS duration, F.length, F.description,
                                         R.rental_date, F.rental_rate
         FROM film F JOIN inventory I ON F.film_id = I.film_id
@@ -157,9 +150,6 @@ const getActiveRentals = (customer_id, order_by_attribute) => {
 }
 
 const storesWithSelectedFilmAndNumCopies = (film_title) => {
-
-  /* Restituisce gli store in cui il film richiesto è disponibile */
-
   const q = `SELECT S.store_id, A.address, COUNT(*) as numero_copie
                                         FROM inventory I JOIN rental R ON R.inventory_id = I.inventory_id
                                           JOIN store S ON S.store_id = I.store_id
@@ -188,9 +178,6 @@ const storesWithSelectedFilmAndNumCopies = (film_title) => {
 
 
 const storesWithSelectedFilmAvailable = (film_title) => {
-
-  /* Restituisce gli store in cui il film richiesto è disponibile */
-
   const q = `SELECT DISTINCT S.store_id, A.address
                                         FROM inventory I JOIN rental R ON R.inventory_id = I.inventory_id
                                           JOIN store S ON S.store_id = I.store_id
@@ -217,9 +204,6 @@ const storesWithSelectedFilmAvailable = (film_title) => {
 
 
 const getStaffForStore = (store_id) => {
-  /* restituisce lo staff_id del gestore dello store selezionato */
-
-
   const q = `SELECT staff_id
                                    FROM staff
                                    WHERE store_id = $1`;
@@ -237,8 +221,6 @@ const getStaffForStore = (store_id) => {
 }
 
 const insertNewRent = (film_title, store_id, customer_id, rental_date) => {
-  /* Recupera un inventory_id associato al film ed allo store passato in input. */
-
   const q1 = `SELECT I.inventory_id
                                                 FROM film F JOIN inventory I on F.film_id = I.film_id
                                                     JOIN store S on S.store_id = I.store_id

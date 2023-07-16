@@ -1,4 +1,4 @@
-import {Component, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -80,13 +80,11 @@ export class RentModalComponent implements OnInit, OnDestroy {
   }
 
   isDisabled(){
-    // abilito il bottone di submit solo quando entrambi i campi sono stati compilati
     return (this.selectedDate == null) || (this.selectedStore == '');
   }
 
 
   rentDvd(){
-    // chiamata alla mutation per il noleggio
     const formattedDate = moment(this.selectedDate).format('YYYY-MM-D');
     let store_id :any;
 
@@ -97,8 +95,6 @@ export class RentModalComponent implements OnInit, OnDestroy {
           break;
         }
     }
-
-
 
     this.rentService.rentMovie(this.data.movie.title, store_id, formattedDate)
       .pipe(take(1))

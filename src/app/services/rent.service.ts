@@ -10,7 +10,7 @@ import {outputAst} from "@angular/compiler";
 })
 export class RentService {
 
-  constructor(private apollo: Apollo, private logoutService: LogoutService) { }
+  constructor(private apollo: Apollo) { }
 
   rentMovie(movieTitle: string, storeId: number, formattedDate: string){
     return this.apollo
@@ -18,7 +18,7 @@ export class RentService {
         mutation: INSERT_RENT,
         variables: {
           filmTitle: movieTitle,
-          customer_id: null,        // il customer_id viene preso dal contextValue sul server
+          customer_id: null,
           storeId: storeId,
           rentalDate: formattedDate
         }
@@ -56,6 +56,4 @@ export class RentService {
       )
 
   }
-
-
 }

@@ -24,7 +24,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import { LogoutService } from "./services/logout.service";
-import { RentModalComponent } from './rent-modal/rent-modal.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatToolbarModule} from "@angular/material/toolbar";
 
@@ -35,7 +34,6 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     LoginComponent,
     PastRentalComponent,
     PersonalRentalComponent,
-
   ],
   imports: [
     BrowserModule,

@@ -9,12 +9,10 @@ export class NotificationService {
 
   constructor() { }
 
-  // Metodo per inviare una notifica
   sendNotification(message: string) {
     this.notificationSubject.next(message);
   }
 
-  // Metodo per sottoscriversi alle notifiche
   getNotification() {
     return this.notificationSubject.asObservable();
   }

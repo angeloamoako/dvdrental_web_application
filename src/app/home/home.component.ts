@@ -74,7 +74,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((outputQueryActors) => {
         actors = outputQueryActors;
 
-        // recupero i negozi che hanno copie disponibili del film
         this.filmService.getStoresWithSpecifiedFilmAndNumCopies(movie.title)
           .pipe(take(1))
           .subscribe((outputQueryStoresWithCopies) => {
@@ -83,10 +82,10 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.dialog.open(DetailsComponent,
                 {
                   data: { movie, actors, storesWithFilm, fromHomePage },
-                  width: '700px', // Dimensione orizzontale di default
-                  height: 'auto', // Altezza calcolata in base al contenuto
-                  maxWidth: '90vw', // Larghezza massima in viewport width
-                  maxHeight: '90vh', // Altezza massima in viewport height
+                  width: '700px',
+                  height: 'auto',
+                  maxWidth: '90vw',
+                  maxHeight: '90vh',
                 });
           },
             (error) => {
@@ -104,7 +103,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openRentComponent(movie: any) {
-    // recupero i negozi che hanno copie disponibili del film richiesto
     let storesWithFilm;
     this.filmService.getStoresWithSpecifiedFilmAndNumCopies(movie.title)
       .pipe(take(1))
