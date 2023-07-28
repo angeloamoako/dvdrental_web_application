@@ -6,7 +6,6 @@ import { ApolloServer } from 'apollo-server-express';
 import { typeDefs, resolvers } from './schema.js';
 import usersRouter from './users.js';
 const SECRET_KEY = process.env.SECRET_PASSWORD;
-//middleware
 const getUser = (token) => {
     try {
         if (token) {
@@ -33,8 +32,6 @@ async function startApolloServer() {
                     },
                 });
             }
-            /* se l'utente fornisce il token allora aggiungo  le sue info all'oggetto
-                context, che è disponibile  nei resolver */
             return { user };
         },
     });

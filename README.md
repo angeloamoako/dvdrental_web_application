@@ -1,27 +1,28 @@
 # DVD RENTAL
+Progetto per il corso di Applicazioni dinamiche per il Web (A.A 2022/23).
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.1, ExpressJS and GraphQL.
+## Prerequisiti
+Bisogna innanzitutto clonare questo repository ed installare la versione più recente di Node JS (il progetto è stato realizzato con la versione v18.16.0).
 
-## Development server
+Successivamente sarà necessario scaricare in locale il sample database reperibile al seguente [link](https://www.postgresqltutorial.com/postgresql-getting-started/postgresql-sample-database/)
+(nello specifico seguire le istruzioni presenti nella sezione "Download the PostgreSQL sample database").
+
+Una volta fatto ciò, creare il database "utenti" eseguendo il contenuto del file "utenti.sql" presente nella directory root del progetto.
+
+A questo punto non resta che installare le dipendenze tramite il comando 
+npm install all'interno della cartella root del progetto.
+
+
+## GraphQL API
+L'applicazione espone i seguenti micro-servizi GraphQL:
+* activeRentals: [Rental!] : restituisce l'elenco dei noleggi attivi per l'utente specificato
+* actorsFromFilm: [Actor!] : restituisce l'elenco degli attori presenti nel film specificato
+* categories: [Category!]! : restituisce l'elenco delle categorie di film presenti nel database
+* paginatedFilms: PaginatedFilm: restituisce l'elenco dei film disponibili al noleggio divisi per pagina.
+* pastRentals: [Rental!] : restituisce l'elenco dei noleggi passati dell'utente specificato.
+* storesWithSelectedFilmAndNumCopies: [Store!]: restituisce l'elenco dei negozi con copie disponibili di un film ed il relativo numero di copie.
+
+## Ulteriori informazioni
+Per ulteriori informazioni vedere il file "Specifiche progetto" nella cartella root del progetto
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
